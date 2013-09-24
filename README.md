@@ -6,7 +6,7 @@ Computer Assited Surgery Toolkit for Surgery Planning and Surgery Navigation
 Supported Surgery Type
 ------------
 
-1. Microwave Ablation
+1. Microwave Ablation Hyperthermia
 2. Magnetic Induction Hyperthermia
 
 
