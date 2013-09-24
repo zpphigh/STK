@@ -1,6 +1,14 @@
 STK
 ===
-Computer Assited Surgery Toolkit
+Computer Assited Surgery Toolkit for Surgery Planning and Surgery Navigation
+
+
+Supported Surgery Type
+------------
+
+1. Microwave Ablation
+2. Magnetic Induction Hyperthermia
+
 
 Contributing
 ------------
