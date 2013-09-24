@@ -138,6 +138,7 @@ include(CMake/stkFunctionGetLibraryDirs.cmake)
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
+set(QT_USE_QTNETWORK TRUE)
 set(QT_USE_QTMAIN TRUE) 
 
 #set output path, we currently use the FITSDK environment
@@ -145,4 +146,4 @@ set(EXECUTABLE_OUTPUT_PATH $ENV{FITSDK}/bin)
 set(LIBRARY_OUTPUT_PATH $ENV{FITSDK}/bin)
 
 add_subdirectory(Libs/Hyperthermia)
-add_subdirectory(Applications/stkHyperthermiaApp)
+add_subdirectory(Libs/RoboticSurgery)

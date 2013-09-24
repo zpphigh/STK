@@ -12,7 +12,7 @@
 #include <QObject>
 
 
-// CTK includes
+// STK includes
 #include "stkHyperthermiaExport.h"
 
 class STK_HYPERTHERMIA_EXPORT stkThermalField : public QObject
