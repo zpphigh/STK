@@ -48,6 +48,92 @@ set(STK_PATCH_VERSION 0)
 set(STK_VERSION
     "${STK_MAJOR_VERSION}.${STK_MINOR_VERSION}.${STK_PATCH_VERSION}")
 
+# Append the library version information to the library target
+# properties.  A parent project may set its own properties and/or may
+# block this.
+if(NOT STK_NO_LIBRARY_VERSION)
+  set(STK_LIBRARY_PROPERTIES ${STK_LIBRARY_PROPERTIES}
+    VERSION "${STK_VERSION}"
+    SOVERSION "${STK_MAJOR_VERSION}.${STK_MINOR_VERSION}"
+    )
+endif()
+
+
+#-----------------------------------------------------------------------------
+# Install directories, used for install rules.
+#
+if(NOT STK_INSTALL_BIN_DIR)
+  set(STK_INSTALL_BIN_DIR "bin")
+endif()
+if(NOT STK_INSTALL_LIB_DIR)
+  set(STK_INSTALL_LIB_DIR "lib/stk-${STK_MAJOR_VERSION}.${STK_MINOR_VERSION}")
+endif()
+if(NOT STK_INSTALL_INCLUDE_DIR)
+  set(STK_INSTALL_INCLUDE_DIR "include/stk-${STK_MAJOR_VERSION}.${STK_MINOR_VERSION}")
+endif()
+if(NOT STK_INSTALL_DOC_DIR)
+  set(STK_INSTALL_DOC_DIR "doc")
+endif()
+
+
+#-----------------------------------------------------------------------------
+# Update CMake module path
+# Note: FindXXX.cmake script specific to utility should be copied into Utilities/CMake
+#
+set(CMAKE_MODULE_PATH
+  "${CMAKE_CURRENT_SOURCE_DIR}/Utilities/CMake"
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake"
+  ${CMAKE_MODULE_PATH})
+
+
+#-----------------------------------------------------------------------------
+# Clear STK_BASE_INCLUDE_DIRS, STK_BASE_LIBRARIES and STK_WRAPPED_LIBRARIES_PYTHONQT
+#
+set(STK_BASE_LIBRARIES CACHE INTERNAL "STK base libraries" FORCE)
+set(STK_BASE_INCLUDE_DIRS CACHE INTERNAL "STK includes" FORCE)
+set(STK_WRAPPED_LIBRARIES_PYTHONQT CACHE INTERNAL "STK libraries wrapped using PythonQt" FORCE)
+
+# Variable use in STKConfig.cmake.in
+set(STK_LIBRARIES CACHE INTERNAL "STK libraries" FORCE)
+set(${PROJECT_NAME}_PLUGIN_LIBRARIES CACHE INTERNAL "STK plugins" FORCE)
+
+# Used by STKGenerateSTKConfig.cmake and also used to reference script from other scripts
+set(STK_CMAKE_DIR ${STK_SOURCE_DIR}/CMake)
+set(STK_CMAKE_UTILITIES_DIR ${STK_SOURCE_DIR}/Utilities/CMake)
+
+#-----------------------------------------------------------------------------
+# CMake function(s) and macro(s)
+#
+include(CMake/stkMacroParseArguments.cmake)
+#include(CMake/stkMacroSetPaths.cmake)
+include(CMake/stkMacroListFilter.cmake)
+#include(CMake/stkMacroOptionUtils.cmake)
+include(CMake/stkMacroBuildLib.cmake)
+#include(CMake/stkMacroBuildLibWrapper.cmake)
+#include(CMake/stkMacroBuildPlugin.cmake)
+#include(CMake/stkMacroBuildApp.cmake)
+#include(CMake/stkMacroBuildQtPlugin.cmake)
+#include(CMake/stkMacroCompilePythonScript.cmake)
+#include(CMake/stkMacroGenerateMocs.cmake)
+#include(CMake/stkMacroWrapPythonQt.cmake)
+#include(CMake/stkMacroSetupQt.cmake)
+include(CMake/stkMacroTargetLibraries.cmake) # Import multiple macros
+#include(CMake/stkFunctionExtractOptionNameAndValue.cmake)
+#include(CMake/stkMacroValidateBuildOptions.cmake)
+#include(CMake/stkMacroAddCtkLibraryOptions.cmake)
+#include(CMake/stkFunctionGenerateDGraphInput.cmake)
+#include(CMake/stkFunctionGenerateProjectXml.cmake)
+#include(CMake/stkFunctionGeneratePluginManifest.cmake)
+#include(CMake/stkMacroGeneratePluginResourceFile.cmake)
+#include(CMake/stkFunctionAddPluginRepo.cmake)
+#include(CMake/stkFunctionCheckCompilerFlags.cmake)
+#include(CMake/stkFunctionCheckoutRepo.cmake)
+include(CMake/stkFunctionGetIncludeDirs.cmake)
+include(CMake/stkFunctionGetLibraryDirs.cmake)
+#include(CMake/stkFunctionGetGccVersion.cmake)
+#include(CMake/stkFunctionGetCompilerVisibilityFlags.cmake)
+#include(CMake/stkFunctionCompileSnippets.cmake)
+
 #Find Qt4
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
@@ -60,4 +146,3 @@ set(LIBRARY_OUTPUT_PATH $ENV{FITSDK}/bin)
 
 add_subdirectory(Libs/Hyperthermia)
 add_subdirectory(Applications/stkHyperthermiaApp)
-add_subdirectory(Testing/stkHyperthermiaTest)

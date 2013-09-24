@@ -1,4 +1,4 @@
-project(stkHyperthermia)
+project(STKHyperthermia)
 
 
 # CMake modules
