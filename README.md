@@ -19,7 +19,7 @@ Contributing
 2. Create a branch (`git checkout -b my_branch`)
 3. Commit your changes (`git commit -am "Awesome feature"`)
 4. Push to the branch (`git push origin my_branch`)
-5. Open a [Pull Request][1]
+5. Open a [Pull Request]
 
 
 Institution
