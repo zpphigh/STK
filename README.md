@@ -25,7 +25,7 @@ Contributing
 Institution
 ------------
 * National Laboratory for Information Science and Technology, Tsinghua University
-* Department of Ultrasound, Chinese PLA General Hospital
+* Department of Interventional Ultrasound, Chinese PLA General Hospital
 
 
 Developers
