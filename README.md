@@ -3,11 +3,13 @@ STK
 Computer Assited Surgery Toolkit for Surgery Planning and Surgery Navigation
 
 
-Supported Surgery Type
+Features
 ------------
 
-1. Microwave Ablation Hyperthermia
-2. Magnetic Induction Hyperthermia
+1. Microwave Ablation Hyperthermia Surgery Planning 
+2. Magnetic Induction Hyperthermia Surgery Planning 
+3. Image Guided Intervention Surgery Navigation
+4. Robotics Assisted Surgery
 
 
 Contributing
@@ -18,6 +20,13 @@ Contributing
 3. Commit your changes (`git commit -am "Awesome feature"`)
 4. Push to the branch (`git push origin my_branch`)
 5. Open a [Pull Request][1]
+
+
+Institution
+------------
+* National Laboratory for Information Science and Technology, Tsinghua University
+* Department of Ultrasound, Chinese PLA General Hospital
+
 
 Developers
 ------------
