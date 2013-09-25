@@ -146,4 +146,4 @@ set(EXECUTABLE_OUTPUT_PATH $ENV{FITSDK}/bin)
 set(LIBRARY_OUTPUT_PATH $ENV{FITSDK}/bin)
 
 add_subdirectory(Libs/Hyperthermia)
-add_subdirectory(Libs/RoboticSurgery)
+#add_subdirectory(Libs/RoboticSurgery)
