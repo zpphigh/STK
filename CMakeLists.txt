@@ -4,6 +4,8 @@
 #
 #  Copyright (c) fitark.org
 #
+#	National Laboratory for Information Science and Technology, Tsinghua University
+#	Department of Interventional Ultrasound, Chinese PLA General Hospital
 #
 ###########################################################################
 
@@ -116,7 +118,7 @@ include(CMake/stkMacroBuildLib.cmake)
 #include(CMake/stkMacroCompilePythonScript.cmake)
 #include(CMake/stkMacroGenerateMocs.cmake)
 #include(CMake/stkMacroWrapPythonQt.cmake)
-#include(CMake/stkMacroSetupQt.cmake)
+include(CMake/stkMacroSetupQt.cmake)
 include(CMake/stkMacroTargetLibraries.cmake) # Import multiple macros
 #include(CMake/stkFunctionExtractOptionNameAndValue.cmake)
 #include(CMake/stkMacroValidateBuildOptions.cmake)
@@ -134,16 +136,19 @@ include(CMake/stkFunctionGetLibraryDirs.cmake)
 #include(CMake/stkFunctionGetCompilerVisibilityFlags.cmake)
 #include(CMake/stkFunctionCompileSnippets.cmake)
 
-#Find Qt4
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
 
-set(QT_USE_QTNETWORK TRUE)
-set(QT_USE_QTMAIN TRUE) 
+# QT
+#
+stkMacroSetupQt()
+# Update CTK_BASE_LIBRARIES with QT libraries
+if(QT4_FOUND)
+  set(CTK_BASE_LIBRARIES ${CTK_BASE_LIBRARIES} ${QT_LIBRARIES} CACHE INTERNAL "CTK base libraries" FORCE)
+endif()
+ 
 
 #set output path, we currently use the FITSDK environment
 set(EXECUTABLE_OUTPUT_PATH $ENV{FITSDK}/bin)
 set(LIBRARY_OUTPUT_PATH $ENV{FITSDK}/bin)
 
 add_subdirectory(Libs/Hyperthermia)
-#add_subdirectory(Libs/RoboticSurgery)
+add_subdirectory(Libs/RoboticSurgery)

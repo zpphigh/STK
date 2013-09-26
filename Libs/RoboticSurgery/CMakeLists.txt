@@ -1,16 +1,15 @@
+###########################################################################
+#
+#  Library:   STK
+#
+#  Copyright (c) fitark.org
+#
+#	National Laboratory for Information Science and Technology, Tsinghua University
+#	Department of Interventional Ultrasound, Chinese PLA General Hospital
+#
+###########################################################################
+
 project(STKRoboticSurgery)
-
-SET(QT_USE_QTNETWORK TRUE)
-
-include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}
-  ${QT_INCLUDES}
-)
-
-link_directories(
-  ${QT_LIBRARY_DIR}
-  )
 
 # CMake modules
 set(CMAKE_MODULE_PATH ${stkRoboticSurgery_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})

@@ -9,5 +9,4 @@
 #
 ###########################################################################
 
-project(STKHyperthermiaApp)
-
+project(STKHybridViewController)
