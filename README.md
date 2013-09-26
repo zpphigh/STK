@@ -31,3 +31,4 @@ Institution
 Developers
 ------------
 * Weiming Zhai  wmzhai@tsinghua.edu.cn
+* Zihan Zhuo  sunshine_zzh@163.com
