@@ -15,33 +15,34 @@
 // Qt includes
 #include <QObject>
 
-
 // STK includes
 #include "stkRoboticSurgeryExport.h"
 
-class stkRobotSimulatorPrivate;
-class STK_ROBOTICSURGERY_EXPORT stkRobotSimulator : public QObject
+class stkRobotServerPrivate;
+class STK_ROBOTICSURGERY_EXPORT stkRobotServer : public QObject
 {
 	Q_OBJECT
 
 public:
-	stkRobotSimulator(QObject *parent = 0);
-	~stkRobotSimulator();
+	stkRobotServer(QObject *parent = 0);
+	~stkRobotServer();
 
-	bool ConnectServer(QString ip, int port);  
+	QString getServerIp();
+	void StartServer(int port);
 	void SendJointPosition(double x, double y,double z,double ax,double ay,double az);
 
 signals:
 	void newMessage(QString msg);
+	void newConnection(QString clientIp);
 
 public slots:
+	void newConnection();
 	void ReadMessage();
-	
 
 protected:
-	QScopedPointer<stkRobotSimulatorPrivate> d_ptr;
+	QScopedPointer<stkRobotServerPrivate> d_ptr;
 
 private:
-	Q_DECLARE_PRIVATE(stkRobotSimulator);
-	Q_DISABLE_COPY(stkRobotSimulator);	
+	Q_DECLARE_PRIVATE(stkRobotServer);
+	Q_DISABLE_COPY(stkRobotServer);	
 };

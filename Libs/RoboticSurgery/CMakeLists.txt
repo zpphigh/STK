@@ -24,12 +24,15 @@ set(KIT_export_directive "STK_ROBOTICSURGERY_EXPORT")
 set(KIT_SRCS
   stkRobotSimulator.h
   stkRobotSimulator.cpp
+  stkRobotServer.h
+  stkRobotServer.cpp
   )
 
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
   stkRobotSimulator.h
+  stkRobotServer.h
   )
 
 
