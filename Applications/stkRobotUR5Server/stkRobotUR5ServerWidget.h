@@ -1,9 +1,19 @@
-#ifndef STKROBOTUR5SERVERWIDGET_H
-#define STKROBOTUR5SERVERWIDGET_H
+/*=========================================================================
 
+  Library:   STK
+
+  Copyright (c) fitark.org
+
+  	National Laboratory for Information Science and Technology, Tsinghua University
+  	Department of Interventional Ultrasound, Chinese PLA General Hospital
+
+
+=========================================================================*/
+#pragma once
 #include <QtGui/QWidget>
-#include "ui_stkRobotUR5ServerWidget.h"
 
+
+class stkRobotUR5ServerPrivate;
 class stkRobotUR5Server : public QWidget
 {
 	Q_OBJECT
@@ -12,8 +22,10 @@ public:
 	stkRobotUR5Server(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~stkRobotUR5Server();
 
-private:
-	Ui::stkRobotUR5ServerClass ui;
-};
+protected:
+	QScopedPointer<stkRobotUR5ServerPrivate> d_ptr;
 
-#endif // STKROBOTUR5SERVERWIDGET_H
+private:
+	Q_DECLARE_PRIVATE(stkRobotUR5Server);
+	Q_DISABLE_COPY(stkRobotUR5Server);
+};
