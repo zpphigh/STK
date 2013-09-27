@@ -12,6 +12,33 @@
 cmake_minimum_required (VERSION 2.8.4)
 
 #-----------------------------------------------------------------------------
+# See http://cmake.org/cmake/help/cmake-2-8-docs.html#section_Policies for details
+#
+
+set(project_policies
+  CMP0001 # NEW: CMAKE_BACKWARDS_COMPATIBILITY should no longer be used.
+  CMP0002 # NEW: Logical target names must be globally unique.
+  CMP0003 # NEW: Libraries linked via full path no longer produce linker search paths.
+  CMP0004 # NEW: Libraries linked may NOT have leading or trailing whitespace.
+  CMP0005 # NEW: Preprocessor definition values are now escaped automatically.
+  CMP0006 # NEW: Installing MACOSX_BUNDLE targets requires a BUNDLE DESTINATION.
+  CMP0007 # NEW: List command no longer ignores empty elements.
+  CMP0008 # NEW: Libraries linked by full-path must have a valid library file name.
+  CMP0009 # NEW: FILE GLOB_RECURSE calls should not follow symlinks by default.
+  CMP0010 # NEW: Bad variable reference syntax is an error.
+  CMP0011 # NEW: Included scripts do automatic cmake_policy PUSH and POP.
+  CMP0012 # NEW: if() recognizes numbers and boolean constants.
+  CMP0013 # NEW: Duplicate binary directories are not allowed.
+  CMP0014 # NEW: Input directories must have CMakeLists.txt
+  )
+foreach(policy ${project_policies})
+  if(POLICY ${policy})
+    cmake_policy(SET ${policy} NEW)
+  endif()
+endforeach()
+
+
+#-----------------------------------------------------------------------------
 project(STK)
 #-----------------------------------------------------------------------------
 
@@ -39,6 +66,41 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release"
     "MinSizeRel" "RelWithDebInfo")
 endif()
+
+#-----------------------------------------------------------------------------
+# Superbuild Option - Enabled by default
+#
+option(STK_SUPERBUILD "Build STK and the projects it depends on via SuperBuild.cmake." OFF)
+mark_as_advanced(STK_SUPERBUILD)
+
+
+#-----------------------------------------------------------------------------
+# Output directories.
+#
+foreach(type LIBRARY RUNTIME ARCHIVE)
+  # Make sure the directory exists
+  if(DEFINED STK_CMAKE_${type}_OUTPUT_DIRECTORY
+     AND NOT EXISTS ${STK_CMAKE_${type}_OUTPUT_DIRECTORY})
+    message(FATAL_ERROR "STK_CMAKE_${type}_OUTPUT_DIRECTORY is set to a non-existing directory [${STK_CMAKE_${type}_OUTPUT_DIRECTORY}]")
+  endif()
+
+  if(STK_SUPERBUILD)
+    set(output_dir ${STK_BINARY_DIR}/bin)
+    if(NOT DEFINED STK_CMAKE_${type}_OUTPUT_DIRECTORY)
+      set(STK_CMAKE_${type}_OUTPUT_DIRECTORY ${STK_BINARY_DIR}/STK-build/bin)
+    endif()
+  else()
+    if(NOT DEFINED STK_CMAKE_${type}_OUTPUT_DIRECTORY)
+      set(output_dir ${STK_BINARY_DIR}/bin)
+    else()
+      set(output_dir ${STK_CMAKE_${type}_OUTPUT_DIRECTORY})
+    endif()
+  endif()
+  set(CMAKE_${type}_OUTPUT_DIRECTORY ${output_dir} CACHE INTERNAL "Single output directory for building all libraries.")
+  if(NOT DEFINED STK_PLUGIN_${type}_OUTPUT_DIRECTORY)
+    set(STK_PLUGIN_${type}_OUTPUT_DIRECTORY ${CMAKE_${type}_OUTPUT_DIRECTORY})
+  endif()
+endforeach()
 
 
 #-----------------------------------------------------------------------------
@@ -140,16 +202,11 @@ include(CMake/stkFunctionGetLibraryDirs.cmake)
 # QT
 #
 stkMacroSetupQt()
-# Update CTK_BASE_LIBRARIES with QT libraries
+# Update STK_BASE_LIBRARIES with QT libraries
 if(QT4_FOUND)
-  set(CTK_BASE_LIBRARIES ${CTK_BASE_LIBRARIES} ${QT_LIBRARIES} CACHE INTERNAL "CTK base libraries" FORCE)
+  set(STK_BASE_LIBRARIES ${STK_BASE_LIBRARIES} ${QT_LIBRARIES} CACHE INTERNAL "STK base libraries" FORCE)
 endif()
  
-
-#set output path, we currently use the FITSDK environment
-set(EXECUTABLE_OUTPUT_PATH $ENV{FITSDK}/bin)
-set(LIBRARY_OUTPUT_PATH $ENV{FITSDK}/bin)
-
 add_subdirectory(Libs/Hyperthermia)
 add_subdirectory(Libs/RoboticSurgery)
 add_subdirectory(Applications/stkRobotUR5Server)
