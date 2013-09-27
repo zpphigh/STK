@@ -24,7 +24,7 @@ set(KIT_UI_FORMS
 
 # Resources
 set(KIT_resources
-  stkRobotUR5Server.qrc
+#  stkRobotUR5Server.qrc
 )
 
 #include_directories
