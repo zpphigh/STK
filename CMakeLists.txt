@@ -432,9 +432,3 @@ if(BUILD_TESTING)
   add_subdirectory(Applications/Testing)
 endif()
 
-
-
-
-#add_subdirectory(Libs/Hyperthermia)
-#add_subdirectory(Libs/RoboticSurgery)
-#add_subdirectory(Applications/stkRobotUR5Server)
