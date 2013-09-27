@@ -184,7 +184,7 @@ include(CMake/stkMacroSetupQt.cmake)
 include(CMake/stkMacroTargetLibraries.cmake) # Import multiple macros
 #include(CMake/stkFunctionExtractOptionNameAndValue.cmake)
 #include(CMake/stkMacroValidateBuildOptions.cmake)
-#include(CMake/stkMacroAddCtkLibraryOptions.cmake)
+include(CMake/stkMacroAddStkLibraryOptions.cmake)
 #include(CMake/stkFunctionGenerateDGraphInput.cmake)
 #include(CMake/stkFunctionGenerateProjectXml.cmake)
 #include(CMake/stkFunctionGeneratePluginManifest.cmake)
@@ -273,6 +273,168 @@ if(QT4_FOUND)
   set(STK_BASE_LIBRARIES ${STK_BASE_LIBRARIES} ${QT_LIBRARIES} CACHE INTERNAL "STK base libraries" FORCE)
 endif()
  
-add_subdirectory(Libs/Hyperthermia)
-add_subdirectory(Libs/RoboticSurgery)
-add_subdirectory(Applications/stkRobotUR5Server)
+
+
+
+
+#-----------------------------------------------------------------------------
+# Special "BUILD ALL" options
+
+# Build all STK libraries
+option(STK_BUILD_ALL_LIBRARIES "Build all STK libraries" OFF)
+
+# Build all STK applications
+option(STK_BUILD_ALL_APPS "Build all STK applications" OFF)
+
+# Build everything
+option(STK_BUILD_ALL "Build everything in STK" OFF)
+if(STK_BUILD_ALL)
+  set(STK_BUILD_ALL_LIBRARIES 1)
+  set(STK_BUILD_ALL_APPS 1)
+endif()
+
+
+# Git protocol option
+option(STK_USE_GIT_PROTOCOL "If behind a firewall turn this OFF to use http instead." ON)
+mark_as_advanced(STK_USE_GIT_PROTOCOL)
+set(git_protocol "git")
+if(NOT STK_USE_GIT_PROTOCOL)
+  set(git_protocol "http")
+endif()
+
+
+#-----------------------------------------------------------------------------
+# STK Libraries
+#
+
+stk_lib_option(Hyperthermia
+               "Build the Hyperthermia library" ON)
+
+stk_lib_option(RoboticSurgery
+               "Build the RoboticSurgery library" ON)
+
+
+# Save the set of enabled libs in a cache file
+set(_enabled_libs)
+foreach(_lib ${STK_LIBS})
+  if(STK_LIB_${_lib})
+    list(APPEND _enabled_libs ${_lib})
+  endif()
+endforeach()
+set(STK_ENABLED_LIBS ${_enabled_libs} CACHE INTERNAL "" FORCE)
+
+
+#-----------------------------------------------------------------------------
+# STK Applications - Use ON or OFF to indicate if the application should be built by default
+#
+ 
+stk_app_option(stkRobotUR5Server
+               "Build the Universal Robot UR5 Server example application" ON
+               STK_BUILD_EXAMPLES)
+
+
+
+# Save the set of enabled apps in a cache file
+set(_enabled_apps)
+foreach(_app ${STK_APPS})
+  if(STK_APP_${_app})
+    list(APPEND _enabled_apps ${_app})
+  endif()
+endforeach()
+set(STK_ENABLED_APPS ${_enabled_apps} CACHE INTERNAL "" FORCE)
+
+
+
+#-----------------------------------------------------------------------------
+# Generate target_directories list - List of directory corresponding to the different
+# libraries, plugins and applications associated with the corresponding option name.
+#
+# The following FOREACH loops are used to:
+#   1) Update either STK_LIBS_SUBDIRS, STK_PLUGINS_SUBDIRS or STK_APPS_SUBDIRS variables
+#
+# For STK libraries, if the file Libs/<DIR>/<LIBNAME>/stk_library_options.cmake exists,
+# in addition to 'STK_LIB_<DIR>/<LIBNAME>' option, the following ones
+# will also be available in CMake configure menu:
+#  STK_LIB_<DIR>/<LIBNAME>_OPT1  (set to OFF)
+#  STK_LIB_<DIR>/<LIBNAME>_OPT2  (set to ON)
+#
+# The file Libs/<DIR>/<LIBNAME>/stk_library_options.cmake should look like:
+#
+#     set(stk_library_options
+#       OPT1:OFF
+#       OPT2:ON
+#       )
+
+
+# Create list of directories corresponding to the enabled targets
+set(target_directories)
+
+set(stk_lib_options_list) # This list will be updated in stkMacroAddCtkLibraryOptions
+foreach(lib ${STK_LIBS})
+  if(STK_LIB_${lib})
+    stkMacroAddStkLibraryOptions(${lib})
+  endif()
+  list(APPEND target_directories "${CMAKE_CURRENT_SOURCE_DIR}/Libs/${lib}^^STK_LIB_${lib}")
+endforeach()
+
+foreach(plugin ${STK_PLUGINS})
+  if(${plugin}_SOURCE_DIR)
+    list(APPEND target_directories "${${plugin}_SOURCE_DIR}^^STK_PLUGIN_${plugin}")
+  else()
+    list(APPEND target_directories "${CMAKE_CURRENT_SOURCE_DIR}/Plugins/${plugin}^^STK_PLUGIN_${plugin}")
+  endif()
+endforeach()
+
+foreach(app ${STK_APPS})
+  list(APPEND target_directories "${CMAKE_CURRENT_SOURCE_DIR}/Applications/${app}^^STK_APP_${app}")
+endforeach()
+
+
+
+#-----------------------------------------------------------------------------
+# Set C/CXX Flags
+#
+set(CMAKE_CXX_FLAGS ${STK_CXX_FLAGS} CACHE STRING "CMake C Flags" FORCE)
+set(CMAKE_C_FLAGS ${STK_C_FLAGS} CACHE STRING "CMake CXX Flags" FORCE)
+
+#-----------------------------------------------------------------------------
+# Set the header template which defines custom export/import macros
+# for shared libraries
+#
+set(STK_EXPORT_HEADER_TEMPLATE "${STK_SOURCE_DIR}/Libs/stkExport.h.in")
+
+
+
+#-----------------------------------------------------------------------------
+# Add STK library subdirectories
+#
+foreach(lib ${STK_LIBS})
+  if(STK_LIB_${lib})
+    add_subdirectory(Libs/${lib})
+  endif()
+  # Always add the Documentation sub-directory for additional processing
+  if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Libs/${lib}/Documentation/CMakeLists.txt)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Libs/${lib}/Documentation)
+  endif()
+endforeach()
+
+
+#-----------------------------------------------------------------------------
+# Add STK application subdirectories
+#
+foreach(app ${STK_APPS})
+  IF (STK_APP_${app})
+    add_subdirectory(Applications/${app})
+  endif()
+endforeach()
+
+if(BUILD_TESTING)
+  add_subdirectory(Applications/Testing)
+endif()
+
+
+
+
+#add_subdirectory(Libs/Hyperthermia)
+#add_subdirectory(Libs/RoboticSurgery)
+#add_subdirectory(Applications/stkRobotUR5Server)
