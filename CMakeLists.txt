@@ -190,13 +190,79 @@ include(CMake/stkMacroTargetLibraries.cmake) # Import multiple macros
 #include(CMake/stkFunctionGeneratePluginManifest.cmake)
 #include(CMake/stkMacroGeneratePluginResourceFile.cmake)
 #include(CMake/stkFunctionAddPluginRepo.cmake)
-#include(CMake/stkFunctionCheckCompilerFlags.cmake)
+include(CMake/stkFunctionCheckCompilerFlags.cmake)
 #include(CMake/stkFunctionCheckoutRepo.cmake)
 include(CMake/stkFunctionGetIncludeDirs.cmake)
 include(CMake/stkFunctionGetLibraryDirs.cmake)
-#include(CMake/stkFunctionGetGccVersion.cmake)
-#include(CMake/stkFunctionGetCompilerVisibilityFlags.cmake)
+include(CMake/stkFunctionGetGccVersion.cmake)
+include(CMake/stkFunctionGetCompilerVisibilityFlags.cmake)
 #include(CMake/stkFunctionCompileSnippets.cmake)
+
+
+
+#-----------------------------------------------------------------------------
+# Additional CXX/C Flags
+#
+set(ADDITIONAL_C_FLAGS "" CACHE STRING "Additional C Flags")
+mark_as_advanced(ADDITIONAL_C_FLAGS)
+set(ADDITIONAL_CXX_FLAGS "" CACHE STRING "Additional CXX Flags")
+mark_as_advanced(ADDITIONAL_CXX_FLAGS)
+
+#-----------------------------------------------------------------------------
+# Set symbol visibility Flags
+#
+
+stkFunctionGetCompilerVisibilityFlags(VISIBILITY_CXX_FLAGS)
+
+#-----------------------------------------------------------------------------
+# Set coverage Flags
+#
+if(WITH_COVERAGE)
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(coverage_flags "-g -fprofile-arcs -ftest-coverage -O0 -DNDEBUG")
+    set(COVERAGE_CXX_FLAGS ${coverage_flags})
+    set(COVERAGE_C_FLAGS ${coverage_flags})
+  endif()
+endif()
+
+#-----------------------------------------------------------------------------
+# STK C/CXX Flags
+#
+set(STK_C_FLAGS "${CMAKE_C_FLAGS_INIT} ${COVERAGE_C_FLAGS} ${ADDITIONAL_C_FLAGS}")
+set(STK_CXX_FLAGS "${CMAKE_CXX_FLAGS_INIT} ${VISIBILITY_CXX_FLAGS} ${COVERAGE_CXX_FLAGS} ${ADDITIONAL_CXX_FLAGS}")
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set(cflags "-Wall -Wextra -Wpointer-arith -Winvalid-pch -Wcast-align -Wwrite-strings")
+  if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    set(cflags "${cflags} -D_FORTIFY_SOURCE=2")
+  endif()
+
+  stkFunctionCheckCompilerFlags("-fdiagnostics-show-option" cflags)
+  stkFunctionCheckCompilerFlags("-Wl,--no-undefined" cflags)
+  
+  stkFunctionGetGccVersion(${CMAKE_CXX_COMPILER} GCC_VERSION)
+
+  # With older version of gcc supporting the flag -fstack-protector-all, an extra dependency to libssp.so
+  # is introduced. If gcc is smaller than 4.4.0 and the build type is Release let's not include the flag.
+  # Doing so should allow to build package made for distribution using older linux distro.
+  if(${GCC_VERSION} VERSION_GREATER "4.4.0" OR (CMAKE_BUILD_TYPE STREQUAL "Debug" AND ${GCC_VERSION} VERSION_LESS "4.4.0"))
+    stkFunctionCheckCompilerFlags("-fstack-protector-all" cflags)
+  endif()
+  if(MINGW)
+    # suppress warnings about auto imported symbols
+    set(STK_CXX_FLAGS "-Wl,--enable-auto-import ${STK_CXX_FLAGS}")
+  endif()
+
+  set(STK_C_FLAGS "${cflags} ${STK_C_FLAGS}")
+  set(STK_CXX_FLAGS "${cflags} -Woverloaded-virtual -Wold-style-cast -Wstrict-null-sentinel -Wsign-promo ${STK_CXX_FLAGS}")
+endif()
+
+if(MSVC)
+  set(msvc_suppressed_warnings
+    "/wd4290" # C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+  )
+  set(STK_CXX_FLAGS "${STK_CXX_FLAGS} ${msvc_suppressed_warnings}")
+endif()
 
 
 # QT
