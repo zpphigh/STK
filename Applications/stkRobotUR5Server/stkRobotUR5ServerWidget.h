@@ -13,19 +13,24 @@
 #include <QtGui/QWidget>
 
 
-class stkRobotUR5ServerPrivate;
-class stkRobotUR5Server : public QWidget
+class stkRobotUR5ServerWidgetPrivate;
+class stkRobotUR5ServerWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	stkRobotUR5Server(QWidget *parent = 0, Qt::WFlags flags = 0);
-	~stkRobotUR5Server();
+	stkRobotUR5ServerWidget(QWidget *parent = 0, Qt::WFlags flags = 0);
+	~stkRobotUR5ServerWidget();
+
+public slots:
+	void on_sendMsgPushButton_clicked();
+	void on_startServerPushButton_clicked();
+	void newConnection(QString peerIp);
 
 protected:
-	QScopedPointer<stkRobotUR5ServerPrivate> d_ptr;
+	QScopedPointer<stkRobotUR5ServerWidgetPrivate> d_ptr;
 
 private:
-	Q_DECLARE_PRIVATE(stkRobotUR5Server);
-	Q_DISABLE_COPY(stkRobotUR5Server);
+	Q_DECLARE_PRIVATE(stkRobotUR5ServerWidget);
+	Q_DISABLE_COPY(stkRobotUR5ServerWidget);
 };

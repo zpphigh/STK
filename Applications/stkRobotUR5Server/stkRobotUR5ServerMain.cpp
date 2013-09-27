@@ -17,7 +17,7 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	stkRobotUR5Server w;
+	stkRobotUR5ServerWidget w;
 	w.show();
 	return a.exec();
 }
