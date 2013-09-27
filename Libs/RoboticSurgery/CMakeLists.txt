@@ -11,9 +11,6 @@
 
 project(STKRoboticSurgery)
 
-# CMake modules
-set(CMAKE_MODULE_PATH ${stkRoboticSurgery_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
-
 #
 # See CTK/CMake/ctkMacroBuildLib.cmake for details
 #
@@ -44,10 +41,6 @@ set(KIT_UI_FORMS
 set(KIT_resources
 )
 
-
-# Target libraries - See CMake/stkFunctionGetTargetLibraries.cmake
-# The following macro will read the target libraries from the file 'target_libraries.cmake'
-set(KIT_target_libraries)
 
 stkFunctionGetTargetLibraries(KIT_target_libraries)
 

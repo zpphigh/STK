@@ -1,5 +1,6 @@
 #include "stkRobotUR5ServerWidget.h"
 #include "ui_stkRobotUR5ServerWidget.h"
+#include "stkRobotServer.h"
 
 class stkRobotUR5ServerPrivate :public Ui_stkRobotUR5ServerClass
 {
