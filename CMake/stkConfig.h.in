@@ -1,0 +1,8 @@
+#ifndef __ctkConfig_h
+#define __ctkConfig_h
+
+#define STK_PLUGIN_DIR "@STK_PLUGIN_LIBRARIES_DIR_CONFIG@/"
+#define STK_SOURCE_DIR "@STK_SOURCE_DIR@"
+
+#endif
+

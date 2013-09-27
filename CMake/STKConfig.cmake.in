@@ -1,0 +1,170 @@
+###########################################################################
+#
+#  Library:   STK
+#
+#  Copyright (c) fitark.org
+#
+#	National Laboratory for Information Science and Technology, Tsinghua University
+#	Department of Interventional Ultrasound, Chinese PLA General Hospital
+#
+###########################################################################
+
+
+#
+# STKConfig.cmake - STK CMake configuration file for external projects.
+#
+# This file is configured by STK and used by the UseSTK.cmake module
+# to load STK's settings for an external project.
+
+
+# Import STK targets
+IF(NOT STK_EXPORTS_INCLUDED)
+  INCLUDE("@STK_SUPERBUILD_BINARY_DIR@/STKExports.cmake")
+  SET(STK_EXPORTS_INCLUDED 1)
+ENDIF()
+
+# Include STK macros
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGetGccVersion.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionCheckCompilerFlags.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGetCompilerVisibilityFlags.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroParseArguments.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroSetPaths.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroListFilter.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroBuildLibWrapper.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroBuildPlugin.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroBuildQtPlugin.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroTargetLibraries.cmake") # Import multiple macros
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionExtractOptionNameAndValue.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroValidateBuildOptions.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGenerateDGraphInput.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGeneratePluginManifest.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGeneratePluginUseFile.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroGeneratePluginResourceFile.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGetIncludeDirs.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGetLibraryDirs.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionExtractPluginTargets.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGetAllPluginTargets.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGetTargetDependencies.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkFunctionGetPluginDependencies.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroSetupPlugins.cmake")
+INCLUDE("@STK_CMAKE_DIR_CONFIG@/stkMacroGenerateMocs.cmake")
+
+SET(STK_EXPORT_HEADER_TEMPLATE "@STK_EXPORT_HEADER_TEMPLATE@")
+
+# Directory containing the stkConfig.h file
+SET(STK_CONFIG_H_INCLUDE_DIR @STK_CONFIG_H_INCLUDE_DIR@)
+
+# The STK DGraph executable used to compute target dependency graphs
+SET(STK_DGRAPH_EXECUTABLE "@DGraph_EXECUTABLE@")
+
+# List all libraries
+SET(STK_LIBRARIES @STK_LIBRARIES@)
+
+# List all STK libraries wrapped with PythonQt
+SET(STK_WRAPPED_LIBRARIES_PYTHONQT @STK_WRAPPED_LIBRARIES_PYTHONQT@)
+
+# Include STK Plugin specific variables
+INCLUDE("@STK_PLUGIN_USE_FILE@")
+
+@STK_CONFIG_INSTALL_ONLY@
+
+# Library specific include directories
+@STK_LIBRARY_INCLUDE_DIRS_CONFIG@
+
+# Library specific library directories
+@STK_LIBRARY_LIBRARY_DIRS_CONFIG@
+
+# The STK include file directories.
+SET(STK_INCLUDE_DIRS "@STK_BUILD_DIR@;@STK_INCLUDE_DIRS_CONFIG@")
+
+# The STK library directories. Note that if
+# STK_CONFIGURATION_TYPES is set (see below) then these directories
+# will be the parent directories under which there will be a directory
+# of runtime binaries for each configuration type.
+SET(STK_LIBRARY_DIRS "@STK_LIBRARY_DIRS_CONFIG@")
+
+# The STK external project libraries.
+SET(STK_EXTERNAL_LIBRARIES "@STK_EXTERNAL_LIBRARIES_CONFIG@")
+
+# The STK external project library directories. Note that if
+# STK_CONFIGURATION_TYPES is set (see below) then these directories
+# will be the parent directories under which there will be a directory
+# of runtime binaries for each configuration type.
+SET(STK_EXTERNAL_LIBRARY_DIRS "@STK_EXTERNAL_LIBRARY_DIRS_CONFIG@")
+
+# The STK binary executable directories. Note that if
+# STK_CONFIGURATION_TYPES is set (see below) then these directories
+# will be the parent directories under which there will be a directory
+# of runtime binaries for each configuration type.
+SET(STK_EXECUTABLE_DIRS "@STK_EXECUTABLE_DIRS_CONFIG@")
+
+# The STK runtime library directories. Note that if
+# STK_CONFIGURATION_TYPES is set (see below) then these directories
+# will be the parent directories under which there will be a directory
+# of runtime libraries for each configuration type.
+SET(STK_RUNTIME_LIBRARY_DIRS "@STK_RUNTIME_LIBRARY_DIRS_CONFIG@")
+
+# The STK Qt designer plugin directory. Note that if
+# STK_CONFIGURATION_TYPES is set (see below) then these directories
+# will be the parent directories under which there will be a directory
+# of runtime libraries for each configuration type.
+SET(STK_QTDESIGNERPLUGINS_DIR "@STK_QTDESIGNERPLUGINS_DIR_CONFIG@")
+
+# STK external projects variables
+@STK_SUPERBUILD_EP_VARS_CONFIG@
+
+# Qt configuration
+SET(STK_QT_RCC_EXECUTABLE "@QT_RCC_EXECUTABLE@")
+SET(STK_QT_MOC_EXECUTABLE "@QT_MOC_EXECUTABLE@")
+SET(STK_QT_UIC_EXECUTABLE "@QT_UIC_EXECUTABLE@")
+SET(STK_QT_QMAKE_EXECUTABLE "@QT_QMAKE_EXECUTABLE@")
+
+# The STK version number
+SET(STK_MAJOR_VERSION "@STK_MAJOR_VERSION@")
+SET(STK_MINOR_VERSION "@STK_MINOR_VERSION@")
+SET(STK_PATCH_VERSION "@STK_PATCH_VERSION@")
+
+# The location of the UseSTK.cmake file.
+SET(STK_USE_FILE "@STK_USE_FILE@")
+
+# CMake extension module directory
+SET(STK_CMAKE_DIR "@STK_CMAKE_DIR_CONFIG@")
+SET(STK_CMAKE_UTILITIES_DIR "@STK_CMAKE_UTILITIES_DIR_CONFIG@")
+
+# Update CMake module path so that calling "find_package(DCMTK)" works as expected 
+# after calling "find_package(STK)"
+# Ideally projects like DCMTK or PythonQt should provide both "Config" and "Use" files.
+set(CMAKE_MODULE_PATH
+  ${STK_CMAKE_UTILITIES_DIR}
+  ${CMAKE_MODULE_PATH}
+  )
+
+# TODO The list of available libraries.
+
+# TODO The list of available plugins.
+
+# TODO The list of available applications.
+
+# TODO The Doxygen configuration.
+#SET(STK_DOXYGEN_HOME "@STK_DOXYGEN_HOME_CONFIG@")
+
+# TODO Relative install paths in the STK install tree
+SET(STK_INSTALL_BIN_DIR "@STK_INSTALL_BIN_DIR@")
+SET(STK_INSTALL_INCLUDE_DIR "@STK_INSTALL_INCLUDE_DIR@")
+SET(STK_INSTALL_LIB_DIR "@STK_INSTALL_LIB_DIR@")
+SET(STK_INSTALL_QTPLUGIN_DIR "@STK_INSTALL_QTPLUGIN_DIR@")
+#SET(STK_INSTALL_PACKAGE_DIR "@STK_INSTALL_PACKAGE_DIR@")
+
+# A STK install tree always provides one build configuration. A STK
+# build tree may provide either one or multiple build configurations
+# depending on the CMake generator used. Since STK can be used either
+# from a build tree or an install tree it is useful for outside
+# projects to know the configurations available. If this
+# STKConfig.cmake is in a STK install tree STK_CONFIGURATION_TYPES
+# will be empty and STK_BUILD_TYPE will be set to the value of
+# CMAKE_BUILD_TYPE used to build STK. If STKConfig.cmake is in a STK
+# build tree then STK_CONFIGURATION_TYPES and STK_BUILD_TYPE will have
+# values matching CMAKE_CONFIGURATION_TYPES and CMAKE_BUILD_TYPE for
+# that build tree (only one will ever be set).
+SET(STK_CONFIGURATION_TYPES @STK_CONFIGURATION_TYPES_CONFIG@)
+SET(STK_BUILD_TYPE @STK_BUILD_TYPE_CONFIG@)
