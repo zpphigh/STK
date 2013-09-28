@@ -332,6 +332,9 @@ stk_app_option(stkRobotUR5Server
                "Build the Universal Robot UR5 Server example application" ON
                STK_BUILD_EXAMPLES)
 
+stk_app_option(stkRobotUR5Simulator
+               "Build the Universal Robot UR5 Simulator example application" ON
+               STK_BUILD_EXAMPLES)
 
 
 # Save the set of enabled apps in a cache file
