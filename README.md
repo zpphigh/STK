@@ -3,7 +3,7 @@ STK
 Computer Assited Surgery Toolkit for Surgery Planning and Surgery Navigation
 
 
-Features
+Planned Features
 ------------
 
 1. Microwave Ablation Hyperthermia Surgery Planning 
