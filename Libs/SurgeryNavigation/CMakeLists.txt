@@ -13,7 +13,7 @@ project(STKSurgeryNavigation)
 
 
 # CMake modules
-set(CMAKE_MODULE_PATH ${stkHyperthermia_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${STKSurgeryNavigation_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 
 #
 # See CTK/CMake/ctkMacroBuildLib.cmake for details
