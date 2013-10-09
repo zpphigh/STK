@@ -8,7 +8,7 @@ Supported Platform
 ------------
 1. Windows & MSVC
 2. Linux & gcc
-the mac os IS NOT supported.
+3. The MacOS IS NOT supported.
 
 Planned Features
 ------------
