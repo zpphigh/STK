@@ -70,7 +70,7 @@ endif()
 #-----------------------------------------------------------------------------
 # Superbuild Option - Enabled by default
 #
-option(STK_SUPERBUILD "Build STK and the projects it depends on via SuperBuild.cmake." OFF)
+option(STK_SUPERBUILD "Build STK and the projects it depends on via SuperBuild.cmake." ON)
 mark_as_advanced(STK_SUPERBUILD)
 
 
@@ -313,6 +313,10 @@ stk_lib_option(Hyperthermia
 stk_lib_option(RoboticSurgery
                "Build the RoboticSurgery library" ON)
 
+#stk_lib_option(SurgeryNavigation
+#               "Build the SurgeryNavigation library" ON)
+
+
 
 # Save the set of enabled libs in a cache file
 set(_enabled_libs)
@@ -406,6 +410,33 @@ set(CMAKE_C_FLAGS ${STK_C_FLAGS} CACHE STRING "CMake CXX Flags" FORCE)
 #
 set(STK_EXPORT_HEADER_TEMPLATE "${STK_SOURCE_DIR}/Libs/stkExport.h.in")
 
+
+
+#-----------------------------------------------------------------------------
+# Project.xml
+#
+
+# Generate Project.xml file expected by the CTest driver script
+stkFunctionGenerateProjectXml(${STK_BINARY_DIR} ${PROJECT_NAME} "${target_directories}" ${STK_SUPERBUILD})
+
+#-----------------------------------------------------------------------------
+# STK dependencies - Projects should be TOPOLOGICALLY ordered
+#-----------------------------------------------------------------------------
+set(STK_POSSIBLE_DEPENDENCIES
+  VTK
+  DCMTK
+  OpenIGTLink
+  ITK
+  )
+
+#-----------------------------------------------------------------------------
+# Superbuild script
+#
+
+if(STK_SUPERBUILD)
+  include("${CMAKE_CURRENT_SOURCE_DIR}/SuperBuild.cmake")
+  return()
+endif()
 
 
 #-----------------------------------------------------------------------------
