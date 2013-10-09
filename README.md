@@ -1,7 +1,14 @@
 STK
 ===
-Computer Assited Surgery Toolkit for Surgery Planning and Surgery Navigation
+Computer Assited Surgery Toolkit
 
+Curently, the initial project CMake files and directory sturctures are imitating the famous CTK project.
+
+Supported Platform
+------------
+1. Windows & MSVC
+2. Linux & gcc
+the mac os IS NOT supported.
 
 Planned Features
 ------------
