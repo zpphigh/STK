@@ -424,10 +424,33 @@ stkFunctionGenerateProjectXml(${STK_BINARY_DIR} ${PROJECT_NAME} "${target_direct
 #-----------------------------------------------------------------------------
 set(STK_POSSIBLE_DEPENDENCIES
   VTK
-  DCMTK
-  OpenIGTLink
-  ITK
+  #DCMTK
+  #OpenIGTLink
+  #ITK
   )
+
+
+#-----------------------------------------------------------------------------
+# Check out the ExternalProjectsContrib repository
+#if(STK_USE_CONTRIBUTED_PLUGINS)
+  #if(STK_SUPERBUILD)
+  #  stkFunctionCheckoutRepo(
+  #    NAME ExternalProjectsContrib
+  #    GIT_URL github.com/commontk/ExternalProjectsContrib.git
+  #    GIT_TAG c15781914f
+  #    )
+  #endif()
+
+#  file(GLOB _contrib_scripts ${ExternalProjectsContrib_DIR}/*.cmake)
+#  foreach(_contrib_script ${_contrib_scripts})
+#    get_filename_component(_script_name ${_contrib_script} NAME_WE)
+#    list(APPEND STK_POSSIBLE_DEPENDENCIES ${_script_name})
+#    set(${_script_name}_FILEPATH ${_contrib_script})
+#  endforeach()
+#endif()
+
+set(STK_DEPENDENCIES) # This variable will contain the list of required STK dependencies
+include(CMake/stkBlockCheckDependencies.cmake)
 
 #-----------------------------------------------------------------------------
 # Superbuild script

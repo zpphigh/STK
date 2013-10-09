@@ -5,5 +5,6 @@
 #
 
 set(target_libraries
+  VTK_LIBRARIES
   QT_LIBRARIES
   )

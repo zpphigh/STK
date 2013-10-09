@@ -11,6 +11,11 @@
 
 project(STKHyperthermia)
 
+#
+# 3rd party dependencies
+#
+include(${VTK_USE_FILE})
+
 
 # CMake modules
 set(CMAKE_MODULE_PATH ${stkHyperthermia_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
@@ -41,6 +46,14 @@ set(KIT_UI_FORMS
 # Resources
 set(KIT_resources
 )
+
+# Set VTK_LIBRARIES variable
+set(VTK_LIBRARIES
+  vtkCommon
+  vtkFiltering
+  vtkRendering
+  vtkHybrid
+  )
 
 
 # Target libraries - See CMake/stkFunctionGetTargetLibraries.cmake
