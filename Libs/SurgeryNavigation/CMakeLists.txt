@@ -12,11 +12,13 @@
 project(STKSurgeryNavigation)
 
 find_package(OpenIGTLink REQUIRED)
- include(${OpenIGTLink_USE_FILE})
-#include_directories(
-#   ${OpenIGTLink_INCLUDE_DIRS}
-#   ${CMAKE_BINARY_DIR} # For ctkConfig.h
-#)
+include(${OpenIGTLink_USE_FILE})
+
+find_package(IGSTK REQUIRED)
+include(${IGSTK_USE_FILE})
+
+message("OpenIGTLink_USE_FILE is: " ${OpenIGTLink_USE_FILE})
+message("IGSTK_USE_FILE is: " ${IGSTK_USE_FILE})
 
 # CMake modules
 set(CMAKE_MODULE_PATH ${STKSurgeryNavigation_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})

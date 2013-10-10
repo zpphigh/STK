@@ -16,7 +16,7 @@
 
 // IGSTK includes
 #include "igtlPositionMessage.h"
-//#include "igstkTrackerTool.h"
+#include "igstkTrackerTool.h"
 
 class stkTrackerToolPrivate;
 class STK_SURGERYNAVIGATION_EXPORT stkTrackerTool : public QObject
@@ -41,7 +41,7 @@ public:
 	virtual bool FetchToolPosition() = 0;
 	virtual bool GetPosition(float* pos, float* quat) = 0;
   
-	//virtual igstk::TrackerTool::Pointer GetTrackerToolPointer() = 0;
+	virtual igstk::TrackerTool::Pointer GetTrackerToolPointer() = 0;
 
 signals:
 	void dataValidChanged(bool);

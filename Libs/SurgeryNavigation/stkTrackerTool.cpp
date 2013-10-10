@@ -1,9 +1,9 @@
 
 #include "stkTrackerTool.h"
 
-//typedef igstk::Transform            TransformType;
-//typedef ::itk::Vector<double, 3>    VectorType;
-//typedef ::itk::Versor<double>       VersorType;
+typedef igstk::Transform            TransformType;
+typedef ::itk::Vector<double, 3>    VectorType;
+typedef ::itk::Versor<double>       VersorType;
 
 class stkTrackerToolPrivate
 {

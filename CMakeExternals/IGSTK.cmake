@@ -52,7 +52,7 @@ if(${add_project})
         PREFIX ${proj}${ep_suffix}
         ${location_args}
         CMAKE_GENERATOR ${gen}
-	    #DOWNLOAD_COMMAND ""
+	    DOWNLOAD_COMMAND ""
         UPDATE_COMMAND ""
         BUILD_COMMAND ""
         CMAKE_ARGS
