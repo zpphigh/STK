@@ -6,6 +6,5 @@
 
 set(target_libraries
   QT_LIBRARIES
-  IGSTK_LIBRARIES
   OpenIGTLink_LIBRARIES
   )

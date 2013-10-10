@@ -14,7 +14,7 @@ project(STKHyperthermia)
 #
 # 3rd party dependencies
 #
-include(${VTK_USE_FILE})
+#include(${VTK_USE_FILE})
 
 
 # CMake modules

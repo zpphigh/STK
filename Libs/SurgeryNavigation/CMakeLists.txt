@@ -11,6 +11,12 @@
 
 project(STKSurgeryNavigation)
 
+find_package(OpenIGTLink REQUIRED)
+ include(${OpenIGTLink_USE_FILE})
+#include_directories(
+#   ${OpenIGTLink_INCLUDE_DIRS}
+#   ${CMAKE_BINARY_DIR} # For ctkConfig.h
+#)
 
 # CMake modules
 set(CMAKE_MODULE_PATH ${STKSurgeryNavigation_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
@@ -23,11 +29,14 @@ set(KIT_export_directive "STK_SURGERYNAVIGATION_EXPORT")
 
 # Source files
 set(KIT_SRCS
+   stkTrackerTool.h
+   stkTrackerTool.cpp
   )
 
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
+   stkTrackerTool.h
   )
 
 
@@ -42,7 +51,7 @@ set(KIT_resources
 
 # Target libraries - See CMake/stkFunctionGetTargetLibraries.cmake
 # The following macro will read the target libraries from the file 'target_libraries.cmake'
-set(KIT_target_libraries)
+set(KIT_target_libraries OpenIGTLink)
 
 stkFunctionGetTargetLibraries(KIT_target_libraries)
 
