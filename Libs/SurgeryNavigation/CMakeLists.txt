@@ -41,6 +41,8 @@ set(KIT_SRCS
 	stkAuroraTracker.cpp
 	stkAuroraTrackerTool.h
 	stkAuroraTrackerTool.cpp
+	stkAuroraTrackerWidget.h
+	stkAuroraTrackerWidget.cpp
   )
 
 
@@ -50,11 +52,13 @@ set(KIT_MOC_SRCS
 	stkTrackerTool.h
 	stkAuroraTracker.h
 	stkAuroraTrackerTool.h
+	stkAuroraTrackerWidget.h
   )
 
 
 # UI files
 set(KIT_UI_FORMS
+	stkAuroraTrackerWidget.ui
 )
 
 # Resources
