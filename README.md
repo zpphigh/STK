@@ -33,11 +33,6 @@ Contributing
 Institution
 ------------
 * Tsinghua National Laboratory for Information Science and Technology
-* Department of Computer Science and Technology, Tsinghua University
 * Department of Interventional Ultrasound, Chinese PLA General Hospital
 
 
-Developers
-------------
-* Weiming Zhai  wmzhai@tsinghua.edu.cn
-* Zihan Zhuo  sunshine_zzh@163.com
