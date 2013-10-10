@@ -31,6 +31,8 @@ set(KIT_export_directive "STK_SURGERYNAVIGATION_EXPORT")
 
 # Source files
 set(KIT_SRCS
+   stkTracker.h
+   stkTracker.cpp
    stkTrackerTool.h
    stkTrackerTool.cpp
   )
@@ -38,6 +40,7 @@ set(KIT_SRCS
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
+   stkTracker.h
    stkTrackerTool.h
   )
 
