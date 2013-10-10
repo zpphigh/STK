@@ -35,6 +35,8 @@ set(KIT_SRCS
    stkTracker.cpp
    stkTrackerTool.h
    stkTrackerTool.cpp
+   stkTrackingErrorObserver.h
+   stkTrackingErrorObserver.cpp
   )
 
 
