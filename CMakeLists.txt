@@ -313,8 +313,8 @@ stk_lib_option(Hyperthermia
 stk_lib_option(RoboticSurgery
                "Build the RoboticSurgery library" ON)
 
-#stk_lib_option(SurgeryNavigation
-#               "Build the SurgeryNavigation library" ON)
+stk_lib_option(SurgeryNavigation
+               "Build the SurgeryNavigation library" ON)
 
 
 
@@ -427,6 +427,7 @@ set(STK_POSSIBLE_DEPENDENCIES
   DCMTK
   OpenIGTLink
   ITK
+  IGSTK
   )
 
 
