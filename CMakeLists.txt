@@ -333,11 +333,15 @@ set(STK_ENABLED_LIBS ${_enabled_libs} CACHE INTERNAL "" FORCE)
 #
  
 stk_app_option(stkRobotUR5Server
-               "Build the Universal Robot UR5 Server example application" ON
+               "Build the Universal Robot UR5 Server example application" OFF
                STK_BUILD_EXAMPLES)
 
 stk_app_option(stkRobotUR5Simulator
-               "Build the Universal Robot UR5 Simulator example application" ON
+               "Build the Universal Robot UR5 Simulator example application" OFF
+               STK_BUILD_EXAMPLES)
+
+stk_app_option(stkAuroraTrackerApp
+               "Build the NDI Aurora Tracker application" ON
                STK_BUILD_EXAMPLES)
 
 
