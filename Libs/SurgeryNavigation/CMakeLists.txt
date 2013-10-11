@@ -43,6 +43,10 @@ set(KIT_SRCS
 	stkAuroraTrackerTool.cpp
 	stkAuroraTrackerWidget.h
 	stkAuroraTrackerWidget.cpp
+	stkPolarisTracker.h
+	stkPolarisTracker.cpp
+	stkPolarisTrackerTool.h
+	stkPolarisTrackerTool.cpp
   )
 
 
@@ -53,6 +57,8 @@ set(KIT_MOC_SRCS
 	stkAuroraTracker.h
 	stkAuroraTrackerTool.h
 	stkAuroraTrackerWidget.h
+	stkPolarisTracker.h
+	stkPolarisTrackerTool.h
   )
 
 
