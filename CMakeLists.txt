@@ -273,12 +273,35 @@ if(QT4_FOUND)
   set(STK_BASE_LIBRARIES ${STK_BASE_LIBRARIES} ${QT_LIBRARIES} CACHE INTERNAL "STK base libraries" FORCE)
 endif()
  
+#-----------------------------------------------------------------------------
+# To make options show up in both STK-SuperBuild and STK regular build, let's add them
+# before the SuperBuild script is included
+#
 
+#-----------------------------------------------------------------------------
+# High-Level STK options
 
+# The stk_enable_option macro expects a logical expression after the first
+# three arguments. This expression should only contain build option names
+# which belong to leafs in the required dependency tree.
 
+# The STK infrastructure for SurgeryNavigation support. 
+stk_enable_option(SurgeryNavigation "Enable SurgeryNavigation support" ON
+                  STK_LIB_SurgeryNavigation)
+
+# The STK infrastructure for SurgeryNavigation support. 
+stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" OFF
+                  STK_LIB_RoboticSurgery)
+
+# The STK infrastructure for SurgeryNavigation support. 
+stk_enable_option(Hyperthermia "Enable Hyperthermia support" OFF
+                  STK_LIB_Hyperthermia)
 
 #-----------------------------------------------------------------------------
 # Special "BUILD ALL" options
+
+# Build all STK plug-ins
+option(STK_BUILD_ALL_PLUGINS "Build all STK plug-ins" OFF)
 
 # Build all STK libraries
 option(STK_BUILD_ALL_LIBRARIES "Build all STK libraries" OFF)
@@ -292,6 +315,24 @@ if(STK_BUILD_ALL)
   set(STK_BUILD_ALL_LIBRARIES 1)
   set(STK_BUILD_ALL_APPS 1)
 endif()
+
+
+#-----------------------------------------------------------------------------
+# Other options
+
+# Build examples
+# Create the logical expression containing the minium set of required options
+# for the STK_BUILD_EXAMPLES option to be ON
+set(_build_examples_logical_expr)
+foreach(_app ${STK_ENABLED_APPS})
+  list(APPEND _build_examples_logical_expr STK_APP_${_app} AND)
+endforeach()
+if(_build_examples_logical_expr)
+  list(REMOVE_AT _build_examples_logical_expr -1)
+endif()
+
+stk_enable_option_raw(STK_BUILD_EXAMPLES "Build examples for STK components" ON
+                  ${_build_examples_logical_expr})
 
 
 # Git protocol option
@@ -342,6 +383,10 @@ stk_app_option(stkRobotUR5Simulator
 
 stk_app_option(stkAuroraTrackerApp
                "Build the NDI Aurora Tracker application" ON
+               STK_BUILD_EXAMPLES)
+
+stk_app_option(stkPolarisTrackerApp
+               "Build the NDI Polaris Tracker application" ON
                STK_BUILD_EXAMPLES)
 
 
