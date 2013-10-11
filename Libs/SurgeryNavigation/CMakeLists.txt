@@ -11,6 +11,12 @@
 
 project(STKSurgeryNavigation)
 
+#
+# 3rd party dependencies
+#
+include(${IGSTK_USE_FILE})
+
+
 # CMake modules
 set(CMAKE_MODULE_PATH ${STKSurgeryNavigation_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 
