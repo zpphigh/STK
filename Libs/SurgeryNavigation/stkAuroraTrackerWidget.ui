@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>stkAuroraTrackerWidget</class>
  <widget class="QWidget" name="stkAuroraTrackerWidget">
@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="label_15">
        <property name="text">
-        <string>串口</string>
+        <string>SerialPort</string>
        </property>
       </widget>
      </item>
@@ -73,7 +73,7 @@
      <item>
       <widget class="QLabel" name="label_16">
        <property name="text">
-        <string>服务器IP</string>
+        <string>ServerIP</string>
        </property>
       </widget>
      </item>
@@ -87,7 +87,7 @@
      <item>
       <widget class="QLabel" name="label_17">
        <property name="text">
-        <string>服务器端口</string>
+        <string>ServerPort</string>
        </property>
       </widget>
      </item>
@@ -101,7 +101,7 @@
      <item>
       <widget class="QPushButton" name="connectServerButton">
        <property name="text">
-        <string>连接服务器</string>
+        <string>Connect Server</string>
        </property>
       </widget>
      </item>
@@ -112,28 +112,28 @@
      <item>
       <widget class="QPushButton" name="openDeviceButton">
        <property name="text">
-        <string>打开设备</string>
+        <string>Open Device</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="closeDeviceButton">
        <property name="text">
-        <string>关闭设备</string>
+        <string>Close Device</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="startTrackingButton">
        <property name="text">
-        <string>开始跟踪</string>
+        <string>Start Tracking</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="stopTrackingButton">
        <property name="text">
-        <string>停止跟踪</string>
+        <string>Stop Tracking</string>
        </property>
       </widget>
      </item>
