@@ -446,19 +446,72 @@ foreach(app ${STK_APPS})
 endforeach()
 
 
+#-----------------------------------------------------------------------------
+# Compile DGraph - An application allowing to check for cycle in DAG and also obtain the
+# topological order.
+try_compile(RESULT_VAR ${STK_BINARY_DIR}/Utilities/DGraph ${STK_SOURCE_DIR}/Utilities/DGraph
+              DGraph
+              CMAKE_FLAGS
+                -DCMAKE_OSX_ARCHITECTURES:STRING=${CMAKE_OSX_ARCHITECTURES}
+                -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=${CMAKE_OSX_DEPLOYMENT_TARGET}
+                -DCMAKE_OSX_SYSROOT:STRING=${CMAKE_OSX_SYSROOT}
+                -DCMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+              OUTPUT_VARIABLE output)
+if(NOT RESULT_VAR)
+  message(FATAL_ERROR "Failed to compile DGraph application.\n${output}")
+endif()
+find_program(DGraph_EXECUTABLE DGraph
+  "${STK_BINARY_DIR}/Utilities/DGraph/"
+  "${STK_BINARY_DIR}/Utilities/DGraph/bin/"
+  "${STK_BINARY_DIR}/Utilities/DGraph/Debug/"
+  "${STK_BINARY_DIR}/Utilities/DGraph/Release/")
+mark_as_advanced(DGraph_EXECUTABLE)
 
 #-----------------------------------------------------------------------------
-# Set C/CXX Flags
+# Let's make sure the enabled/disabled libraries, plugins or applications are coherent
 #
-set(CMAKE_CXX_FLAGS ${STK_CXX_FLAGS} CACHE STRING "CMake C Flags" FORCE)
-set(CMAKE_C_FLAGS ${STK_C_FLAGS} CACHE STRING "CMake CXX Flags" FORCE)
+stkFunctionGenerateDGraphInput(${STK_BINARY_DIR} "${target_directories}")
+stkFunctionGenerateDGraphInput(${STK_BINARY_DIR} "${target_directories}" WITH_EXTERNALS)
+stkMacroValidateBuildOptions("${STK_BINARY_DIR}" "${DGraph_EXECUTABLE}" "${target_directories}")
+
+
+
+
 
 #-----------------------------------------------------------------------------
-# Set the header template which defines custom export/import macros
-# for shared libraries
+# DGraph
 #
-set(STK_EXPORT_HEADER_TEMPLATE "${STK_SOURCE_DIR}/Libs/stkExport.h.in")
 
+# Generate DGraph input file expected by DGraph
+stkFunctionGenerateDGraphInput(${STK_BINARY_DIR} "${target_directories}" WITH_OPTION)
+
+# Obtain list of target ordered topologically
+stkMacroSetPaths("${QT_INSTALLED_LIBRARY_DIR}")
+execute_process(
+  COMMAND "${DGraph_EXECUTABLE}" "${STK_BINARY_DIR}/DGraphInput.txt"
+  WORKING_DIRECTORY ${STK_BINARY_DIR}
+  RESULT_VARIABLE RESULT_VAR
+  OUTPUT_VARIABLE CTEST_PROJECT_SUBPROJECTS_OUTPUT
+  ERROR_VARIABLE error
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+if(RESULT_VAR)
+  message(FATAL_ERROR "Failed to obtain list of target ordered topologically.\n${RESULT_VAR}\n${STK_BINARY_DIR}\n${error}")
+endif()
+
+# Convert 'CTEST_PROJECT_SUBPROJECTS_OUTPUT' to a list
+string(REPLACE " " "\\;" CTEST_PROJECT_SUBPROJECTS "${CTEST_PROJECT_SUBPROJECTS_OUTPUT}")
+set(CTEST_PROJECT_SUBPROJECTS ${CTEST_PROJECT_SUBPROJECTS})
+
+# If the list of subproject is empty, let's at least build STKCore
+list(LENGTH CTEST_PROJECT_SUBPROJECTS subproject_count)
+IF (subproject_count EQUAL 0)
+  set(CTEST_PROJECT_SUBPROJECTS STKCore)
+endif()
+
+# Configure CTestConfigSubProject.cmake that could be used by CTest scripts
+configure_file(${STK_SOURCE_DIR}/CMake/CTestConfigSubProject.cmake.in
+               ${STK_BINARY_DIR}/CTestConfigSubProject.cmake)
 
 
 #-----------------------------------------------------------------------------

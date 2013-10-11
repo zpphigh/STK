@@ -19,7 +19,7 @@ function(stkFunctionGenerateDGraphInput dir target_directories)
     message(FATAL_ERROR "Directory ${dir} doesn't exist!")
   endif()
 
-  CtkMacroParseArguments(MY
+  StkMacroParseArguments(MY
     ""
     "WITH_OPTION;WITH_EXTERNALS"
     ${ARGN}
