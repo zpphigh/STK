@@ -47,6 +47,8 @@ set(KIT_SRCS
 	stkPolarisTracker.cpp
 	stkPolarisTrackerTool.h
 	stkPolarisTrackerTool.cpp
+	stkPolarisTrackerWidget.h
+	stkPolarisTrackerWidget.cpp
   )
 
 
@@ -59,12 +61,14 @@ set(KIT_MOC_SRCS
 	stkAuroraTrackerWidget.h
 	stkPolarisTracker.h
 	stkPolarisTrackerTool.h
+	stkPolarisTrackerWidget.h
   )
 
 
 # UI files
 set(KIT_UI_FORMS
 	stkAuroraTrackerWidget.ui
+	stkPolarisTrackerWidget.ui
 )
 
 # Resources
