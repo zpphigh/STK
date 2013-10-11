@@ -512,6 +512,85 @@ if(STK_SUPERBUILD)
 endif()
 
 
+
+
+
+
+#-----------------------------------------------------------------------------
+# Expand variables containing include and library directories for external projects
+# This relies on the variable EXTERNAL_TARGETS set in stkMacroValidateBuildOptions
+foreach(_external_target ${EXTERNAL_TARGETS})
+  if(${_external_target}_FIND_PACKAGE_CMD)
+    #message("Calling find_package(${${_external_target}_FIND_PACKAGE_CMD})")
+    find_package(${${_external_target}_FIND_PACKAGE_CMD} REQUIRED)
+  endif()
+endforeach()
+
+foreach(_external_target ${EXTERNAL_TARGETS})
+  if(${_external_target}_INCLUDE_DIRS)
+    #message("[${_external_target}] Resolving include variables: ${${_external_target}_INCLUDE_DIRS}")
+    foreach(_include_variable ${${_external_target}_INCLUDE_DIRS})
+      #message("[${_external_target}] Appending ${${_include_variable}}")
+      if(${_include_variable})
+        list(APPEND ${_external_target}_INCLUDE_DIRS ${${_include_variable}})
+      else()
+        list(APPEND ${_external_target}_INCLUDE_DIRS ${_include_variable})
+      endif()
+      #message("[${_external_target}] New dirs: ${${_external_target}_INCLUDE_DIRS}")
+    endforeach()
+    #message("[${_external_target}] Appended dirs: ${${_external_target}_INCLUDE_DIRS}")
+  endif()
+  if(${_external_target}_LIBRARY_DIRS)
+    #message("[${_external_target}] Resolving library variables: ${${_external_target}_LIBRARY_DIRS}")
+    foreach(_library_variable ${${_external_target}_LIBRARY_DIRS})
+      #message("[${_external_target}] Appending ${${_library_variable}}")
+      if(${_library_variable})
+        list(APPEND ${_external_target}_LIBRARY_DIRS ${${_library_variable}})
+      else()
+        list(APPEND ${_external_target}_LIBRARY_DIRS ${_library_variable})
+      endif()
+      #message("[${_external_target}] New dirs: ${${_external_target}_LIBRARY_DIRS}")
+    endforeach()
+    #message("[${_external_target}] Appended dirs: ${${_external_target}_LIBRARY_DIRS}")
+  endif()
+endforeach()
+
+#-----------------------------------------------------------------------------
+# STK_SUPERBUILD_BINARY_DIR
+
+# If STK_SUPERBUILD_BINARY_DIR isn't defined, it means STK is *NOT* build using Superbuild.
+# In that specific case, STK_SUPERBUILD_BINARY_DIR should default to STK_BINARY_DIR
+if(NOT DEFINED STK_SUPERBUILD_BINARY_DIR)
+  set(STK_SUPERBUILD_BINARY_DIR ${STK_BINARY_DIR})
+endif()
+
+#-----------------------------------------------------------------------------
+# Configure files with settings
+#
+configure_file(${STK_SOURCE_DIR}/CMake/UseSTK.cmake.in
+               ${STK_SUPERBUILD_BINARY_DIR}/UseSTK.cmake COPYONLY IMMEDIATE)
+
+set(STK_CONFIG_H_INCLUDE_DIR ${STK_BINARY_DIR})
+
+
+#-----------------------------------------------------------------------------
+# Set C/CXX Flags
+#
+set(CMAKE_CXX_FLAGS ${STK_CXX_FLAGS} CACHE STRING "CMake C Flags" FORCE)
+set(CMAKE_C_FLAGS ${STK_C_FLAGS} CACHE STRING "CMake CXX Flags" FORCE)
+
+#-----------------------------------------------------------------------------
+# Set the header template which defines custom export/import macros
+# for shared libraries
+#
+set(STK_EXPORT_HEADER_TEMPLATE "${STK_SOURCE_DIR}/Libs/stkExport.h.in")
+
+
+
+
+
+
+
 #-----------------------------------------------------------------------------
 # Add STK library subdirectories
 #
@@ -538,4 +617,10 @@ endforeach()
 if(BUILD_TESTING)
   add_subdirectory(Applications/Testing)
 endif()
+
+#-----------------------------------------------------------------------------
+# The commands in this directory are intended to be executed as
+# the end of the whole configuration process, as a "last step".
+# This directory is typically the last SUBDIRS in the main CMakeLists.txt.
+add_subdirectory(CMake/LastConfigureStep)
 

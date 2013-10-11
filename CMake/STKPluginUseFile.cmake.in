@@ -1,0 +1,13 @@
+# List all plugins
+set(@_stk_plugin_libraries_variable@ @_stk_plugin_libraries@)
+
+if(NOT @_stk_plugin_libraries_variable@_set)
+  set_property(GLOBAL APPEND PROPERTY STK_PLUGIN_LIBRARIES_VARS @_stk_plugin_libraries_variable@)
+  set(@_stk_plugin_libraries_variable@_set 1)
+endif()
+
+# Plugin specific include directories
+@STK_PLUGIN_INCLUDE_DIRS_CONFIG@
+
+# Plugin specific library directories
+@STK_PLUGIN_LIBRARY_DIRS_CONFIG@

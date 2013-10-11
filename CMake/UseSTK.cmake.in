@@ -1,0 +1,28 @@
+###########################################################################
+#
+#  Library:   STK
+#
+#  Copyright (c) Fitark.
+#
+###########################################################################
+
+#
+# This module is provided as STK_USE_FILE by STKConfig.cmake. It can
+# be INCLUDED in a project to load the needed compiler and linker
+# settings to use STK.
+#
+
+IF(NOT STK_USE_FILE_INCLUDED)
+  SET(STK_USE_FILE_INCLUDED 1)
+
+  # Add include directories needed to use STK.
+  INCLUDE_DIRECTORIES(${STK_INCLUDE_DIRS})
+
+  # Add link directories needed to use STK.
+  # LINK_DIRECTORIES(${STK_LIBRARY_DIRS} ${STK_EXTERNAL_LIBRARY_DIRS})
+
+  if (NOT DEFINED QT_QMAKE_EXECUTABLE)
+    set(QT_QMAKE_EXECUTABLE ${STK_QT_QMAKE_EXECUTABLE})
+  endif()
+
+ENDIF()
