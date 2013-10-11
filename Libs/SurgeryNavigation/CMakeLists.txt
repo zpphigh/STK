@@ -11,15 +11,6 @@
 
 project(STKSurgeryNavigation)
 
-find_package(OpenIGTLink REQUIRED)
-include(${OpenIGTLink_USE_FILE})
-
-find_package(IGSTK REQUIRED)
-include(${IGSTK_USE_FILE})
-
-message("OpenIGTLink_USE_FILE is: " ${OpenIGTLink_USE_FILE})
-message("IGSTK_USE_FILE is: " ${IGSTK_USE_FILE})
-
 # CMake modules
 set(CMAKE_MODULE_PATH ${STKSurgeryNavigation_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 
@@ -78,7 +69,7 @@ set(KIT_resources
 
 # Target libraries - See CMake/stkFunctionGetTargetLibraries.cmake
 # The following macro will read the target libraries from the file 'target_libraries.cmake'
-set(KIT_target_libraries OpenIGTLink)
+set(KIT_target_libraries)
 
 stkFunctionGetTargetLibraries(KIT_target_libraries)
 
