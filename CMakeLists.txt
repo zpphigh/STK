@@ -290,11 +290,11 @@ stk_enable_option(SurgeryNavigation "Enable SurgeryNavigation support" ON
                   STK_LIB_SurgeryNavigation)
 
 # The STK infrastructure for SurgeryNavigation support. 
-stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" OFF
+stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" ON
                   STK_LIB_RoboticSurgery)
 
 # The STK infrastructure for SurgeryNavigation support. 
-stk_enable_option(Hyperthermia "Enable Hyperthermia support" OFF
+stk_enable_option(Hyperthermia "Enable Hyperthermia support" ON
                   STK_LIB_Hyperthermia)
 
 #-----------------------------------------------------------------------------
@@ -372,7 +372,11 @@ set(STK_ENABLED_LIBS ${_enabled_libs} CACHE INTERNAL "" FORCE)
 #-----------------------------------------------------------------------------
 # STK Applications - Use ON or OFF to indicate if the application should be built by default
 #
- 
+
+stk_app_option(stkHyperthermiaApp
+               "Build the Hyperthermia demo application" ON
+               STK_BUILD_EXAMPLES)
+
 stk_app_option(stkRobotUR5Server
                "Build the Universal Robot UR5 Server example application" OFF
                STK_BUILD_EXAMPLES)
@@ -398,8 +402,6 @@ foreach(_app ${STK_APPS})
   endif()
 endforeach()
 set(STK_ENABLED_APPS ${_enabled_apps} CACHE INTERNAL "" FORCE)
-
-
 
 #-----------------------------------------------------------------------------
 # Generate target_directories list - List of directory corresponding to the different
@@ -473,9 +475,6 @@ mark_as_advanced(DGraph_EXECUTABLE)
 stkFunctionGenerateDGraphInput(${STK_BINARY_DIR} "${target_directories}")
 stkFunctionGenerateDGraphInput(${STK_BINARY_DIR} "${target_directories}" WITH_EXTERNALS)
 stkMacroValidateBuildOptions("${STK_BINARY_DIR}" "${DGraph_EXECUTABLE}" "${target_directories}")
-
-
-
 
 
 #-----------------------------------------------------------------------------
@@ -565,10 +564,6 @@ if(STK_SUPERBUILD)
 endif()
 
 
-
-
-
-
 #-----------------------------------------------------------------------------
 # Expand variables containing include and library directories for external projects
 # This relies on the variable EXTERNAL_TARGETS set in stkMacroValidateBuildOptions
@@ -637,10 +632,6 @@ set(CMAKE_C_FLAGS ${STK_C_FLAGS} CACHE STRING "CMake CXX Flags" FORCE)
 # for shared libraries
 #
 set(STK_EXPORT_HEADER_TEMPLATE "${STK_SOURCE_DIR}/Libs/stkExport.h.in")
-
-
-
-
 
 
 

@@ -20,7 +20,7 @@ class STK_HYPERTHERMIA_EXPORT stkThermalField : public QObject
 	Q_OBJECT
 
 public:
-	stkThermalField(QObject *parent);
+	stkThermalField(QObject *parent = NULL);
 	~stkThermalField();
 
 private:
