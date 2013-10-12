@@ -12,7 +12,7 @@ if(DEFINED STK_DIR AND NOT EXISTS ${STK_DIR})
 endif()
 
 # Set dependency list
-set(STK_DEPENDENCIES VTK DCMTK OpenIGTLink)
+set(STK_DEPENDENCIES VTK ${ITK_EXTERNAL_NAME} DCMTK OpenIGTLink)
 
 # Include dependent projects if any
 SlicerMacroCheckExternalProjectDependency(STK)
