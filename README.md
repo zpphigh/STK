@@ -10,14 +10,21 @@ Supported Platform
 2. Linux & gcc
 3. The MacOS IS NOT supported.
 
+Toolkit Dependency
+------------
+1. VTK
+2. ITK
+3. CTK
+4. IGSTK
+5. OpenIGTLink
+6. DCMTK
+
 Planned Features
 ------------
 
-1. Microwave Ablation Hyperthermia Surgery Planning 
-2. Magnetic Induction Hyperthermia Surgery Planning 
-3. Image Guided Intervention Surgery Navigation
-4. Realtime US/CT/MR Image Fusion for Surgery Navigation
-5. Robotics Assisted Surgery
+1. Hyperthermia Surgery Planning 
+2. Image Guided Surgery Navigation
+3. Robotics Assisted Surgery
 
 
 Contributing
