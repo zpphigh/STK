@@ -1,9 +1,9 @@
 project(stkAuroraTrackerApp)
 
-find_package(IGSTK REQUIRED)
+#
+# 3rd party dependencies
+#
 include(${IGSTK_USE_FILE})
-
-find_package(OpenIGTLink REQUIRED)
 include(${OpenIGTLink_USE_FILE})
 
 #

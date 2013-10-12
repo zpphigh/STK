@@ -14,8 +14,8 @@ project(STKHyperthermia)
 #
 # 3rd party dependencies
 #
-#include(${VTK_USE_FILE})
-
+include(${VTK_USE_FILE})
+include(${ITK_USE_FILE})
 
 # CMake modules
 set(CMAKE_MODULE_PATH ${stkHyperthermia_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
