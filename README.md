@@ -13,10 +13,8 @@ Toolkit Dependency
 ------------
 1. VTK
 2. ITK
-3. CTK
+3. OpenIGTLink
 4. IGSTK
-5. OpenIGTLink
-6. DCMTK
 
 Planned Features
 ------------
