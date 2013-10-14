@@ -8,7 +8,6 @@ Supported Platform
 ------------
 1. Windows & MSVC
 2. Linux & gcc
-3. The MacOS IS NOT supported.
 
 Toolkit Dependency
 ------------
