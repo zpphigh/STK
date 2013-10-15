@@ -60,9 +60,12 @@ if(${add_project})
         CMAKE_CACHE_ARGS
           ${ep_common_cache_args}
           ${ep_project_include_arg}
+          -DBUILD_TESTING:BOOL=ON 
           -DBUILD_SHARED_LIBS:BOOL=OFF
           -DIGSTK_USE_OpenIGTLink:BOOL=ON
           -DIGSTK_USE_Qt:BOOL=ON 
+          -DIGSTK_USE_Ascension3DGTracker:BOOL=ON 
+          -DIGSTK_TEST_Ascension3DGTracker_ATTACHED:BOOL=ON
         )
       set(IGSTK_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
