@@ -290,7 +290,7 @@ stk_enable_option(SurgeryNavigation "Enable SurgeryNavigation support" ON
                   STK_LIB_SurgeryNavigation)
 
 # The STK infrastructure for SurgeryNavigation support. 
-stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" ON
+stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" OFF
                   STK_LIB_RoboticSurgery)
 
 # The STK infrastructure for SurgeryNavigation support. 
@@ -349,13 +349,19 @@ endif()
 #
 
 stk_lib_option(Hyperthermia
-               "Build the Hyperthermia library" ON)
+               "Build the Hyperthermia library" ON
+				CTK_ENABLE_Hyperthermia
+				)
 
 stk_lib_option(RoboticSurgery
-               "Build the RoboticSurgery library" ON)
+               "Build the RoboticSurgery library" OFF
+				CTK_ENABLE_RoboticSurgery
+				)
 
 stk_lib_option(SurgeryNavigation
-               "Build the SurgeryNavigation library" ON)
+               "Build the SurgeryNavigation library" ON
+				CTK_ENABLE_SurgeryNavigation
+				)
 
 
 
@@ -374,24 +380,24 @@ set(STK_ENABLED_LIBS ${_enabled_libs} CACHE INTERNAL "" FORCE)
 #
 
 stk_app_option(stkHyperthermiaApp
-               "Build the Hyperthermia demo application" ON
-               STK_BUILD_EXAMPLES)
+               "Build the Hyperthermia demo application" OFF
+               STK_BUILD_EXAMPLES AND CTK_ENABLE_Hyperthermia )
 
 stk_app_option(stkRobotUR5Server
                "Build the Universal Robot UR5 Server example application" OFF
-               STK_BUILD_EXAMPLES)
+               STK_BUILD_EXAMPLES AND CTK_ENABLE_RoboticSurgery)
 
 stk_app_option(stkRobotUR5Simulator
                "Build the Universal Robot UR5 Simulator example application" OFF
-               STK_BUILD_EXAMPLES)
+               STK_BUILD_EXAMPLES AND CTK_ENABLE_RoboticSurgery)
 
 stk_app_option(stkAuroraTrackerApp
-               "Build the NDI Aurora Tracker application" ON
-               STK_BUILD_EXAMPLES)
+               "Build the NDI Aurora Tracker application" OFF
+               STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
 
 stk_app_option(stkPolarisTrackerApp
-               "Build the NDI Polaris Tracker application" ON
-               STK_BUILD_EXAMPLES)
+               "Build the NDI Polaris Tracker application" OFF
+               STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
 
 
 # Save the set of enabled apps in a cache file
