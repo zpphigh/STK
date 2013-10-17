@@ -51,6 +51,7 @@ if(${add_project})
         BINARY_DIR ${proj}-build
         PREFIX ${proj}${ep_suffix}
         ${location_args}
+        DOWNLOAD_COMMAND ""
         CMAKE_GENERATOR ${gen}
         UPDATE_COMMAND ""
         BUILD_COMMAND ""
