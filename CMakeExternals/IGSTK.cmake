@@ -64,8 +64,8 @@ if(${add_project})
           -DBUILD_SHARED_LIBS:BOOL=OFF
           -DIGSTK_USE_OpenIGTLink:BOOL=ON
           -DIGSTK_USE_Qt:BOOL=ON 
-          -DIGSTK_USE_Ascension3DGTracker:BOOL=ON 
-          -DIGSTK_TEST_Ascension3DGTracker_ATTACHED:BOOL=ON
+          #-DIGSTK_USE_Ascension3DGTracker:BOOL=ON 
+          #-DIGSTK_TEST_Ascension3DGTracker_ATTACHED:BOOL=ON
         )
       set(IGSTK_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 

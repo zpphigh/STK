@@ -531,7 +531,6 @@ stkFunctionGenerateProjectXml(${STK_BINARY_DIR} ${PROJECT_NAME} "${target_direct
 #-----------------------------------------------------------------------------
 set(STK_POSSIBLE_DEPENDENCIES
   VTK
-  DCMTK
   OpenIGTLink
   ITK
   IGSTK
