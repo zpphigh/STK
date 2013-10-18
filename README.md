@@ -16,9 +16,12 @@ Toolkit Dependency
 3. OpenIGTLink
 4. IGSTK
 
+Build Instruction
+------------
+We assume you put the source for external project ITK, VTK, OpenIGTLink and IGSTK in the cmake superbuild directory, and the build process will use those files as external projects.
+
 Planned Features
 ------------
-
 1. Hyperthermia Surgery Planning 
 2. Image Guided Surgery Navigation
 3. Robotics Assisted Surgery
