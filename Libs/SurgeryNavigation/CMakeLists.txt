@@ -47,7 +47,9 @@ set(KIT_SRCS
 	stkPolarisTrackerWidget.h
 	stkPolarisTrackerWidget.cpp
 	stkPivotCalibrationWidget.h
-	stkPivotCalibrationWidget.cpp
+	stkPivotCalibrationWidget.cpp	
+	stkPolarisPivotCalibrationWidget.h
+	stkPolarisPivotCalibrationWidget.cpp
   )
 
 
@@ -62,6 +64,7 @@ set(KIT_MOC_SRCS
 	stkPolarisTrackerTool.h
 	stkPolarisTrackerWidget.h
 	stkPivotCalibrationWidget.h
+	stkPolarisPivotCalibrationWidget.h
   )
 
 
@@ -70,6 +73,7 @@ set(KIT_UI_FORMS
 	stkAuroraTrackerWidget.ui
 	stkPolarisTrackerWidget.ui
 	stkPivotCalibrationWidget.ui
+	stkPolarisPivotCalibrationWidget.ui
 )
 
 # Resources
