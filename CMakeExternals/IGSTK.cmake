@@ -16,6 +16,7 @@ if(${add_project})
   set(proj_DEPENDENCIES)
 
   list(APPEND STK_DEPENDENCIES ${proj})
+  list(APPEND proj_DEPENDENCIES ITK)
 
   set(${IGSTK_enabling_variable}_INCLUDE_DIRS IGSTK_INCLUDE_DIR)
   set(${IGSTK_enabling_variable}_FIND_PACKAGE_CMD IGSTK)
@@ -66,6 +67,8 @@ if(${add_project})
           -DIGSTK_USE_Qt:BOOL=ON 
           #-DIGSTK_USE_Ascension3DGTracker:BOOL=ON 
           #-DIGSTK_TEST_Ascension3DGTracker_ATTACHED:BOOL=ON
+        DEPENDS
+          ${proj_DEPENDENCIES}
         )
       set(IGSTK_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 

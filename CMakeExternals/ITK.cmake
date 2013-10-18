@@ -47,8 +47,8 @@ if(${add_project})
 
   #     message(STATUS "Adding project:${proj}")
       ExternalProject_Add(${proj}
-        SOURCE_DIR ${CMAKE_BINARY_DIR}/ITKv4
-        BINARY_DIR ITKv4-build
+        SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
+        BINARY_DIR ${proj}-build
         PREFIX ${proj}${ep_suffix}
         #${location_args}
         DOWNLOAD_COMMAND ""
