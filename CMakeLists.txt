@@ -530,6 +530,7 @@ stkFunctionGenerateProjectXml(${STK_BINARY_DIR} ${PROJECT_NAME} "${target_direct
 # STK dependencies - Projects should be TOPOLOGICALLY ordered
 #-----------------------------------------------------------------------------
 set(STK_POSSIBLE_DEPENDENCIES
+  zlib
   DCMTK
   VTK
   ITK  
