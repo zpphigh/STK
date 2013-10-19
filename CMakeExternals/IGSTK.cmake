@@ -58,8 +58,8 @@ if(${add_project})
         INSTALL_COMMAND ""
         CMAKE_GENERATOR ${gen}
         CMAKE_ARGS
-          #-DIGSTK_INSTALL_BINDIR:STRING=bin/${CMAKE_CFG_INTDIR}
-          #-DIGSTK_INSTALL_LIBDIR:STRING=lib/${CMAKE_CFG_INTDIR}
+          -DIGSTK_INSTALL_BINDIR:STRING=bin/${CMAKE_CFG_INTDIR}
+          -DIGSTK_INSTALL_LIBDIR:STRING=lib/${CMAKE_CFG_INTDIR}
         CMAKE_CACHE_ARGS
           ${ep_common_cache_args}
           ${ep_project_include_arg}
