@@ -68,7 +68,7 @@ if(${add_project} OR STK_LIB_Scripting/Python/Core_PYTHONQT_USE_VTK)
           ${additional_vtk_cmakevars}
           -DVTK_WRAP_TCL:BOOL=OFF
           -DVTK_USE_TK:BOOL=OFF
-          -DVTK_WRAP_PYTHON:BOOL=${STK_LIB_Scripting/Python/Core_PYTHONQT_USE_VTK}
+          -DVTK_WRAP_PYTHON:BOOL=OFF
           -DVTK_WRAP_JAVA:BOOL=OFF
 		  -DBUILD_TESTING:BOOL=OFF
 		  -DBUILD_EXAMPLES:BOOL=OFF
