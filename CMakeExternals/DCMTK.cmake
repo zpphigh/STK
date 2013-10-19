@@ -5,6 +5,7 @@
 stkMacroShouldAddExternalproject(DCMTK_LIBRARIES add_project)
 if(${add_project})
 
+  message("DCMTK SuperBuild")
   # Sanity checks
   if(DEFINED DCMTK_DIR AND NOT EXISTS ${DCMTK_DIR})
     message(FATAL_ERROR "DCMTK_DIR variable is defined but corresponds to non-existing directory")
@@ -48,20 +49,21 @@ if(${add_project})
       #message(STATUS "Adding project:${proj}")
       ExternalProject_Add(${proj}
         SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
-        BINARY_DIR ${proj}-build
+        BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build
         PREFIX ${proj}${ep_suffix}
         ${location_args}
         DOWNLOAD_COMMAND ""
         CMAKE_GENERATOR ${gen}
         UPDATE_COMMAND ""
         BUILD_COMMAND ""
+		INSTALL_COMMAND ""
         CMAKE_ARGS
-          -DDCMTK_INSTALL_BINDIR:STRING=bin/${CMAKE_CFG_INTDIR}
-          -DDCMTK_INSTALL_LIBDIR:STRING=lib/${CMAKE_CFG_INTDIR}
+         # -DDCMTK_INSTALL_BINDIR:STRING=bin/${CMAKE_CFG_INTDIR}
+         # -DDCMTK_INSTALL_LIBDIR:STRING=lib/${CMAKE_CFG_INTDIR}
         CMAKE_CACHE_ARGS
           ${ep_common_cache_args}
           ${ep_project_include_arg}
-          -DBUILD_SHARED_LIBS:BOOL=OFF
+          -DBUILD_SHARED_LIBS:BOOL=ON
           -DDCMTK_WITH_DOXYGEN:BOOL=OFF
           -DDCMTK_WITH_ZLIB:BOOL=OFF # see github issue #25
           -DDCMTK_WITH_OPENSSL:BOOL=OFF # see github issue #25
@@ -71,8 +73,10 @@ if(${add_project})
           -DDCMTK_WITH_ICONV:BOOL=OFF  # see github issue #178
           -DDCMTK_FORCE_FPIC_ON_UNIX:BOOL=ON
           -DDCMTK_OVERWRITE_WIN32_COMPILER_FLAGS:BOOL=OFF
+        DEPENDS
+          ${proj_DEPENDENCIES}
         )
-      set(DCMTK_DIR ${ep_install_dir})
+      set(DCMTK_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
   # This was used during heavy development on DCMTK itself.
   # Disabling it for now. (It also leads to to build errors

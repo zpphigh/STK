@@ -4,6 +4,8 @@
 
 stkMacroShouldAddExternalproject(IGSTK_LIBRARIES add_project)
 if(${add_project})
+  
+  message("IGSTK SuperBuild")
 
   # Sanity checks
   if(DEFINED IGSTK_DIR AND NOT EXISTS ${IGSTK_DIR})

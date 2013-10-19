@@ -9,4 +9,5 @@ set(target_libraries
   OpenIGTLink_LIBRARIES
   IGSTK_LIBRARIES
   ITK_LIBRARIES
+  DCMTK_LIBRARIES
   )
