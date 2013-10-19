@@ -67,6 +67,9 @@ if(${add_project})
           -DBUILD_SHARED_LIBS:BOOL=OFF
           -DIGSTK_USE_OpenIGTLink:BOOL=ON
           -DIGSTK_USE_Qt:BOOL=OFF 
+          -DITK_DIR:PATH=${ITK_DIR}
+          -DVTK_DIR:PATH=${VTK_DIR}
+          -DOpenIGTLink_DIR:PATH=${OpenIGTLink_DIR}
           #-DIGSTK_USE_Ascension3DGTracker:BOOL=ON 
           #-DIGSTK_TEST_Ascension3DGTracker_ATTACHED:BOOL=ON
         DEPENDS
