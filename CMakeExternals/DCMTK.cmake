@@ -49,17 +49,17 @@ if(${add_project})
       #message(STATUS "Adding project:${proj}")
       ExternalProject_Add(${proj}
         SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
-        BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build
+        BINARY_DIR ${proj}-build
         PREFIX ${proj}${ep_suffix}
         ${location_args}
         DOWNLOAD_COMMAND ""
         CMAKE_GENERATOR ${gen}
         UPDATE_COMMAND ""
-        BUILD_COMMAND ""
+        #BUILD_COMMAND ""
 		INSTALL_COMMAND ""
         CMAKE_ARGS
-         # -DDCMTK_INSTALL_BINDIR:STRING=bin/${CMAKE_CFG_INTDIR}
-         # -DDCMTK_INSTALL_LIBDIR:STRING=lib/${CMAKE_CFG_INTDIR}
+          -DDCMTK_INSTALL_BINDIR:STRING=bin/${CMAKE_CFG_INTDIR}
+          -DDCMTK_INSTALL_LIBDIR:STRING=lib/${CMAKE_CFG_INTDIR}
         CMAKE_CACHE_ARGS
           ${ep_common_cache_args}
           ${ep_project_include_arg}
