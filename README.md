@@ -15,6 +15,7 @@ Toolkit Dependency
 2. ITK
 3. OpenIGTLink
 4. IGSTK
+5. DCMTK
 
 Build Instruction
 ------------
