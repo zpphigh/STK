@@ -75,13 +75,6 @@ stkPolarisTracker::stkPolarisTracker(QObject *parent)
 	d->Tracker->AddObserver( igstk::TrackerUpdateStatusErrorEvent(), d->errorObserver );
 }
 
-igstk::Tracker::Pointer stkPolarisTracker::getTrackerPointer()
-{
-	Q_D(stkPolarisTracker);
-	return d->Tracker;
-}
-
-
 stkPolarisTracker::~stkPolarisTracker()
 {
 	Close();
@@ -224,7 +217,7 @@ void stkPolarisTracker::AttachTrackerTool(QString name,  QString  romFile)
 {
 	Q_D(stkPolarisTracker);
 
-	d->TrackerTools[name] = new stkPolarisTrackerTool(name,romFile,this);
+	d->TrackerTools[name] = new stkPolarisTrackerTool(name,romFile,d->Tracker);
 }
 
 bool stkPolarisTracker::DetachTrackerTool(QString name)

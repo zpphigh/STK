@@ -28,7 +28,7 @@ public:
 	float quaternion[4];
 };
 
-stkPolarisTrackerTool::stkPolarisTrackerTool(QString _name,  QString  romFile, stkPolarisTracker* tracker)
+stkPolarisTrackerTool::stkPolarisTrackerTool(QString _name,  QString  romFile, igstk::PolarisTracker::Pointer tracker)
 	: stkTrackerTool(NULL),d_ptr(new stkPolarisTrackerToolPrivate)
 {
 	Q_D(stkPolarisTrackerTool);
@@ -42,7 +42,7 @@ stkPolarisTrackerTool::stkPolarisTrackerTool(QString _name,  QString  romFile, s
 	d->trackerTool->RequestSelectWirelessTrackerTool();
 	d->trackerTool->RequestSetSROMFileName(romFile.toAscii().data());
 	d->trackerTool->RequestConfigure();
-	d->trackerTool->RequestAttachToTracker( tracker->getTrackerPointer() );
+	d->trackerTool->RequestAttachToTracker( tracker);
 
 	d->coordSystemAObserver = igstk::TransformObserver::New();
 	d->coordSystemAObserver->ObserveTransformEventsFrom( d->trackerTool );

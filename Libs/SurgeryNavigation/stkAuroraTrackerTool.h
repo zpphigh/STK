@@ -10,6 +10,7 @@
 // STK includes
 #include "stkSurgeryNavigationExport.h"
 
+#include "igstkAuroraTracker.h"
 #include "igstkTrackerTool.h"
 #include "stkTrackerTool.h"
 
@@ -20,7 +21,7 @@ class STK_SURGERYNAVIGATION_EXPORT stkAuroraTrackerTool : public stkTrackerTool
 	Q_OBJECT
 
 public:
-	stkAuroraTrackerTool(QString _name, int toolDof ,int portNumber, int channelNumber, stkAuroraTracker* tracker);
+	stkAuroraTrackerTool(QString _name, int toolDof ,int portNumber, int channelNumber, igstk::AuroraTracker::Pointer tracker);
 	~stkAuroraTrackerTool();
 
 	virtual void SetSensorOffset(float x, float y, float z);

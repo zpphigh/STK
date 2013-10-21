@@ -50,8 +50,6 @@ public:
 	// follow, then you will start receiving transforms with repeated values. 
 	virtual void SetFrequency( double frequencyInHz );
 
-	virtual igstk::Tracker::Pointer getTrackerPointer();
-
 	int comPortNum() const;
 	void setComPortNum(int num);
 
