@@ -42,6 +42,8 @@ endforeach()
 project(STK)
 #-----------------------------------------------------------------------------
 
+#We may try to find a previous build slicer to skip some external project builds
+find_package(Slicer)
 
 #-----------------------------------------------------------------------------
 # Library mode: SHARED (default) or STATIC
