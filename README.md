@@ -5,7 +5,7 @@ Computer Assited Surgery Toolkit
 
 Development and Supported Platforms
 ------------
-1. Windows 7 x64 with Microsoft Visual Studio 2008
+1. Windows 7 with Microsoft Visual Studio 2008
 2. Ubuntu 13.10 with gcc
 
 Toolkit Dependency
@@ -16,9 +16,6 @@ Toolkit Dependency
 4. IGSTK
 5. DCMTK
 
-Build Instruction
-------------
-We assume you put the source for external project ITK, VTK, OpenIGTLink and IGSTK in the cmake superbuild directory, and the build process will use those files as external projects.
 
 Planned Features
 ------------
