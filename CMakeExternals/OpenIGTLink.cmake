@@ -43,8 +43,8 @@ if(${add_project})
         SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
         BINARY_DIR ${proj}-build
         PREFIX ${proj}${ep_suffix}
-        #${location_args}
-        DOWNLOAD_COMMAND ""
+        ${location_args}
+        #DOWNLOAD_COMMAND ""
         INSTALL_COMMAND ""
         CMAKE_GENERATOR ${gen}
         CMAKE_CACHE_ARGS
