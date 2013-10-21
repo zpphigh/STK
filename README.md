@@ -2,12 +2,11 @@ STK
 ===
 Computer Assited Surgery Toolkit
 
-Curently, the initial project CMake files and directory sturctures are imitating the famous CTK project.
 
-Supported Platform
+Development and Supported Platforms
 ------------
-1. Windows & MSVC
-2. Linux & gcc
+1. Windows 7 x64 with Microsoft Visual Studio 2008
+2. Ubuntu 13.10 with gcc
 
 Toolkit Dependency
 ------------
