@@ -290,7 +290,7 @@ stk_enable_option(SurgeryNavigation "Enable SurgeryNavigation support" ON
                   STK_LIB_SurgeryNavigation)
 
 # The STK infrastructure for SurgeryNavigation support. 
-stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" OFF
+stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" ON
                   STK_LIB_RoboticSurgery)
 
 # The STK infrastructure for SurgeryNavigation support. 
@@ -301,20 +301,13 @@ stk_enable_option(Hyperthermia "Enable Hyperthermia support" ON
 # Special "BUILD ALL" options
 
 # Build all STK plug-ins
-option(STK_BUILD_ALL_PLUGINS "Build all STK plug-ins" OFF)
+#option(STK_BUILD_ALL_PLUGINS "Build all STK plug-ins" OFF)
 
 # Build all STK libraries
-option(STK_BUILD_ALL_LIBRARIES "Build all STK libraries" OFF)
+option(STK_BUILD_ALL_LIBRARIES "Build all STK libraries" ON)
 
 # Build all STK applications
-option(STK_BUILD_ALL_APPS "Build all STK applications" OFF)
-
-# Build everything
-option(STK_BUILD_ALL "Build everything in STK" OFF)
-if(STK_BUILD_ALL)
-  set(STK_BUILD_ALL_LIBRARIES 1)
-  set(STK_BUILD_ALL_APPS 1)
-endif()
+option(STK_BUILD_ALL_APPS "Build all STK applications" ON)
 
 
 #-----------------------------------------------------------------------------
@@ -354,7 +347,7 @@ stk_lib_option(Hyperthermia
 				)
 
 stk_lib_option(RoboticSurgery
-               "Build the RoboticSurgery library" OFF
+               "Build the RoboticSurgery library" ON
 				CTK_ENABLE_RoboticSurgery
 				)
 
@@ -380,23 +373,23 @@ set(STK_ENABLED_LIBS ${_enabled_libs} CACHE INTERNAL "" FORCE)
 #
 
 stk_app_option(stkHyperthermiaApp
-               "Build the Hyperthermia demo application" OFF
+               "Build the Hyperthermia demo application" ON
                STK_BUILD_EXAMPLES AND CTK_ENABLE_Hyperthermia )
 
 stk_app_option(stkRobotUR5Server
-               "Build the Universal Robot UR5 Server example application" OFF
+               "Build the Universal Robot UR5 Server example application" ON
                STK_BUILD_EXAMPLES AND CTK_ENABLE_RoboticSurgery)
 
 stk_app_option(stkRobotUR5Simulator
-               "Build the Universal Robot UR5 Simulator example application" OFF
+               "Build the Universal Robot UR5 Simulator example application" ON
                STK_BUILD_EXAMPLES AND CTK_ENABLE_RoboticSurgery)
 
 stk_app_option(stkAuroraTrackerApp
-               "Build the NDI Aurora Tracker application" OFF
+               "Build the NDI Aurora Tracker application" ON
                STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
 
 stk_app_option(stkPolarisTrackerApp
-               "Build the NDI Polaris Tracker application" OFF
+               "Build the NDI Polaris Tracker application" ON
                STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
 
 

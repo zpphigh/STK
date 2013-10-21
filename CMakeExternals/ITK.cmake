@@ -4,7 +4,6 @@
 stkMacroShouldAddExternalproject(ITK_LIBRARIES add_project)
 if(${add_project})
  
- message("ITK SuperBuild")
 
   # Sanity checks
   if(DEFINED ITK_DIR AND NOT EXISTS ${ITK_DIR})
