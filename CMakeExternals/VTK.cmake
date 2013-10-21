@@ -59,7 +59,7 @@ if(${add_project} OR STK_LIB_Scripting/Python/Core_PYTHONQT_USE_VTK)
         BINARY_DIR ${proj}-build
         PREFIX ${proj}${ep_suffix}
         ${location_args}
-        DOWNLOAD_COMMAND ""
+        #DOWNLOAD_COMMAND ""
         UPDATE_COMMAND ""
         INSTALL_COMMAND ""
         CMAKE_GENERATOR ${gen}
