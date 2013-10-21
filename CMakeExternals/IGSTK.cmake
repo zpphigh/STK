@@ -39,7 +39,7 @@ if(${add_project})
         PREFIX ${proj}${ep_suffix}
         GIT_REPOSITORY git://igstk.org/IGSTK.git
 		GIT_TAG bb7dfd4683026a
-	    DOWNLOAD_COMMAND ""
+	    #DOWNLOAD_COMMAND ""
         UPDATE_COMMAND ""
         INSTALL_COMMAND ""
         CMAKE_GENERATOR ${gen}
