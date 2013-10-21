@@ -40,8 +40,6 @@ public:
 	virtual bool FetchToolPosition() = 0;
 	virtual bool GetPosition(float* pos, float* quat) = 0;
   
-	virtual igstk::TrackerTool::Pointer GetTrackerToolPointer() = 0;
-
 signals:
 	void dataValidChanged(bool);
 

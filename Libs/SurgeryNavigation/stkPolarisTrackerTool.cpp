@@ -60,14 +60,6 @@ void stkPolarisTrackerTool::DetachFromTracker()
 	d->trackerTool->RequestDetachFromTracker();
 }
 
-
-igstk::TrackerTool::Pointer stkPolarisTrackerTool::GetTrackerToolPointer()
-{
-	Q_D(stkPolarisTrackerTool);
-	return d->trackerTool;
-}
-
-
 bool stkPolarisTrackerTool::FetchToolPosition()
 {
 	Q_D(stkPolarisTrackerTool);

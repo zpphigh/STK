@@ -73,13 +73,6 @@ void stkAuroraTrackerTool::DetachFromTracker()
 }
 
 
-igstk::TrackerTool::Pointer stkAuroraTrackerTool::GetTrackerToolPointer()
-{
-	Q_D(stkAuroraTrackerTool);
-	return d->trackerTool;
-}
-
-
 bool stkAuroraTrackerTool::FetchToolPosition()
 {
 	Q_D(stkAuroraTrackerTool);

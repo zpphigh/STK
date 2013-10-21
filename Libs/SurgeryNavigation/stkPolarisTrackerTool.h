@@ -29,8 +29,6 @@ public:
 	virtual bool FetchToolPosition();
 	virtual bool GetPosition(float* pos, float* quat);
 
-	virtual igstk::TrackerTool::Pointer GetTrackerToolPointer();
-
 protected:
 	QScopedPointer<stkPolarisTrackerToolPrivate> d_ptr;
 

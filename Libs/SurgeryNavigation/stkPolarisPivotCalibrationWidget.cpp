@@ -104,8 +104,8 @@ void stkPolarisPivotCalibrationWidget::on_initializeButton_clicked()
 	unsigned int numberOfFrames =	static_cast<unsigned int>( d->numberOfSamplesSpinBox->value() );
 
 	d->pivotCalibrationWidget->RequestSetDelay( delay );
-	igstk::TrackerTool::Pointer genericTrackerTool = d->tracker->GetTrackerTool("PivotTool")->GetTrackerToolPointer();
-	d->pivotCalibrationWidget->RequestInitialize(numberOfFrames,genericTrackerTool );
+	//igstk::TrackerTool::Pointer genericTrackerTool = d->tracker->GetTrackerTool("PivotTool")->GetTrackerToolPointer();
+	//d->pivotCalibrationWidget->RequestInitialize(numberOfFrames,genericTrackerTool );
 }
 
 
