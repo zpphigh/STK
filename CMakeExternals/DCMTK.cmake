@@ -24,22 +24,10 @@ if(${add_project})
   if(STK_SUPERBUILD)
 
     if(NOT DEFINED DCMTK_DIR)
-      set(revision_tag ae3b946f6e6231)
-      if(${proj}_REVISION_TAG)
-        set(revision_tag ${${proj}_REVISION_TAG})
-      endif()
       
-      set(location_args )
-      if(${proj}_URL)
-        set(location_args URL ${${proj}_URL})
-      elseif(${proj}_GIT_REPOSITORY)
-        set(location_args GIT_REPOSITORY ${${proj}_GIT_REPOSITORY}
-                          GIT_TAG ${revision_tag})
-      else()
-        set(location_args GIT_REPOSITORY "${git_protocol}://git.dcmtk.org/dcmtk.git"
-                          GIT_TAG ${revision_tag})
-      endif()
-      
+	  set(${proj}_REPOSITORY ${git_protocol}://github.com/commontk/DCMTK.git)
+	  set(${proj}_GIT_TAG "f461865d1759854db56e4c840991c81c77e45bb9")
+
       set(ep_project_include_arg)
       if(CTEST_USE_LAUNCHERS)
         set(ep_project_include_arg
@@ -51,8 +39,9 @@ if(${add_project})
         SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
         BINARY_DIR ${proj}-build
         PREFIX ${proj}${ep_suffix}
-        ${location_args}
-        DOWNLOAD_COMMAND ""
+        GIT_REPOSITORY ${DCMTK_REPOSITORY}
+		GIT_TAG ${DCMTK_GIT_TAG}
+        #DOWNLOAD_COMMAND ""
         CMAKE_GENERATOR ${gen}
         UPDATE_COMMAND ""
         #BUILD_COMMAND ""
