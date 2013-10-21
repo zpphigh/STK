@@ -30,11 +30,20 @@ set(KIT_export_directive "STK_HYPERTHERMIA_EXPORT")
 set(KIT_SRCS
   stkThermalField.h
   stkThermalField.cpp
+  stkSurgeryRoute.h
+  stkSurgeryRoute.cpp
+  stkMicrowaveRoute.h
+  stkMicrowaveRoute.cpp
+  stkThermalField.h
+  stkThermalField.cpp
   )
 
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
+  stkThermalField.h
+  stkSurgeryRoute.h
+  stkMicrowaveRoute.h
   stkThermalField.h
   )
 
