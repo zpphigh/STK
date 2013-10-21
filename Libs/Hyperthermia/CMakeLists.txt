@@ -34,6 +34,8 @@ set(KIT_SRCS
   stkSurgeryRoute.cpp
   stkMicrowaveRoute.h
   stkMicrowaveRoute.cpp
+  stkThermalField.h
+  stkThermalField.cpp
   )
 
 
@@ -42,6 +44,7 @@ set(KIT_MOC_SRCS
   stkThermalField.h
   stkSurgeryRoute.h
   stkMicrowaveRoute.h
+  stkThermalField.h
   )
 
 
