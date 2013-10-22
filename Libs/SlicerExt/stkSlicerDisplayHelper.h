@@ -15,22 +15,22 @@
 // STK includes
 #include "stkSlicerExtExport.h"
 
-class stkSlicerExtPrivate;
-class STK_SLICEREXT_EXPORT stkSlicerExt : public QObject
+class stkSlicerDisplayHelperPrivate;
+class STK_SLICEREXT_EXPORT stkSlicerDisplayHelper : public QObject
 {
 	Q_OBJECT
 
 public:
-	stkSlicerExt(QObject *parent = 0);
-	~stkSlicerExt();	
+	stkSlicerDisplayHelper(QObject *parent = 0);
+	~stkSlicerDisplayHelper();	
 
 
 	static void ResetFocalPoint();
 
 protected:
-	QScopedPointer<stkSlicerExtPrivate> d_ptr;
+	QScopedPointer<stkSlicerDisplayHelperPrivate> d_ptr;
 
 private:	
-	Q_DECLARE_PRIVATE(stkSlicerExt);
-	Q_DISABLE_COPY(stkSlicerExt);	
+	Q_DECLARE_PRIVATE(stkSlicerDisplayHelper);
+	Q_DISABLE_COPY(stkSlicerDisplayHelper);	
 };

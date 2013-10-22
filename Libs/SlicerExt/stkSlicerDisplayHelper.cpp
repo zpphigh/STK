@@ -1,4 +1,4 @@
-#include "stkSlicerExt.h"
+#include "stkSlicerDisplayHelper.h"
 
 #include <qSlicerApplication.h>
 #include <qSlicerLayoutManager.h>
@@ -17,28 +17,28 @@
 #include <vtkMRMLVolumePropertyNode.h>
 
 
-class stkSlicerExtPrivate
+class stkSlicerDisplayHelperPrivate
 {
 public:
 
 };
 
-stkSlicerExt::stkSlicerExt(QObject *parent)
-: QObject(parent),d_ptr(new stkSlicerExtPrivate)
+stkSlicerDisplayHelper::stkSlicerDisplayHelper(QObject *parent)
+: QObject(parent),d_ptr(new stkSlicerDisplayHelperPrivate)
 {
-	Q_D(stkSlicerExt);
+	Q_D(stkSlicerDisplayHelper);
 
 }
 
-stkSlicerExt::~stkSlicerExt()
+stkSlicerDisplayHelper::~stkSlicerDisplayHelper()
 {
-	Q_D(stkSlicerExt);
+	Q_D(stkSlicerDisplayHelper);
 }
 
 
 
 // --------------------------------------------------------------------------
-void stkSlicerExt::ResetFocalPoint()
+void stkSlicerDisplayHelper::ResetFocalPoint()
 {
 	qSlicerApplication * app = qSlicerApplication::application();
 	if (!app)	return;

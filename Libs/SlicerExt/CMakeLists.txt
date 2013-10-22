@@ -25,15 +25,15 @@ set(KIT_export_directive "STK_SLICEREXT_EXPORT")
 
 # Source files
 set(KIT_SRCS
-  stkSlicerExt.h
-  stkSlicerExt.cpp
+  stkSlicerDisplayHelper.h
+  stkSlicerDisplayHelper.cpp
   stkMRMLVolumeNodeDisplayHelper.h
   stkMRMLVolumeNodeDisplayHelper.cpp
   )
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
-  stkSlicerExt.h
+  stkSlicerDisplayHelper.h
   stkMRMLVolumeNodeDisplayHelper.h
   )
 
