@@ -25,6 +25,8 @@ public:
 	~stkSlicerExt();	
 
 
+	static void ResetFocalPoint();
+
 protected:
 	QScopedPointer<stkSlicerExtPrivate> d_ptr;
 
