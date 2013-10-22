@@ -17,7 +17,6 @@
 #include "stkSurgeryRoute.h"
 #include "math.h"
 
-#define SAFE_DELETE_ARRAY(p) { if(p) {delete[] (p); (p) = NULL;}}
 class stkThermalFieldPrivate;
 class STK_HYPERTHERMIA_EXPORT stkThermalField : public QObject
 {

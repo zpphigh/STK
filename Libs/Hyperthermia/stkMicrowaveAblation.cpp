@@ -2,6 +2,16 @@
 #include "stkMicrowaveRoute.h"
 #include "stkThermalField.h"
 
+#define m0 1093
+#define cc0 3372
+#define kk0 0.449
+#define mb 1060
+#define cb 3770
+#define wb0 0.0182
+#define Tb 37
+#define SatetyBound 30
+#define RtlZeroMemory(Destination,Length) memset((Destination),0,(Length))
+#define ZeroMemory RtlZeroMemory
 class stkMicrowaveAblationPrivate
 {
 public:
