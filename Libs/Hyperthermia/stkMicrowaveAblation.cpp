@@ -10,6 +10,7 @@
 #define wb0 0.0182
 #define Tb 37
 #define SatetyBound 30
+#define SAFE_DELETE_ARRAY(p) { if(p) {delete[] (p); (p) = NULL;}}
 #define RtlZeroMemory(Destination,Length) memset((Destination),0,(Length))
 #define ZeroMemory RtlZeroMemory
 class stkMicrowaveAblationPrivate
