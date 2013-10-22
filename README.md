@@ -16,6 +16,7 @@ Toolkit Dependency
 4. IGSTK
 5. DCMTK
 6. CTK
+7. 3DSlicer
 
 
 Planned Features
