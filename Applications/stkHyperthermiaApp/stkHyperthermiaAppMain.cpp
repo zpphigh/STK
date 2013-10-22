@@ -5,6 +5,7 @@
 #include "stkSurgeryRoute.h"
 #include "stkMicrowaveRoute.h"
 #include "stkHyperthermiaBase.h"
+#include "stkMicrowaveHyper.h"
 
 
 int main(int argc, char *argv[])
