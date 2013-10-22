@@ -19,6 +19,7 @@ ui_*.h
 *.ipch
 *.pro.user
 *~
+#*#
 *.autosave
 *.lastbuildstate
 *.manifest
