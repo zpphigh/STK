@@ -36,6 +36,10 @@ set(KIT_SRCS
   stkMicrowaveRoute.cpp
   stkThermalField.h
   stkThermalField.cpp
+  stkMicrowaveAblation.h
+  stkMicrowaveAblation.cpp
+  stkHyperFieldRange.h
+  stkHyperFieldRange.cpp
   )
 
 
@@ -45,6 +49,8 @@ set(KIT_MOC_SRCS
   stkSurgeryRoute.h
   stkMicrowaveRoute.h
   stkThermalField.h
+  stkMicrowaveAblation.h
+  stkHyperFieldRange.h
   )
 
 
