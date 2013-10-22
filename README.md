@@ -2,12 +2,11 @@ STK
 ===
 Computer Assited Surgery Toolkit
 
-Curently, the initial project CMake files and directory sturctures are imitating the famous CTK project.
 
-Supported Platform
+Development and Supported Platforms
 ------------
-1. Windows & MSVC
-2. Linux & gcc
+1. Windows 7 with Microsoft Visual Studio 2008
+2. Ubuntu 13.10 with gcc
 
 Toolkit Dependency
 ------------
@@ -17,9 +16,6 @@ Toolkit Dependency
 4. IGSTK
 5. DCMTK
 
-Build Instruction
-------------
-We assume you put the source for external project ITK, VTK, OpenIGTLink and IGSTK in the cmake superbuild directory, and the build process will use those files as external projects.
 
 Planned Features
 ------------

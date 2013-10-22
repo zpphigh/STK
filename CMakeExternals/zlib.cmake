@@ -30,10 +30,6 @@ if(${add_project})
 			-DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE})
 		endif()
 
-		if(NOT DEFINED git_protocol)
-			set(git_protocol "git")
-		endif()
-	
 		set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/zlib)
 		set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/zlib-build)
 		set(EP_INSTALL_DIR ${CMAKE_BINARY_DIR}/zlib-install)
@@ -43,11 +39,11 @@ if(${add_project})
         SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
         BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build
         PREFIX ${proj}${ep_suffix}
-		GIT_REPOSITORY "${git_protocol}://github.com/commontk/zlib.git"
+		GIT_REPOSITORY git://github.com/commontk/zlib.git
 		GIT_TAG "66a753054b356da85e1838a081aa94287226823e"
-        DOWNLOAD_COMMAND ""
+        #DOWNLOAD_COMMAND ""
         UPDATE_COMMAND ""
-        INSTALL_COMMAND ""
+        #INSTALL_COMMAND "" we need install zlib to useit
         CMAKE_GENERATOR ${gen}
         CMAKE_ARGS
 			${ep_common_cache_args}
@@ -55,7 +51,7 @@ if(${add_project})
         DEPENDS
           ${proj_DEPENDENCIES}
         )
-      set(zlib_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
+      set(zlib_DIR  ${EP_INSTALL_DIR})
 
 	  set(STK_ZLIB_ROOT ${zlib_DIR})
 	  set(STK_ZLIB_INCLUDE_DIR ${zlib_DIR}/include )

@@ -28,7 +28,7 @@ public:
 	float quaternion[4];
 };
 
-stkAuroraTrackerTool::stkAuroraTrackerTool(QString _name,  int toolDof ,int portNumber, int channelNumber, stkAuroraTracker* tracker)
+stkAuroraTrackerTool::stkAuroraTrackerTool(QString _name,  int toolDof ,int portNumber, int channelNumber, igstk::AuroraTracker::Pointer tracker)
 	: stkTrackerTool(NULL),d_ptr(new stkAuroraTrackerToolPrivate)
 {
 	Q_D(stkAuroraTrackerTool);
@@ -51,7 +51,7 @@ stkAuroraTrackerTool::stkAuroraTrackerTool(QString _name,  int toolDof ,int port
 
 	d->trackerTool->RequestSetPortNumber(portNumber);
 	d->trackerTool->RequestConfigure();
-	d->trackerTool->RequestAttachToTracker( tracker->getTrackerPointer() );
+	d->trackerTool->RequestAttachToTracker( tracker );
 
 	d->coordSystemAObserver = igstk::TransformObserver::New();
 	d->coordSystemAObserver->ObserveTransformEventsFrom( d->trackerTool );
@@ -70,13 +70,6 @@ void stkAuroraTrackerTool::DetachFromTracker()
 	Q_D(stkAuroraTrackerTool);
 
 	d->trackerTool->RequestDetachFromTracker();
-}
-
-
-igstk::TrackerTool::Pointer stkAuroraTrackerTool::GetTrackerToolPointer()
-{
-	Q_D(stkAuroraTrackerTool);
-	return d->trackerTool;
 }
 
 

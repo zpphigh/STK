@@ -5,7 +5,6 @@
 stkMacroShouldAddExternalproject(DCMTK_LIBRARIES add_project)
 if(${add_project})
 
-  message("DCMTK SuperBuild")
   # Sanity checks
   if(DEFINED DCMTK_DIR AND NOT EXISTS ${DCMTK_DIR})
     message(FATAL_ERROR "DCMTK_DIR variable is defined but corresponds to non-existing directory")
@@ -25,34 +24,31 @@ if(${add_project})
 
     if(NOT DEFINED DCMTK_DIR)
       
-	  set(${proj}_REPOSITORY ${git_protocol}://github.com/commontk/DCMTK.git)
-	  set(${proj}_GIT_TAG "f461865d1759854db56e4c840991c81c77e45bb9")
-
       set(ep_project_include_arg)
       if(CTEST_USE_LAUNCHERS)
         set(ep_project_include_arg
           "-DCMAKE_PROJECT_DCMTK_INCLUDE:FILEPATH=${CMAKE_ROOT}/Modules/CTestUseLaunchers.cmake")
       endif()
 
-      #message(STATUS "Adding project:${proj}")
+      #message("Adding project:${proj}")
       ExternalProject_Add(${proj}
         SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
         BINARY_DIR ${proj}-build
         PREFIX ${proj}${ep_suffix}
-        GIT_REPOSITORY ${DCMTK_REPOSITORY}
-		GIT_TAG ${DCMTK_GIT_TAG}
+        GIT_REPOSITORY git://github.com/commontk/DCMTK.git
+        GIT_TAG "f461865d1759854db56e4c840991c81c77e45bb9"
         #DOWNLOAD_COMMAND ""
         CMAKE_GENERATOR ${gen}
         UPDATE_COMMAND ""
         #BUILD_COMMAND ""
-		INSTALL_COMMAND ""
+        INSTALL_COMMAND ""
         CMAKE_ARGS
           -DDCMTK_INSTALL_BINDIR:STRING=bin/${CMAKE_CFG_INTDIR}
           -DDCMTK_INSTALL_LIBDIR:STRING=lib/${CMAKE_CFG_INTDIR}
-        CMAKE_CACHE_ARGS
+        CMAKE_ARGS
           ${ep_common_cache_args}
           ${ep_project_include_arg}
-          -DBUILD_SHARED_LIBS:BOOL=ON
+          -DBUILD_SHARED_LIBS:BOOL=OFF
           -DDCMTK_WITH_DOXYGEN:BOOL=OFF
           -DDCMTK_WITH_ZLIB:BOOL=OFF # see github issue #25
           -DDCMTK_WITH_OPENSSL:BOOL=OFF # see github issue #25
@@ -66,22 +62,6 @@ if(${add_project})
           ${proj_DEPENDENCIES}
         )
       set(DCMTK_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
-
-  # This was used during heavy development on DCMTK itself.
-  # Disabling it for now. (It also leads to to build errors
-  # with the XCode CMake generator on Mac).
-  #
-  #    ExternalProject_Add_Step(${proj} force_rebuild
-  #      COMMENT "Force ${proj} re-build"
-  #      DEPENDERS build    # Steps that depend on this step
-  #      ALWAYS 1
-  #      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${proj}-build
-  #      DEPENDS
-  #        ${proj_DEPENDENCIES}
-  #      )
-
-      # Since DCMTK is statically build, there is not need to add its corresponding
-      # library output directory to STK_EXTERNAL_LIBRARY_DIRS
 
     else()
       stkMacroEmptyExternalproject(${proj} "${proj_DEPENDENCIES}")

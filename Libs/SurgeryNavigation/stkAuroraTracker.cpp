@@ -75,11 +75,11 @@ stkAuroraTracker::stkAuroraTracker(QObject *parent)
 	d->Tracker->AddObserver( igstk::TrackerUpdateStatusErrorEvent(), d->errorObserver );
 }
 
-igstk::Tracker::Pointer stkAuroraTracker::getTrackerPointer()
-{
-	Q_D(stkAuroraTracker);
-	return d->Tracker;
-}
+//igstk::Tracker::Pointer stkAuroraTracker::getTrackerPointer()
+//{
+//	Q_D(stkAuroraTracker);
+//	return d->Tracker;
+//}
 
 
 stkAuroraTracker::~stkAuroraTracker()
@@ -228,7 +228,7 @@ void stkAuroraTracker::AttachTrackerTool(QString name, QString portNumber)
 	int port = portNumber.toInt();
 	int channelNumber = 0;
 
-	d->TrackerTools[name] = new stkAuroraTrackerTool(name,toolDof,port,channelNumber,this);
+	d->TrackerTools[name] = new stkAuroraTrackerTool(name,toolDof,port,channelNumber,d->Tracker);
 }
 
 void stkAuroraTracker::AttachTrackerTool5D(QString name, QString portNumber, QString channelNumber)
@@ -239,7 +239,7 @@ void stkAuroraTracker::AttachTrackerTool5D(QString name, QString portNumber, QSt
 	int port = portNumber.toInt();
 	int channel = channelNumber.toInt();
 
-	d->TrackerTools[name] = new stkAuroraTrackerTool(name,toolDof,port,channel,this);
+	d->TrackerTools[name] = new stkAuroraTrackerTool(name,toolDof,port,channel,d->Tracker);
 }
 
 

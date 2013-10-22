@@ -5,8 +5,6 @@
 stkMacroShouldAddExternalproject(IGSTK_LIBRARIES add_project)
 if(${add_project})
   
-  message("IGSTK SuperBuild")
-
   # Sanity checks
   if(DEFINED IGSTK_DIR AND NOT EXISTS ${IGSTK_DIR})
     message(FATAL_ERROR "IGSTK_DIR variable is defined but corresponds to non-existing directory")
@@ -26,22 +24,7 @@ if(${add_project})
   if(STK_SUPERBUILD)
 
     if(NOT DEFINED IGSTK_DIR)
-      set(revision_tag bb7dfd4683026a)					   
-      if(${proj}_REVISION_TAG)
-        set(revision_tag ${${proj}_REVISION_TAG})
-      endif()
-      
-      set(location_args )
-      if(${proj}_URL)
-        set(location_args URL ${${proj}_URL})
-      elseif(${proj}_GIT_REPOSITORY)
-        set(location_args GIT_REPOSITORY ${${proj}_GIT_REPOSITORY}
-                          GIT_TAG ${revision_tag})
-      else()
-        set(location_args GIT_REPOSITORY "${git_protocol}://igstk.org/IGSTK.git"
-                          GIT_TAG ${revision_tag})
-      endif()
-      
+     
       set(ep_project_include_arg)
       if(CTEST_USE_LAUNCHERS)
         set(ep_project_include_arg
@@ -52,8 +35,9 @@ if(${add_project})
         SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
         BINARY_DIR ${proj}-build
         PREFIX ${proj}${ep_suffix}
-        ${location_args}
-	    DOWNLOAD_COMMAND ""
+        GIT_REPOSITORY git://igstk.org/IGSTK.git
+		GIT_TAG bb7dfd4683026a
+	    #DOWNLOAD_COMMAND ""
         UPDATE_COMMAND ""
         INSTALL_COMMAND ""
         CMAKE_GENERATOR ${gen}
@@ -67,6 +51,7 @@ if(${add_project})
           -DBUILD_SHARED_LIBS:BOOL=OFF
           -DIGSTK_USE_OpenIGTLink:BOOL=ON
           -DIGSTK_USE_Qt:BOOL=OFF 
+          -DDCMTK_DIR:PATH=${DCMTK_DIR}
           -DITK_DIR:PATH=${ITK_DIR}
           -DVTK_DIR:PATH=${VTK_DIR}
           -DOpenIGTLink_DIR:PATH=${OpenIGTLink_DIR}

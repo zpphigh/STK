@@ -4,7 +4,6 @@
 stkMacroShouldAddExternalproject(ITK_LIBRARIES add_project)
 if(${add_project})
  
- message("ITK SuperBuild")
 
   # Sanity checks
   if(DEFINED ITK_DIR AND NOT EXISTS ${ITK_DIR})
@@ -27,39 +26,18 @@ if(${add_project})
 
     if(NOT DEFINED ITK_DIR)
 
-      set(revision_tag "v3.20.1")
-      if(${proj}_REVISION_TAG)
-        set(revision_tag ${${proj}_REVISION_TAG})
-      endif()
-      
-      set(location_args )
-      if(${proj}_URL)
-        set(location_args URL ${${proj}_URL})
-      elseif(${proj}_GIT_REPOSITORY)
-        set(location_args GIT_REPOSITORY ${${proj}_GIT_REPOSITORY}
-                          GIT_TAG ${revision_tag})
-      else()
-        set(location_args GIT_REPOSITORY "${git_protocol}://itk.org/ITK.git"
-                          GIT_TAG ${revision_tag})
-      endif()
-      
-      set(ep_project_include_arg)
-      if(CTEST_USE_LAUNCHERS)
-        set(ep_project_include_arg
-          "-DCMAKE_PROJECT_ITK_INCLUDE:FILEPATH=${CMAKE_ROOT}/Modules/CTestUseLaunchers.cmake")
-      endif()
-
-  #     message(STATUS "Adding project:${proj}")
+#     message(STATUS "Adding project:${proj}")
       ExternalProject_Add(${proj}
         SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
         BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build
         PREFIX ${proj}${ep_suffix}
-        #${location_args}
-        DOWNLOAD_COMMAND ""
+        GIT_REPOSITORY git://itk.org/ITK.git
+		GIT_TAG 237932867d8491db6a7745e6b4cc2b25f8e4470c
+        #DOWNLOAD_COMMAND ""
         UPDATE_COMMAND ""
         INSTALL_COMMAND ""
         CMAKE_GENERATOR ${gen}
-        CMAKE_ARGS
+        CMAKE_CACHE_ARGS
 			${ep_common_cache_args}
 			${ep_project_include_arg}
 			-DBUILD_TESTING:BOOL=OFF
