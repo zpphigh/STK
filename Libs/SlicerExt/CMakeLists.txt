@@ -27,11 +27,14 @@ set(KIT_export_directive "STK_SLICEREXT_EXPORT")
 set(KIT_SRCS
   stkSlicerExt.h
   stkSlicerExt.cpp
+  stkMRMLVolumeNodeDisplayHelper.h
+  stkMRMLVolumeNodeDisplayHelper.cpp
   )
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
   stkSlicerExt.h
+  stkMRMLVolumeNodeDisplayHelper.h
   )
 
 # UI files
