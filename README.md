@@ -15,6 +15,7 @@ Toolkit Dependency
 3. OpenIGTLink
 4. IGSTK
 5. DCMTK
+6. CTK
 
 
 Planned Features
@@ -36,7 +37,7 @@ Contributing
 
 Institution
 ------------
-* Tsinghua National Laboratory for Information Science and Technology
+* Tsinghua University
 * Department of Interventional Ultrasound, Chinese PLA General Hospital
 
 
