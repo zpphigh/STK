@@ -4,6 +4,7 @@
 #include "stkThermalField.h"
 #include "stkSurgeryRoute.h"
 #include "stkMicrowaveRoute.h"
+#include "stkHyperthermiaBase.h"
 
 
 int main(int argc, char *argv[])
@@ -12,5 +13,6 @@ int main(int argc, char *argv[])
 	stkThermalField* field = new stkThermalField;
 	stkSurgeryRoute* route = new stkSurgeryRoute;
 	stkMicrowaveRoute* microute = new stkMicrowaveRoute;
+	stkHyperthermiaBase* thbase = new stkHyperthermiaBase;
 	return a.exec();
 }

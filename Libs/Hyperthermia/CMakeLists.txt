@@ -40,6 +40,10 @@ set(KIT_SRCS
   stkMicrowaveAblation.cpp
   stkHyperFieldRange.h
   stkHyperFieldRange.cpp
+  stkHyperthermiaBase.h
+  stkHyperthermiaBase.cpp
+  stkHyperthermiaBase_Private.h
+  stkHyperthermiaBase_Private.cpp
   )
 
 
@@ -51,11 +55,14 @@ set(KIT_MOC_SRCS
   stkThermalField.h
   stkMicrowaveAblation.h
   stkHyperFieldRange.h
+  stkHyperthermiaBase.h
+  stkHyperthermiaBase_Private.h
   )
 
 
 # UI files
 set(KIT_UI_FORMS
+stkHyperthermiaBase.ui
 )
 
 # Resources
