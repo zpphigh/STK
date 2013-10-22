@@ -359,6 +359,11 @@ stk_lib_option(SurgeryNavigation
 				)
 
 
+stk_lib_option(SlicerExt
+               "Build the 3D Slicer Extention library" ON
+				CTK_ENABLE_SlicerExt
+				)
+
 
 # Save the set of enabled libs in a cache file
 set(_enabled_libs)
