@@ -23,19 +23,16 @@ include(${Slicer_USE_FILE})
 #
 set(KIT_export_directive "STK_SLICEREXT_EXPORT")
 
-
 # Source files
 set(KIT_SRCS
   stkSlicerExt.h
   stkSlicerExt.cpp
   )
 
-
 # Headers that should run through moc
 set(KIT_MOC_SRCS
   stkSlicerExt.h
   )
-
 
 # UI files
 set(KIT_UI_FORMS
@@ -45,11 +42,14 @@ set(KIT_UI_FORMS
 set(KIT_resources
 )
 
-
 # Includes
 set(KIT_INCLUDE_DIRECTORIES
-	${Slicer_Base_INCLUDE_DIRS}
 	${MRMLCore_INCLUDE_DIRS}
+	${Slicer_Libs_INCLUDE_DIRS}
+    ${Slicer_Base_INCLUDE_DIRS}
+    ${Slicer_ModuleLogic_INCLUDE_DIRS}
+    ${Slicer_ModuleMRML_INCLUDE_DIRS} 
+    ${KIT_INCLUDE_DIRECTORIES}
 )
 
 include_directories(${KIT_INCLUDE_DIRECTORIES})
@@ -57,9 +57,21 @@ include_directories(${KIT_INCLUDE_DIRECTORIES})
 stkFunctionGetTargetLibraries(KIT_target_libraries)
 
 set(KIT_target_libraries
-	MRMLCore
-	MRMLDisplayableManager
-	${KIT_target_libraries}
+  MRMLDisplayableManager
+  MRMLLogic
+  RemoteIO
+  MRMLCore
+  qSlicerModulesCore
+  qSlicerBaseQTGUI
+  qSlicerBaseQTCore
+  qSlicerBaseQTApp
+  SlicerBaseLogic
+  vtkSlicerVolumesModuleLogic
+  vtkSlicerVolumeRenderingModuleLogic
+  vtkSlicerVolumeRenderingModuleMRML
+  vtkSlicerAnnotationsModuleLogic
+  vtkSlicerAnnotationsModuleMRML
+  ${KIT_target_libraries}
 )
 
 stkMacroBuildLib(
