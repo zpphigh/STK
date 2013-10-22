@@ -44,6 +44,8 @@ set(KIT_SRCS
   stkHyperthermiaBase.cpp
   stkHyperthermiaBase_Private.h
   stkHyperthermiaBase_Private.cpp
+  stkHyperAlgorithmFDM.h
+  stkHyperAlgorithmFDM.cpp
   )
 
 
@@ -57,6 +59,7 @@ set(KIT_MOC_SRCS
   stkHyperFieldRange.h
   stkHyperthermiaBase.h
   stkHyperthermiaBase_Private.h
+  stkHyperAlgorithmFDM.h
   )
 
 
