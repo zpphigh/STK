@@ -11,7 +11,6 @@
 
 project(STKSlicerExt)
 
-
 #
 # 3rd party dependencies
 #
@@ -47,7 +46,21 @@ set(KIT_resources
 )
 
 
+# Includes
+set(KIT_INCLUDE_DIRECTORIES
+	${Slicer_Base_INCLUDE_DIRS}
+	${MRMLCore_INCLUDE_DIRS}
+)
+
+include_directories(${KIT_INCLUDE_DIRECTORIES})
+
 stkFunctionGetTargetLibraries(KIT_target_libraries)
+
+set(KIT_target_libraries
+	MRMLCore
+	MRMLDisplayableManager
+	${KIT_target_libraries}
+)
 
 stkMacroBuildLib(
   NAME ${PROJECT_NAME}
@@ -55,6 +68,7 @@ stkMacroBuildLib(
   SRCS ${KIT_SRCS}
   MOC_SRCS ${KIT_MOC_SRCS}
   UI_FORMS ${KIT_UI_FORMS}
+  #INCLUDE_DIRECTORIES {KIT_INCLUDE_DIRECTORIES}
   TARGET_LIBRARIES ${KIT_target_libraries}
   RESOURCES ${KIT_resources}
   LIBRARY_TYPE ${STK_LIBRARY_MODE}

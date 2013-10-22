@@ -44,6 +44,12 @@ project(STK)
 
 #We may try to find a previous build slicer to skip some external project builds
 find_package(Slicer)
+if(Slicer_FOUND)
+	OPTION(STK_USE_SLICER ON)
+else()
+	OPTION(STK_USE_SLICER OFF)
+endif()
+
 
 #-----------------------------------------------------------------------------
 # Library mode: SHARED (default) or STATIC
@@ -299,6 +305,7 @@ stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" ON
 stk_enable_option(Hyperthermia "Enable Hyperthermia support" ON
                   STK_LIB_Hyperthermia)
 
+
 #-----------------------------------------------------------------------------
 # Special "BUILD ALL" options
 
@@ -359,10 +366,12 @@ stk_lib_option(SurgeryNavigation
 				)
 
 
+if(Slicer_FOUND)
 stk_lib_option(SlicerExt
                "Build the 3D Slicer Extention library" ON
 				CTK_ENABLE_SlicerExt
 				)
+endif()
 
 
 # Save the set of enabled libs in a cache file
