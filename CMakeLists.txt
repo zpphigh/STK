@@ -9,7 +9,7 @@
 #
 ###########################################################################
 
-cmake_minimum_required (VERSION 2.8.4)
+cmake_minimum_required (VERSION 2.8.9)
 
 #-----------------------------------------------------------------------------
 # See http://cmake.org/cmake/help/cmake-2-8-docs.html#section_Policies for details
@@ -41,6 +41,7 @@ endforeach()
 #-----------------------------------------------------------------------------
 project(STK)
 #-----------------------------------------------------------------------------
+
 
 #We may try to find a previous build slicer to skip some external project builds
 find_package(Slicer)
@@ -129,7 +130,6 @@ if(NOT STK_NO_LIBRARY_VERSION)
     SOVERSION "${STK_MAJOR_VERSION}.${STK_MINOR_VERSION}"
     )
 endif()
-
 
 #-----------------------------------------------------------------------------
 # Install directories, used for install rules.
@@ -306,6 +306,7 @@ stk_enable_option(Hyperthermia "Enable Hyperthermia support" ON
                   STK_LIB_Hyperthermia)
 
 
+
 #-----------------------------------------------------------------------------
 # Special "BUILD ALL" options
 
@@ -372,7 +373,6 @@ stk_lib_option(SlicerExt
 				CTK_ENABLE_SlicerExt
 				)
 endif()
-
 
 # Save the set of enabled libs in a cache file
 set(_enabled_libs)
@@ -572,12 +572,10 @@ include(CMake/stkBlockCheckDependencies.cmake)
 #-----------------------------------------------------------------------------
 # Superbuild script
 #
-
 if(STK_SUPERBUILD)
   include("${CMAKE_CURRENT_SOURCE_DIR}/SuperBuild.cmake")
   return()
 endif()
-
 
 #-----------------------------------------------------------------------------
 # Expand variables containing include and library directories for external projects
@@ -675,6 +673,15 @@ endforeach()
 
 if(BUILD_TESTING)
   add_subdirectory(Applications/Testing)
+endif()
+
+
+if(Slicer_FOUND)
+	option(STK_BUILD_SLICER_MODULE_VolumeDisplayController "Build VolumeDisplayController" ON)
+
+	if(STK_BUILD_SLICER_MODULE_VolumeDisplayController)
+		add_subdirectory(Modules/VolumeDisplayController)
+	endif()
 endif()
 
 #-----------------------------------------------------------------------------
