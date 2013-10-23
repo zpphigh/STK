@@ -44,6 +44,7 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   d->setupUi(this);
   this->Superclass::setup();
 
+  connect(this,SIGNAL(mrmlSceneChanged(vtkMRMLScene*)),d->ActiveVolumeNodeSelector,SLOT(setMRMLScene(vtkMRMLScene*)));
 
 
 
