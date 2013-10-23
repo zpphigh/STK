@@ -18,14 +18,14 @@
 class vtkPiecewiseFunction;
 class vtkColorTransferFunction;
 
-class stkMRMLVolumeNodeDisplayHelperPrivate;
-class STK_SLICEREXT_EXPORT stkMRMLVolumeNodeDisplayHelper : public QObject
+class stkSlicerVolumeNodeDisplayHelperPrivate;
+class STK_SLICEREXT_EXPORT stkSlicerVolumeNodeDisplayHelper : public QObject
 {
 	Q_OBJECT
 
 public:
-	stkMRMLVolumeNodeDisplayHelper(QObject *parent = 0);
-	~stkMRMLVolumeNodeDisplayHelper();	
+	stkSlicerVolumeNodeDisplayHelper(QObject *parent = 0);
+	~stkSlicerVolumeNodeDisplayHelper();	
 
 
 	static void Display3DVolume(std::string nodeID, vtkColorTransferFunction* colorTransfer = NULL, vtkPiecewiseFunction* piecewiseFunction = NULL);
@@ -35,11 +35,11 @@ public:
 	static double VolumeToGrayscaleModel(std::string InputVolume, double Threshold, std::string ModelName, double Smooth,	double Decimate, bool SplitNormals,	bool PointNormals, double r, double g, double b);
 
 protected:
-	QScopedPointer<stkMRMLVolumeNodeDisplayHelperPrivate> d_ptr;
+	QScopedPointer<stkSlicerVolumeNodeDisplayHelperPrivate> d_ptr;
 
 	
 
 private:	
-	Q_DECLARE_PRIVATE(stkMRMLVolumeNodeDisplayHelper);
-	Q_DISABLE_COPY(stkMRMLVolumeNodeDisplayHelper);	
+	Q_DECLARE_PRIVATE(stkSlicerVolumeNodeDisplayHelper);
+	Q_DISABLE_COPY(stkSlicerVolumeNodeDisplayHelper);	
 };

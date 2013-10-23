@@ -1,4 +1,4 @@
-#include "stkMRMLVolumeNodeDisplayHelper.h"
+#include "stkSlicerVolumeNodeDisplayHelper.h"
 
 #include <qSlicerApplication.h>
 #include <qSlicerLayoutManager.h>
@@ -59,22 +59,22 @@
 #include "vtkTriangleFilter.h"
 #include "vtkMassProperties.h"
 
-class stkMRMLVolumeNodeDisplayHelperPrivate
+class stkSlicerVolumeNodeDisplayHelperPrivate
 {
 public:
 
 };
 
-stkMRMLVolumeNodeDisplayHelper::stkMRMLVolumeNodeDisplayHelper(QObject *parent)
-: QObject(parent),d_ptr(new stkMRMLVolumeNodeDisplayHelperPrivate)
+stkSlicerVolumeNodeDisplayHelper::stkSlicerVolumeNodeDisplayHelper(QObject *parent)
+: QObject(parent),d_ptr(new stkSlicerVolumeNodeDisplayHelperPrivate)
 {
-	Q_D(stkMRMLVolumeNodeDisplayHelper);
+	Q_D(stkSlicerVolumeNodeDisplayHelper);
 
 }
 
-stkMRMLVolumeNodeDisplayHelper::~stkMRMLVolumeNodeDisplayHelper()
+stkSlicerVolumeNodeDisplayHelper::~stkSlicerVolumeNodeDisplayHelper()
 {
-	Q_D(stkMRMLVolumeNodeDisplayHelper);
+	Q_D(stkSlicerVolumeNodeDisplayHelper);
 }
 
 
@@ -139,7 +139,7 @@ vtkMRMLVolumeRenderingDisplayNode* createVolumeRenderingDisplayNode(vtkMRMLVolum
 
 
 // --------------------------------------------------------------------------
-void stkMRMLVolumeNodeDisplayHelper::Display3DVolume(std::string nodeID, vtkColorTransferFunction* colorTransfer, vtkPiecewiseFunction* piecewiseFunction)
+void stkSlicerVolumeNodeDisplayHelper::Display3DVolume(std::string nodeID, vtkColorTransferFunction* colorTransfer, vtkPiecewiseFunction* piecewiseFunction)
 {
 	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
 	vtkMRMLScalarVolumeNode* scalarNode = vtkMRMLScalarVolumeNode::SafeDownCast(scene->GetNodeByID(nodeID));
@@ -170,7 +170,7 @@ void stkMRMLVolumeNodeDisplayHelper::Display3DVolume(std::string nodeID, vtkColo
 }
 
 
-void stkMRMLVolumeNodeDisplayHelper::Display2DSlice(std::string nodeID)
+void stkSlicerVolumeNodeDisplayHelper::Display2DSlice(std::string nodeID)
 {
 	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
 	vtkSlicerVolumesLogic* volumeLogic = vtkSlicerVolumesLogic::SafeDownCast(qSlicerApplication::application()->moduleManager()->module("Volumes")->logic());
@@ -231,7 +231,7 @@ void stkMRMLVolumeNodeDisplayHelper::Display2DSlice(std::string nodeID)
 	}
 }
 
-void stkMRMLVolumeNodeDisplayHelper::DisplayForeground2DSlice(std::string nodeID)
+void stkSlicerVolumeNodeDisplayHelper::DisplayForeground2DSlice(std::string nodeID)
 {
 	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
 	vtkMRMLScalarVolumeNode* scalarNode = vtkMRMLScalarVolumeNode::SafeDownCast(scene->GetNodeByID(nodeID));
@@ -269,7 +269,7 @@ void stkMRMLVolumeNodeDisplayHelper::DisplayForeground2DSlice(std::string nodeID
 
 
 //---------------------------------------------------------------------------
-double stkMRMLVolumeNodeDisplayHelper::VolumeToGrayscaleModel(std::string InputVolume, double Threshold, std::string ModelName,double Smooth, double Decimate,bool SplitNormals,bool PointNormals,  double r, double g, double b)
+double stkSlicerVolumeNodeDisplayHelper::VolumeToGrayscaleModel(std::string InputVolume, double Threshold, std::string ModelName,double Smooth, double Decimate,bool SplitNormals,bool PointNormals,  double r, double g, double b)
 {
 	if (InputVolume == "") return 0;
 
