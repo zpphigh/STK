@@ -319,6 +319,11 @@ float* stkMicrowaveAblation::getThermalField() const
 	return d_ptr->ThermalField;
 }
 
+float* stkMicrowaveAblation::getInjuryField() const
+{
+	return d_ptr->InjuryField;
+}
+
 int stkMicrowaveAblation::getNumberOfNeedle() const
 {
 	return d_ptr->MicrowaveRoutes.size();

@@ -73,6 +73,7 @@ public:
 
 	int timeSteps() const;
 	float* getThermalField() const;
+	float* getInjuryField() const;
 
 	void addNeedle(stkMicrowaveRoute* pNeedle);
 	int getNumberOfNeedle() const;
