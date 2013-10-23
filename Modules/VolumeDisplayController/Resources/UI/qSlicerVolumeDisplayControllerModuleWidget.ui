@@ -308,6 +308,16 @@
      </property>
     </spacer>
    </item>
+   <item>
+    <widget class="qSlicerVolumeDisplayWidget" name="VolumeDisplayWidget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>100</height>
+      </size>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -338,6 +348,11 @@
    <class>qMRMLVolumeThresholdWidget</class>
    <extends>QWidget</extends>
    <header>qMRMLVolumeThresholdWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>qSlicerVolumeDisplayWidget</class>
+   <extends>QWidget</extends>
+   <header>qSlicerVolumeDisplayWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

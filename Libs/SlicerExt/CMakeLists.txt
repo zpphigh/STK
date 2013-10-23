@@ -54,6 +54,7 @@ set(KIT_INCLUDE_DIRECTORIES
     ${Slicer_Base_INCLUDE_DIRS}
     ${Slicer_ModuleLogic_INCLUDE_DIRS}
     ${Slicer_ModuleMRML_INCLUDE_DIRS} 
+	${Slicer_ModuleWidgets_INCLUDE_DIRS} 
     ${KIT_INCLUDE_DIRECTORIES}
 )
 
