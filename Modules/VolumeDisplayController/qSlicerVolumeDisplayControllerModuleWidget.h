@@ -43,6 +43,8 @@ public slots:
 
 protected slots:
 
+  void applyPreset( vtkMRMLNode* node );
+
 protected:
   QScopedPointer<qSlicerVolumeDisplayControllerModuleWidgetPrivate> d_ptr;
   

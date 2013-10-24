@@ -32,9 +32,14 @@
 #include "qSlicerLayoutManager.h"
 #include "qMRMLSliceControllerWidget.h"
 
+#include "qSlicerPresetComboBox.h"
+
 #include "qSlicerApplication.h"
 #include "qSlicerModuleManager.h"
 #include "qSlicerAbstractCoreModule.h"
+
+#include "vtkVolumeProperty.h"
+#include "vtkMRMLVolumePropertyNode.h"
 
 #include "qSlicerVolumeDisplayWidget.h"
 #include "vtkMRMLVolumeRenderingDisplayNode.h"
@@ -110,6 +115,8 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   d->CoronalSliceVisibileCheckBox->setEnabled(false);
   d->SagittalSliceSlider->setEnabled(false);
   d->SagittalSliceVisibileCheckBox->setEnabled(false);
+  d->Visibility3DCheckBox->setEnabled(false);
+  d->PresetsNodeComboBox->setEnabled(false);
 
 
   connect(this,SIGNAL(mrmlSceneChanged(vtkMRMLScene*)),  d->ActiveVolumeNodeSelector,SLOT(setMRMLScene(vtkMRMLScene*)));
@@ -126,7 +133,9 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   connect(d->AxialSliceSlider, SIGNAL(valueChanged(double)),this,SLOT(setAxialSliceOffsetValue(double)));
   connect(d->SagittalSliceSlider,SIGNAL(valueChanged(double)),this,SLOT(setSagittalSliceOffsetValue(double)));
   connect(d->CoronalSliceSlider,SIGNAL(valueChanged(double)),this,SLOT(setCoronalSliceOffsetValue(double)));
-   
+
+  connect(d->PresetsNodeComboBox,SIGNAL(currentNodeChanged(vtkMRMLNode*)),this,SLOT(applyPreset(vtkMRMLNode*)));
+  
 }
 
 
@@ -141,7 +150,8 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 	d->CoronalSliceVisibileCheckBox->setEnabled(false);
 	d->SagittalSliceSlider->setEnabled(false);
 	d->SagittalSliceVisibileCheckBox->setEnabled(false);
-	
+	d->Visibility3DCheckBox->setEnabled(false);
+	d->PresetsNodeComboBox->setEnabled(false);
 
 	qSlicerApplication * app = qSlicerApplication::application();
 	if (!app) return;
@@ -245,7 +255,12 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 
 	 d->VolumeRenderingDisplayNode = dnode;
 
+	 d->Visibility3DCheckBox->setEnabled(true);
 	 d->Visibility3DCheckBox->setChecked(d->VolumeRenderingDisplayNode->GetVisibility());
+
+	 d->PresetsNodeComboBox->setEnabled(true);
+	 d->PresetsNodeComboBox->setMRMLScene(volumeRenderingLogic->GetPresetsScene());
+	 d->PresetsNodeComboBox->setCurrentNode(0);
 }
 
 // --------------------------------------------------------------------------
@@ -366,4 +381,25 @@ void qSlicerVolumeDisplayControllerModuleWidget::setSliceCoronalVisible( bool vi
 		d->SliceNode[2]->SetSliceVisible(visible);
 		logic->EndSliceNodeInteraction();
 	}
+}
+
+
+void qSlicerVolumeDisplayControllerModuleWidget::applyPreset( vtkMRMLNode* node )
+{
+	Q_D(qSlicerVolumeDisplayControllerModuleWidget);
+
+	if(!d->VolumeRenderingDisplayNode)
+		return;
+
+	vtkMRMLVolumePropertyNode* presetNode = vtkMRMLVolumePropertyNode::SafeDownCast(node);
+	vtkMRMLVolumePropertyNode *volumePropertyNode = d->VolumeRenderingDisplayNode->GetVolumePropertyNode();
+
+	if (!presetNode || !volumePropertyNode)
+		return;
+
+	assert(presetNode->GetVolumeProperty());
+	assert(presetNode->GetVolumeProperty()->GetRGBTransferFunction());
+	assert(presetNode->GetVolumeProperty()->GetRGBTransferFunction()->GetRange()[1] >presetNode->GetVolumeProperty()->GetRGBTransferFunction()->GetRange()[0]);
+	volumePropertyNode->Copy(presetNode);
+	d->VolumeRenderingDisplayNode->Modified();
 }
