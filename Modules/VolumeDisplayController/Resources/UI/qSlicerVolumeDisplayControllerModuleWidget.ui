@@ -25,7 +25,7 @@
         </size>
        </property>
        <property name="text">
-        <string>体数据选择</string>
+        <string>体数据</string>
        </property>
       </widget>
      </item>
@@ -50,14 +50,27 @@
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="Visibility3DCheckBox">
+       <property name="text">
+        <string>3D</string>
+       </property>
+      </widget>
+     </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="Visibility3DCheckBox">
-     <property name="text">
-      <string>3D</string>
-     </property>
-    </widget>
    </item>
    <item>
     <widget class="qSlicerVolumeDisplayWidget" name="VolumeDisplayWidget" native="true">
