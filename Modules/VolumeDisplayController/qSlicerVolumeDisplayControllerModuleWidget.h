@@ -46,6 +46,7 @@ protected slots:
   void onCropToggled(bool);
   void onROICropDisplayCheckBoxToggled(bool);
   void applyPreset( vtkMRMLNode* node );
+  void on_resetFocalPointPushButton_clicked();
 
 protected:
   QScopedPointer<qSlicerVolumeDisplayControllerModuleWidgetPrivate> d_ptr;

@@ -52,13 +52,9 @@ void stkSlicerDisplayHelper::ResetFocalPoint()
 		qMRMLThreeDWidget* qThreeDWidget = layoutManager->threeDWidget(i);
 		if(qThreeDWidget)
 		{
-			//qThreeDWidget->threeDController()->setVisible(false);
 			qMRMLThreeDView* qTreeDView = qThreeDWidget->threeDView();
 			if (qTreeDView)
-			{
 				qTreeDView->resetFocalPoint();
-				qTreeDView->renderer()->ResetCamera();
-			}
 		}
 	}	
 }

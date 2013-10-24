@@ -166,7 +166,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="resetDisplayPushButton">
+      <widget class="QPushButton" name="resetFocalPointPushButton">
        <property name="text">
         <string>重置显示</string>
        </property>

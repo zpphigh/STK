@@ -7,6 +7,7 @@
 #include "qSlicerVolumeDisplayControllerModuleWidget.h"
 #include "ui_qSlicerVolumeDisplayControllerModuleWidget.h"
 
+#include "stkSlicerDisplayHelper.h"
 
 // CTK includes
 #include <ctkVTKColorTransferFunction.h>
@@ -34,6 +35,8 @@
 #include "qMRMLSliceControllerWidget.h"
 
 #include "qSlicerPresetComboBox.h"
+#include "qMRMLThreeDView.h"
+#include "qMRMLThreeDWidget.h"
 
 #include "qSlicerApplication.h"
 #include "qSlicerModuleManager.h"
@@ -118,8 +121,10 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   d->SagittalSliceVisibileCheckBox->setEnabled(false);
   d->Visibility3DCheckBox->setEnabled(false);
   d->PresetsNodeComboBox->setEnabled(false);
+  d->resetFocalPointPushButton->setEnabled(false);
   d->ROICropCheckBox->setEnabled(false);
   d->ROICropDisplayCheckBox->setEnabled(false);
+  
 
 
   connect(this,SIGNAL(mrmlSceneChanged(vtkMRMLScene*)),  d->ActiveVolumeNodeSelector,SLOT(setMRMLScene(vtkMRMLScene*)));
@@ -157,6 +162,7 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 	d->SagittalSliceVisibileCheckBox->setEnabled(false);
 	d->Visibility3DCheckBox->setEnabled(false);
 	d->PresetsNodeComboBox->setEnabled(false);
+	d->resetFocalPointPushButton->setEnabled(false);
 	d->ROICropCheckBox->setEnabled(false);
 	d->ROICropDisplayCheckBox->setEnabled(false);
 
@@ -230,8 +236,6 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 	d->VolumeDisplayWidget->setMRMLVolumeNode(node);
 
 
-
-
 	//VolumeRendering 
 	 vtkSlicerVolumeRenderingLogic *volumeRenderingLogic = vtkSlicerVolumeRenderingLogic::SafeDownCast(
 		 qSlicerCoreApplication::application()->moduleManager()->module("VolumeRendering")->logic());
@@ -269,9 +273,19 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 	 d->PresetsNodeComboBox->setMRMLScene(volumeRenderingLogic->GetPresetsScene());
 	 d->PresetsNodeComboBox->setCurrentNode(0);
 
+	 
 	 d->ROICropCheckBox->setEnabled(true);
 	 d->ROICropDisplayCheckBox->setEnabled(true);
+	 d->resetFocalPointPushButton->setEnabled(true);
 }
+
+void qSlicerVolumeDisplayControllerModuleWidget::on_resetFocalPointPushButton_clicked()
+{
+	Q_D(const qSlicerVolumeDisplayControllerModuleWidget);
+
+	stkSlicerDisplayHelper::ResetFocalPoint();
+}
+
 
 // --------------------------------------------------------------------------
 vtkMRMLScalarVolumeNode* qSlicerVolumeDisplayControllerModuleWidget
