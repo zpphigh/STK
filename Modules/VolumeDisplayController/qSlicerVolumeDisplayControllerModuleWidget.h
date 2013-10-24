@@ -24,14 +24,9 @@ public:
 public slots:
 
   void setMRMLVolumeNode(vtkMRMLScalarVolumeNode* volumeNode);
-  void setInterpolate(bool interpolate);
-  void setColorNode(vtkMRMLNode* colorNode);
-  void setPreset(const QString& presetName);
 
 protected slots:
-	void updateWidgetFromMRML();
-	//void updateTransferFunction();
-	void onPresetButtonClicked();
+
 
 protected:
   QScopedPointer<qSlicerVolumeDisplayControllerModuleWidgetPrivate> d_ptr;
