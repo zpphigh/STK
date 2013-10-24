@@ -138,12 +138,10 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   Q_D(qSlicerVolumeDisplayControllerModuleWidget);
   d->setupUi(this);
 
-  d->ActiveVolumeNodeSelector->setAddEnabled(false);
-  d->ActiveVolumeNodeSelector->setRenameEnabled(false);
-  d->ActiveVolumeNodeSelector->setRemoveEnabled(false);
+  //d->ActiveVolumeNodeSelector->setAddEnabled(false);
+  //d->ActiveVolumeNodeSelector->setRenameEnabled(false);
+  //d->ActiveVolumeNodeSelector->setRemoveEnabled(false);
 	
-  d->VolumeDisplayWidget->setMRMLVolumeNode(0);
-
   QObject::connect(d->Visibility3DCheckBox,
 	  SIGNAL(toggled(bool)),
 	  this, SLOT(onVisibilityChanged(bool)));
