@@ -30,10 +30,10 @@ public:
 
 public slots:
 
-  void setMRMLVolumeNode(vtkMRMLNode* volumeNode);
+  void setMRMLVolumeNode(vtkMRMLNode* node);
 
 protected slots:
-
+  void onVisibilityChanged(bool);
 
 protected:
   QScopedPointer<qSlicerVolumeDisplayControllerModuleWidgetPrivate> d_ptr;

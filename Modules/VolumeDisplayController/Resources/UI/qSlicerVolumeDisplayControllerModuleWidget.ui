@@ -53,6 +53,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QCheckBox" name="Visibility3DCheckBox">
+     <property name="text">
+      <string>3D</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="qSlicerVolumeDisplayWidget" name="VolumeDisplayWidget" native="true">
      <property name="minimumSize">
       <size>
