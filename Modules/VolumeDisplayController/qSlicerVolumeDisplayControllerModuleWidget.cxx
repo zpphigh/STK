@@ -34,6 +34,7 @@
 #include "qSlicerVolumeDisplayWidget.h"
 #include "vtkMRMLVolumeRenderingDisplayNode.h"
 #include "vtkSlicerVolumeRenderingLogic.h"
+#include "stkSlicerVolumeNodeDisplayHelper.h"
 
 // STD includes
 #include <limits>
@@ -50,7 +51,6 @@ protected:
 
 public:
   qSlicerVolumeDisplayControllerModuleWidgetPrivate(qSlicerVolumeDisplayControllerModuleWidget& object);
-  vtkMRMLVolumeRenderingDisplayNode* createVolumeRenderingDisplayNode(vtkMRMLVolumeNode* volumeNode);
 
   vtkMRMLVolumeRenderingDisplayNode* VolumeRenderingDisplayNode;
 };
@@ -65,55 +65,6 @@ qSlicerVolumeDisplayControllerModuleWidgetPrivate
 	:q_ptr(&object)
 {
 	VolumeRenderingDisplayNode = 0;
-}
-
-
-// --------------------------------------------------------------------------
-vtkMRMLVolumeRenderingDisplayNode* qSlicerVolumeDisplayControllerModuleWidgetPrivate::createVolumeRenderingDisplayNode(vtkMRMLVolumeNode* volumeNode)
-{
-	Q_Q(qSlicerVolumeDisplayControllerModuleWidget);
-
-	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
-	if(!scene)
-		return 0;
-
-	//VolumeRendering 
-	vtkSlicerVolumeRenderingLogic *volumeRenderingLogic = vtkSlicerVolumeRenderingLogic::SafeDownCast(
-		qSlicerCoreApplication::application()->moduleManager()->module("VolumeRendering")->logic());
-	if(!volumeRenderingLogic)
-		return 0;
-
-	volumeRenderingLogic->SetDefaultRenderingMethod("vtkMRMLGPUTextureMappingVolumeRenderingDisplayNode");
-
-	vtkMRMLVolumeRenderingDisplayNode* displayNode = volumeRenderingLogic->CreateVolumeRenderingDisplayNode();
-	q->mrmlScene()->AddNode(displayNode);
-	displayNode->Delete();
-
-	vtkMRMLVolumePropertyNode *propNode = NULL;
-	vtkMRMLAnnotationROINode  *roiNode = NULL;
-
-	int wasModifying = displayNode->StartModify();
-	// Init the volume rendering without the threshold info
-	// of the Volumes module...
-	displayNode->SetIgnoreVolumeDisplayNodeThreshold(1);
-	volumeRenderingLogic->UpdateDisplayNodeFromVolumeNode(displayNode, volumeNode,
-		&propNode, &roiNode);
-	// ... but then apply the user settings.
-	displayNode->SetIgnoreVolumeDisplayNodeThreshold(0);
-	bool wasLastVolumeVisible = this->Visibility3DCheckBox->isChecked();
-	displayNode->SetVisibility(wasLastVolumeVisible);
-	
-	//foreach (vtkMRMLViewNode* viewNode,
-	//	this->ViewCheckableNodeComboBox->checkedViewNodes())
-	//{
-	//	displayNode->AddViewNodeID(viewNode ? viewNode->GetID() : 0);
-	//}
-	displayNode->EndModify(wasModifying);
-	if (volumeNode)
-	{
-		volumeNode->AddAndObserveDisplayNodeID(displayNode->GetID());
-	}
-	return displayNode;
 }
 
 
@@ -187,7 +138,7 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 	 {
 		 if (!dnode)
 		 {
-			 dnode = d->createVolumeRenderingDisplayNode(volumeNode);
+			 dnode = stkSlicerVolumeNodeDisplayHelper::CreateVolumeRenderingDisplayNode(volumeNode);
 		 }
 		 else
 		 {

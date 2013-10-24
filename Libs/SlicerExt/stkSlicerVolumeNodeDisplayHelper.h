@@ -17,6 +17,8 @@
 
 class vtkPiecewiseFunction;
 class vtkColorTransferFunction;
+class vtkMRMLVolumeRenderingDisplayNode;
+class vtkMRMLVolumeNode;
 
 class stkSlicerVolumeNodeDisplayHelperPrivate;
 class STK_SLICEREXT_EXPORT stkSlicerVolumeNodeDisplayHelper : public QObject
@@ -34,6 +36,7 @@ public:
 
 	static double VolumeToGrayscaleModel(std::string InputVolume, double Threshold, std::string ModelName, double Smooth,	double Decimate, bool SplitNormals,	bool PointNormals, double r, double g, double b);
 
+	static vtkMRMLVolumeRenderingDisplayNode* CreateVolumeRenderingDisplayNode(vtkMRMLVolumeNode* volumeNode);
 protected:
 	QScopedPointer<stkSlicerVolumeNodeDisplayHelperPrivate> d_ptr;
 

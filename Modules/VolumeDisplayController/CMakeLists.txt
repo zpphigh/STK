@@ -63,6 +63,7 @@ set(MODULE_TARGET_LIBRARIES
   qSlicer${MODULE_NAME}ModuleWidgets
   qSlicerVolumesModuleWidgets
   vtkSlicerVolumeRenderingModuleLogic
+  STKSlicerExt
   )
 
 set(MODULE_RESOURCES

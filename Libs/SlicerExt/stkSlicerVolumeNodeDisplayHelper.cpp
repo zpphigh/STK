@@ -78,6 +78,46 @@ stkSlicerVolumeNodeDisplayHelper::~stkSlicerVolumeNodeDisplayHelper()
 }
 
 
+// --------------------------------------------------------------------------
+vtkMRMLVolumeRenderingDisplayNode* stkSlicerVolumeNodeDisplayHelper::CreateVolumeRenderingDisplayNode(vtkMRMLVolumeNode* volumeNode)
+{
+	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
+	if(!scene)
+		return 0;
+
+	//VolumeRendering Logic
+	vtkSlicerVolumeRenderingLogic *vrLogic = vtkSlicerVolumeRenderingLogic::SafeDownCast(
+		qSlicerCoreApplication::application()->moduleManager()->module("VolumeRendering")->logic());
+	if(!vrLogic)
+		return 0;
+
+	vrLogic->SetDefaultRenderingMethod("vtkMRMLGPUTextureMappingVolumeRenderingDisplayNode");
+
+	vtkMRMLVolumeRenderingDisplayNode* displayNode = vrLogic->CreateVolumeRenderingDisplayNode();
+	scene->AddNode(displayNode);
+	displayNode->Delete();
+
+	vtkMRMLVolumePropertyNode *propNode = NULL;
+	vtkMRMLAnnotationROINode  *roiNode = NULL;
+
+	int wasModifying = displayNode->StartModify();
+	// Init the volume rendering without the threshold info
+	// of the Volumes module...
+	displayNode->SetIgnoreVolumeDisplayNodeThreshold(1);
+	vrLogic->UpdateDisplayNodeFromVolumeNode(displayNode, volumeNode, &propNode, &roiNode);
+	// ... but then apply the user settings.
+	displayNode->SetIgnoreVolumeDisplayNodeThreshold(0);
+	displayNode->SetVisibility(1);
+
+	displayNode->EndModify(wasModifying);
+	if (volumeNode)
+	{
+		volumeNode->AddAndObserveDisplayNodeID(displayNode->GetID());
+	}
+	return displayNode;
+}
+
+
 
 vtkMRMLVolumeRenderingDisplayNode* createVolumeRenderingDisplayNode(vtkMRMLVolumeNode* volumeNode, vtkColorTransferFunction* colorTransfer, vtkPiecewiseFunction* piecewiseFunction)
 {
