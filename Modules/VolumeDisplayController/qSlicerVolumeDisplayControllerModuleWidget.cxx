@@ -1,4 +1,5 @@
 
+
 // Qt includes
 #include <QDebug>
 
@@ -45,9 +46,9 @@
 #include "vtkMRMLVolumeRenderingDisplayNode.h"
 #include "vtkSlicerVolumeRenderingLogic.h"
 #include "stkSlicerVolumeNodeDisplayHelper.h"
+#include "vtkMRMLAnnotationROINode.h"
 
-// STD includes
-#include <limits>
+
 
 
 
@@ -117,6 +118,8 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   d->SagittalSliceVisibileCheckBox->setEnabled(false);
   d->Visibility3DCheckBox->setEnabled(false);
   d->PresetsNodeComboBox->setEnabled(false);
+  d->ROICropCheckBox->setEnabled(false);
+  d->ROICropDisplayCheckBox->setEnabled(false);
 
 
   connect(this,SIGNAL(mrmlSceneChanged(vtkMRMLScene*)),  d->ActiveVolumeNodeSelector,SLOT(setMRMLScene(vtkMRMLScene*)));
@@ -135,7 +138,9 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   connect(d->CoronalSliceSlider,SIGNAL(valueChanged(double)),this,SLOT(setCoronalSliceOffsetValue(double)));
 
   connect(d->PresetsNodeComboBox,SIGNAL(currentNodeChanged(vtkMRMLNode*)),this,SLOT(applyPreset(vtkMRMLNode*)));
-  
+ 
+  connect(d->ROICropCheckBox,SIGNAL(toggled(bool)),this, SLOT(onCropToggled(bool)));
+  connect(d->ROICropDisplayCheckBox, SIGNAL(toggled(bool)),this, SLOT(onROICropDisplayCheckBoxToggled(bool)));
 }
 
 
@@ -152,6 +157,8 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 	d->SagittalSliceVisibileCheckBox->setEnabled(false);
 	d->Visibility3DCheckBox->setEnabled(false);
 	d->PresetsNodeComboBox->setEnabled(false);
+	d->ROICropCheckBox->setEnabled(false);
+	d->ROICropDisplayCheckBox->setEnabled(false);
 
 	qSlicerApplication * app = qSlicerApplication::application();
 	if (!app) return;
@@ -261,6 +268,9 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 	 d->PresetsNodeComboBox->setEnabled(true);
 	 d->PresetsNodeComboBox->setMRMLScene(volumeRenderingLogic->GetPresetsScene());
 	 d->PresetsNodeComboBox->setCurrentNode(0);
+
+	 d->ROICropCheckBox->setEnabled(true);
+	 d->ROICropDisplayCheckBox->setEnabled(true);
 }
 
 // --------------------------------------------------------------------------
@@ -402,4 +412,28 @@ void qSlicerVolumeDisplayControllerModuleWidget::applyPreset( vtkMRMLNode* node 
 	assert(presetNode->GetVolumeProperty()->GetRGBTransferFunction()->GetRange()[1] >presetNode->GetVolumeProperty()->GetRGBTransferFunction()->GetRange()[0]);
 	volumePropertyNode->Copy(presetNode);
 	d->VolumeRenderingDisplayNode->Modified();
+}
+
+
+void qSlicerVolumeDisplayControllerModuleWidget::onCropToggled( bool crop)
+{
+	Q_D(qSlicerVolumeDisplayControllerModuleWidget);
+	if (!d->VolumeRenderingDisplayNode)
+		return;
+
+	d->VolumeRenderingDisplayNode->SetCroppingEnabled(crop);
+}
+
+void qSlicerVolumeDisplayControllerModuleWidget::onROICropDisplayCheckBoxToggled( bool toggle )
+{
+	Q_D(qSlicerVolumeDisplayControllerModuleWidget);
+	// When the display box is visible, it should probably activate the
+	// cropping (to follow the "what you see is what you get" pattern).
+	if (toggle)
+		d->ROICropCheckBox->setChecked(true);
+	
+	if (!d->VolumeRenderingDisplayNode)
+		return;
+
+	d->VolumeRenderingDisplayNode->GetROINode()->SetDisplayVisibility(toggle);
 }

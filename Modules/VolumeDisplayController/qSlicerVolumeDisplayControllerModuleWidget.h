@@ -41,8 +41,10 @@ public slots:
   void setSliceSagittalVisible(bool);
   void setSliceCoronalVisible(bool);
 
-protected slots:
 
+protected slots:
+  void onCropToggled(bool);
+  void onROICropDisplayCheckBoxToggled(bool);
   void applyPreset( vtkMRMLNode* node );
 
 protected:
