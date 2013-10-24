@@ -32,8 +32,16 @@ public slots:
 
   void setMRMLVolumeNode(vtkMRMLNode* node);
 
+  void setAxialSliceOffsetValue(double );
+  void setSagittalSliceOffsetValue(double);
+  void setCoronalSliceOffsetValue(double);
+
+  void setVR3DVisibile(bool);
+  void setSliceAxialVisible(bool);
+  void setSliceSagittalVisible(bool);
+  void setSliceCoronalVisible(bool);
+
 protected slots:
-  void onVisibilityChanged(bool);
 
 protected:
   QScopedPointer<qSlicerVolumeDisplayControllerModuleWidgetPrivate> d_ptr;

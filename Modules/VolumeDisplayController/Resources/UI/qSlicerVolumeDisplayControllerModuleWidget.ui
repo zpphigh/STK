@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>417</width>
-    <height>476</height>
+    <width>478</width>
+    <height>467</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,6 +73,66 @@
     </layout>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QCheckBox" name="AxialSliceVisibileCheckBox">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>横断面</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="ctkSliderWidget" name="AxialSliceSlider" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QCheckBox" name="CoronalSliceVisibileCheckBox">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>冠状面</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="ctkSliderWidget" name="CoronalSliceSlider" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QCheckBox" name="SagittalSliceVisibileCheckBox">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>矢状面</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="ctkSliderWidget" name="SagittalSliceSlider" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="qSlicerVolumeDisplayWidget" name="VolumeDisplayWidget" native="true">
      <property name="minimumSize">
       <size>
@@ -114,6 +174,12 @@
    <class>qSlicerVolumeDisplayWidget</class>
    <extends>QWidget</extends>
    <header>qSlicerVolumeDisplayWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ctkSliderWidget</class>
+   <extends>QWidget</extends>
+   <header>ctksliderwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
