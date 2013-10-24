@@ -85,10 +85,6 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   Q_D(qSlicerVolumeDisplayControllerModuleWidget);
   d->setupUi(this);
 
-  d->ActiveVolumeNodeSelector->setProperty("nodeTypes", QVariant(QStringList() << QString::fromUtf8("vtkMRMLVolumeNode")));
-  d->ActiveVolumeNodeSelector->setProperty("addEnabled", QVariant(false));
-  d->ActiveVolumeNodeSelector->setProperty("renameEnabled", QVariant(true));
-
   this->Superclass::setup();
 
   connect(this,SIGNAL(mrmlSceneChanged(vtkMRMLScene*)),

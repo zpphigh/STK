@@ -37,6 +37,17 @@
          <height>30</height>
         </size>
        </property>
+       <property name="nodeTypes" stdset="0">
+        <stringlist>
+         <string>vtkMRMLVolumeNode</string>
+        </stringlist>
+       </property>
+       <property name="addEnabled" stdset="0">
+        <bool>false</bool>
+       </property>
+       <property name="renameEnabled" stdset="0">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>
