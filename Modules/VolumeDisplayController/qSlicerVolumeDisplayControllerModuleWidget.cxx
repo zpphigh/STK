@@ -27,6 +27,7 @@
 #include <vtkSmartPointer.h>
 
 #include "qSlicerVolumeDisplayWidget.h"
+#include "vtkMRMLVolumeRenderingDisplayNode.h"
 
 // STD includes
 #include <limits>
@@ -39,6 +40,8 @@ class qSlicerVolumeDisplayControllerModuleWidgetPrivate: public Ui_qSlicerVolume
 {
 public:
   qSlicerVolumeDisplayControllerModuleWidgetPrivate();
+
+  vtkMRMLVolumeRenderingDisplayNode* VolumeRenderingDisplayNode;
 };
 
 //-----------------------------------------------------------------------------
@@ -47,6 +50,7 @@ public:
 //-----------------------------------------------------------------------------
 qSlicerVolumeDisplayControllerModuleWidgetPrivate::qSlicerVolumeDisplayControllerModuleWidgetPrivate()
 {
+	VolumeRenderingDisplayNode = 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -76,14 +80,34 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
 	  d->ActiveVolumeNodeSelector,SLOT(setMRMLScene(vtkMRMLScene*)));
 
   QObject::connect(d->ActiveVolumeNodeSelector, SIGNAL(currentNodeChanged(vtkMRMLNode*)),
-	  d->VolumeDisplayWidget, SLOT(setMRMLVolumeNode(vtkMRMLNode*)));
+	  this, SLOT(setMRMLVolumeNode(vtkMRMLNode*)));
    
 }
 
 
-void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLScalarVolumeNode* volumeNode )
+void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode* volumeNode )
 {
 	Q_D(qSlicerVolumeDisplayControllerModuleWidget);
 
+	d->VolumeDisplayWidget->setMRMLVolumeNode(volumeNode);
 }
 
+// --------------------------------------------------------------------------
+vtkMRMLScalarVolumeNode* qSlicerVolumeDisplayControllerModuleWidget
+::mrmlVolumeNode()const
+{
+	Q_D(const qSlicerVolumeDisplayControllerModuleWidget);
+	return vtkMRMLScalarVolumeNode::SafeDownCast(
+		d->ActiveVolumeNodeSelector->currentNode());
+}
+
+
+// --------------------------------------------------------------------------
+vtkMRMLVolumeRenderingDisplayNode* qSlicerVolumeDisplayControllerModuleWidget
+::mrmlVolumeRenderingDisplayNode()const
+{
+	Q_D(const qSlicerVolumeDisplayControllerModuleWidget);
+	//return vtkMRMLVolumeRenderingDisplayNode::SafeDownCast(
+	//	d->DisplayNodeComboBox->currentNode());
+	return NULL;
+}

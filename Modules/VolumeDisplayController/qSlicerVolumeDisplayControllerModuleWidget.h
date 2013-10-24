@@ -5,10 +5,14 @@
 
 #include "qSlicerVolumeDisplayControllerModuleExport.h"
 
-class qSlicerVolumeDisplayControllerModuleWidgetPrivate;
-class vtkMRMLScalarVolumeNode;
-class vtkMRMLNode;
 
+
+class vtkMRMLNode;
+class vtkMRMLScalarVolumeNode;
+class vtkMRMLVolumeRenderingDisplayNode;
+
+
+class qSlicerVolumeDisplayControllerModuleWidgetPrivate;
 /// \ingroup Slicer_QtModules_ExtensionTemplate
 class Q_SLICER_QTMODULES_VOLUMEDISPLAYCONTROLLER_EXPORT qSlicerVolumeDisplayControllerModuleWidget :
   public qSlicerAbstractModuleWidget
@@ -21,9 +25,12 @@ public:
   qSlicerVolumeDisplayControllerModuleWidget(QWidget *parent=0);
   virtual ~qSlicerVolumeDisplayControllerModuleWidget();
 
+  vtkMRMLScalarVolumeNode* mrmlVolumeNode()const;
+  vtkMRMLVolumeRenderingDisplayNode* mrmlVolumeRenderingDisplayNode() const;
+
 public slots:
 
-  void setMRMLVolumeNode(vtkMRMLScalarVolumeNode* volumeNode);
+  void setMRMLVolumeNode(vtkMRMLNode* volumeNode);
 
 protected slots:
 
