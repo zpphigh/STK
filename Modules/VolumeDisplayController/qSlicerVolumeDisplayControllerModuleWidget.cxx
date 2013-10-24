@@ -103,6 +103,14 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   //d->ActiveVolumeNodeSelector->setRemoveEnabled(false);
   this->Superclass::setup();
 
+  d->VolumeDisplayWidget->setEnabled(false);
+  d->AxialSliceSlider->setEnabled(false);
+  d->AxialSliceVisibileCheckBox->setEnabled(false);
+  d->CoronalSliceSlider->setEnabled(false);
+  d->CoronalSliceVisibileCheckBox->setEnabled(false);
+  d->SagittalSliceSlider->setEnabled(false);
+  d->SagittalSliceVisibileCheckBox->setEnabled(false);
+
 
   connect(this,SIGNAL(mrmlSceneChanged(vtkMRMLScene*)),  d->ActiveVolumeNodeSelector,SLOT(setMRMLScene(vtkMRMLScene*)));
 
@@ -125,6 +133,16 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
 void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode* node )
 {
 	Q_D(qSlicerVolumeDisplayControllerModuleWidget);
+
+	d->VolumeDisplayWidget->setEnabled(false);
+	d->AxialSliceSlider->setEnabled(false);
+	d->AxialSliceVisibileCheckBox->setEnabled(false);
+	d->CoronalSliceSlider->setEnabled(false);
+	d->CoronalSliceVisibileCheckBox->setEnabled(false);
+	d->SagittalSliceSlider->setEnabled(false);
+	d->SagittalSliceVisibileCheckBox->setEnabled(false);
+	
+
 	qSlicerApplication * app = qSlicerApplication::application();
 	if (!app) return;
 	
@@ -150,8 +168,13 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 		vtkMRMLSliceLogic* logic = sliceWidget->sliceController()->sliceLogic();
 		logic->GetLowestVolumeSliceBounds(sliceBounds);
 		Q_ASSERT(sliceBounds[4] <= sliceBounds[5]);
+
+		d->AxialSliceSlider->setEnabled(true);
+		d->AxialSliceVisibileCheckBox->setEnabled(true);
+
 		d->AxialSliceSlider->setRange(sliceBounds[4], sliceBounds[5]);
 		d->AxialSliceSlider->setValue((sliceBounds[4]+sliceBounds[5])/2);
+		d->AxialSliceVisibileCheckBox->setChecked(d->SliceNode[0]->GetSliceVisible());
 	}
 	if (d->SliceNode[1])
 	{
@@ -160,8 +183,12 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 		vtkMRMLSliceLogic* logic = sliceWidget->sliceController()->sliceLogic();
 		logic->GetLowestVolumeSliceBounds(sliceBounds);
 		Q_ASSERT(sliceBounds[4] <= sliceBounds[5]);
+
+		d->CoronalSliceSlider->setEnabled(true);
+		d->CoronalSliceVisibileCheckBox->setEnabled(true);
 		d->SagittalSliceSlider->setRange(sliceBounds[4], sliceBounds[5]);
 		d->SagittalSliceSlider->setValue((sliceBounds[4]+sliceBounds[5])/2);
+		d->CoronalSliceVisibileCheckBox->setChecked(d->SliceNode[1]->GetSliceVisible());
 	}
 	if (d->SliceNode[2])
 	{
@@ -170,14 +197,21 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 		vtkMRMLSliceLogic* logic = sliceWidget->sliceController()->sliceLogic();
 		logic->GetLowestVolumeSliceBounds(sliceBounds);
 		Q_ASSERT(sliceBounds[4] <= sliceBounds[5]);
+
+		d->SagittalSliceSlider->setEnabled(true);
+		d->SagittalSliceVisibileCheckBox->setEnabled(true);
+
 		d->CoronalSliceSlider->setRange(sliceBounds[4], sliceBounds[5]);
 		d->CoronalSliceSlider->setValue((sliceBounds[4]+sliceBounds[5])/2);
+		d->SagittalSliceVisibileCheckBox->setChecked(d->SliceNode[0]->GetSliceVisible());
 	}
 
 
 
 	//Volume Display 
+	d->VolumeDisplayWidget->setEnabled(true);
 	d->VolumeDisplayWidget->setMRMLVolumeNode(node);
+
 
 
 
@@ -186,7 +220,6 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 		 qSlicerCoreApplication::application()->moduleManager()->module("VolumeRendering")->logic());
 	 if(!volumeRenderingLogic)
 		 return;
-
 
 	 // see if the volume has any display node for a current viewer
 	 vtkMRMLVolumeRenderingDisplayNode *dnode =
@@ -208,7 +241,11 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 		 }
 	 }
 
+	//qvtkReconnect(d->VolumeRenderingDisplayNode, dnode, vtkCommand::ModifiedEvent,this, SLOT(updateFromMRMLDisplayNode()));
+
 	 d->VolumeRenderingDisplayNode = dnode;
+
+	 d->Visibility3DCheckBox->setChecked(d->VolumeRenderingDisplayNode->GetVisibility());
 }
 
 // --------------------------------------------------------------------------

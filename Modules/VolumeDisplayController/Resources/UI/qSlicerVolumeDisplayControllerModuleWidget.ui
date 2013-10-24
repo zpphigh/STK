@@ -25,7 +25,7 @@
         </size>
        </property>
        <property name="text">
-        <string>体数据</string>
+        <string>体数据选择</string>
        </property>
       </widget>
      </item>
@@ -33,7 +33,7 @@
       <widget class="qMRMLNodeComboBox" name="ActiveVolumeNodeSelector" native="true">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>350</width>
          <height>30</height>
         </size>
        </property>
