@@ -112,10 +112,6 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   //d->ActiveVolumeNodeSelector->setRemoveEnabled(false);
   this->Superclass::setup();
 
-  
- 
-
-
   d->VolumeDisplayWidget->setEnabled(false);
   d->AxialSliceSlider->setEnabled(false);
   d->AxialSliceVisibileCheckBox->setEnabled(false);
@@ -129,7 +125,6 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   d->ROICropCheckBox->setEnabled(false);
   d->ROICropDisplayCheckBox->setEnabled(false);
   
-
 
   connect(this,SIGNAL(mrmlSceneChanged(vtkMRMLScene*)),  d->ActiveVolumeNodeSelector,SLOT(setMRMLScene(vtkMRMLScene*)));
 
@@ -273,8 +268,6 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 
 	 onCurrentMRMLDisplayNodeChanged(dnode);
 
-
-
 	 d->Visibility3DCheckBox->setEnabled(true);
 	 bool vrVisible = d->VolumeRenderingDisplayNode->GetVisibility();
 	 d->Visibility3DCheckBox->setChecked(vrVisible);
@@ -286,6 +279,8 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 	 d->ROICropCheckBox->setEnabled(true);
 	 d->ROICropDisplayCheckBox->setEnabled(true);
 	 d->resetFocalPointPushButton->setEnabled(true);
+
+	 stkSlicerDisplayHelper::ResetFocalPoint();
 }
 
 void qSlicerVolumeDisplayControllerModuleWidget::on_resetFocalPointPushButton_clicked()

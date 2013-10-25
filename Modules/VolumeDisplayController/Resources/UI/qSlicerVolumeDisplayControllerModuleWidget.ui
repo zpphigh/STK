@@ -7,196 +7,206 @@
     <x>0</x>
     <y>0</y>
     <width>478</width>
-    <height>467</height>
+    <height>551</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="maximumSize">
-        <size>
-         <width>70</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>体数据选择</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="qMRMLNodeComboBox" name="ActiveVolumeNodeSelector" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>350</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="nodeTypes" stdset="0">
-        <stringlist>
-         <string>vtkMRMLVolumeNode</string>
-        </stringlist>
-       </property>
-       <property name="addEnabled" stdset="0">
-        <bool>false</bool>
-       </property>
-       <property name="renameEnabled" stdset="0">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QCheckBox" name="AxialSliceVisibileCheckBox">
-       <property name="maximumSize">
-        <size>
-         <width>80</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>横断面</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="ctkSliderWidget" name="AxialSliceSlider" native="true"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QCheckBox" name="CoronalSliceVisibileCheckBox">
-       <property name="maximumSize">
-        <size>
-         <width>80</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>冠状面</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="ctkSliderWidget" name="CoronalSliceSlider" native="true"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QCheckBox" name="SagittalSliceVisibileCheckBox">
-       <property name="maximumSize">
-        <size>
-         <width>80</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>矢状面</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="ctkSliderWidget" name="SagittalSliceSlider" native="true"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <widget class="QCheckBox" name="Visibility3DCheckBox">
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>3D</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="qSlicerPresetComboBox" name="PresetsNodeComboBox" native="true"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <item>
-      <widget class="QCheckBox" name="ROICropCheckBox">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>部分显示</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="ctkCheckBox" name="ROICropDisplayCheckBox">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>部分显示边框</string>
-       </property>
-       <property name="indicatorIcon" stdset="0">
-        <iconset>
-         <normaloff>:/Icons/VisibleOn.png</normaloff>
-         <normalon>:/Icons/VisibleOff.png</normalon>:/Icons/VisibleOn.png</iconset>
-       </property>
-       <property name="indicatorIconSize" stdset="0">
-        <size>
-         <width>21</width>
-         <height>21</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="resetFocalPointPushButton">
-       <property name="text">
-        <string>重置显示</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="qSlicerVolumeDisplayWidget" name="VolumeDisplayWidget" native="true">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>数据选择</string>
      </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="qMRMLNodeComboBox" name="ActiveVolumeNodeSelector" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="nodeTypes" stdset="0">
+         <stringlist>
+          <string>vtkMRMLVolumeNode</string>
+         </stringlist>
+        </property>
+        <property name="addEnabled" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="renameEnabled" stdset="0">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="AxialSliceVisibileCheckBox">
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>横断面</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ctkSliderWidget" name="AxialSliceSlider" native="true"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QCheckBox" name="CoronalSliceVisibileCheckBox">
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>冠状面</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ctkSliderWidget" name="CoronalSliceSlider" native="true"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QCheckBox" name="SagittalSliceVisibileCheckBox">
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>矢状面</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ctkSliderWidget" name="SagittalSliceSlider" native="true"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
-    <widget class="qMRMLNodeComboBox" name="VolumePropertyNodeComboBox" native="true">
-     <property name="nodeTypes" stdset="0">
-      <stringlist>
-       <string>vtkMRMLVolumePropertyNode</string>
-      </stringlist>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>三维显示</string>
      </property>
-     <property name="noneEnabled" stdset="0">
-      <bool>true</bool>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QCheckBox" name="Visibility3DCheckBox">
+          <property name="maximumSize">
+           <size>
+            <width>40</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>3D</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="qSlicerPresetComboBox" name="PresetsNodeComboBox" native="true"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="ctkCheckBox" name="ROICropDisplayCheckBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>三维剪切操作</string>
+          </property>
+          <property name="indicatorIcon" stdset="0">
+           <iconset>
+            <normaloff>:/Icons/VisibleOn.png</normaloff>
+            <normalon>:/Icons/VisibleOff.png</normalon>:/Icons/VisibleOn.png</iconset>
+          </property>
+          <property name="indicatorIconSize" stdset="0">
+           <size>
+            <width>21</width>
+            <height>21</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="ROICropCheckBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>三维剪切显示</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="resetFocalPointPushButton">
+          <property name="text">
+           <string>三维居中显示</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="qMRMLNodeComboBox" name="VolumePropertyNodeComboBox" native="true">
+        <property name="nodeTypes" stdset="0">
+         <stringlist>
+          <string>vtkMRMLVolumePropertyNode</string>
+         </stringlist>
+        </property>
+        <property name="noneEnabled" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="renameEnabled" stdset="0">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>二维显示</string>
      </property>
-     <property name="renameEnabled" stdset="0">
-      <bool>true</bool>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="qSlicerVolumeDisplayWidget" name="VolumeDisplayWidget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
