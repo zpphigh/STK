@@ -109,6 +109,10 @@ vtkMRMLVolumeRenderingDisplayNode* stkSlicerVolumeNodeDisplayHelper::CreateVolum
 	displayNode->SetIgnoreVolumeDisplayNodeThreshold(0);
 	displayNode->SetVisibility(1);
 
+	// find the fist view node in the scene
+	//vtkMRMLViewNode* viewNode = vtkMRMLViewNode::SafeDownCast(scene->GetNthNodeByClass(0, "vtkMRMLViewNode"));
+	//displayNode->AddViewNodeID(viewNode ? viewNode->GetID() : 0);
+
 	displayNode->EndModify(wasModifying);
 	if (volumeNode)
 	{
@@ -140,7 +144,7 @@ vtkMRMLVolumeRenderingDisplayNode* createVolumeRenderingDisplayNode(vtkMRMLVolum
 	volumeRenderLogic->UpdateDisplayNodeFromVolumeNode(displayNode, volumeNode, &propNode, &roiNode);
 	// ... but then apply the user settings.
 	displayNode->SetIgnoreVolumeDisplayNodeThreshold(0);
-	displayNode->SetVisibility(1);
+	displayNode->SetVisibility(0);
 
 	//setDefaultPreset
 	vtkMRMLVolumePropertyNode *propertyNode = displayNode->GetVolumePropertyNode();

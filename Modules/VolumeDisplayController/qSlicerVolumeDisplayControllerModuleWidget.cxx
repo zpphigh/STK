@@ -112,6 +112,10 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   //d->ActiveVolumeNodeSelector->setRemoveEnabled(false);
   this->Superclass::setup();
 
+  
+ 
+
+
   d->VolumeDisplayWidget->setEnabled(false);
   d->AxialSliceSlider->setEnabled(false);
   d->AxialSliceVisibileCheckBox->setEnabled(false);
@@ -146,6 +150,11 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
  
   connect(d->ROICropCheckBox,SIGNAL(toggled(bool)),this, SLOT(onCropToggled(bool)));
   connect(d->ROICropDisplayCheckBox, SIGNAL(toggled(bool)),this, SLOT(onROICropDisplayCheckBoxToggled(bool)));
+
+
+  d->VolumePropertyNodeComboBox->setVisible(false);//default hiding this widget
+  connect(this,SIGNAL(mrmlSceneChanged(vtkMRMLScene*)),d->VolumePropertyNodeComboBox,SLOT(setMRMLScene(vtkMRMLScene*)));
+  connect(d->VolumePropertyNodeComboBox,SIGNAL(currentNodeChanged(vtkMRMLNode*)),this,SLOT(onCurrentMRMLVolumePropertyNodeChanged(vtkMRMLNode*)));
 }
 
 
@@ -262,17 +271,17 @@ void qSlicerVolumeDisplayControllerModuleWidget::setMRMLVolumeNode( vtkMRMLNode*
 		 }
 	 }
 
-	//qvtkReconnect(d->VolumeRenderingDisplayNode, dnode, vtkCommand::ModifiedEvent,this, SLOT(updateFromMRMLDisplayNode()));
+	 onCurrentMRMLDisplayNodeChanged(dnode);
 
-	 d->VolumeRenderingDisplayNode = dnode;
+
 
 	 d->Visibility3DCheckBox->setEnabled(true);
-	 d->Visibility3DCheckBox->setChecked(d->VolumeRenderingDisplayNode->GetVisibility());
+	 bool vrVisible = d->VolumeRenderingDisplayNode->GetVisibility();
+	 d->Visibility3DCheckBox->setChecked(vrVisible);
 
 	 d->PresetsNodeComboBox->setEnabled(true);
 	 d->PresetsNodeComboBox->setMRMLScene(volumeRenderingLogic->GetPresetsScene());
-	 d->PresetsNodeComboBox->setCurrentNode(0);
-
+	 //d->PresetsNodeComboBox->setCurrentNode(0);
 	 
 	 d->ROICropCheckBox->setEnabled(true);
 	 d->ROICropDisplayCheckBox->setEnabled(true);
@@ -302,15 +311,8 @@ vtkMRMLVolumeRenderingDisplayNode* qSlicerVolumeDisplayControllerModuleWidget
 ::mrmlVolumeRenderingDisplayNode()const
 {
 	Q_D(const qSlicerVolumeDisplayControllerModuleWidget);
-	//return vtkMRMLVolumeRenderingDisplayNode::SafeDownCast(
-	//	d->DisplayNodeComboBox->currentNode());
-	return NULL;
+	return d->VolumeRenderingDisplayNode;
 }
-
-
-
-
-
 
 void qSlicerVolumeDisplayControllerModuleWidget::setAxialSliceOffsetValue( double newValue)
 {
@@ -450,4 +452,36 @@ void qSlicerVolumeDisplayControllerModuleWidget::onROICropDisplayCheckBoxToggled
 		return;
 
 	d->VolumeRenderingDisplayNode->GetROINode()->SetDisplayVisibility(toggle);
+}
+
+
+
+
+void qSlicerVolumeDisplayControllerModuleWidget::onCurrentMRMLDisplayNodeChanged( vtkMRMLVolumeRenderingDisplayNode* displayNode)
+{
+	Q_D(qSlicerVolumeDisplayControllerModuleWidget);
+	this->qvtkReconnect(d->VolumeRenderingDisplayNode, displayNode, vtkCommand::ModifiedEvent,this, SLOT(updateFromMRMLDisplayNode()));
+
+	d->VolumeRenderingDisplayNode = displayNode;
+
+	this->updateFromMRMLDisplayNode();
+}
+
+void qSlicerVolumeDisplayControllerModuleWidget::updateFromMRMLDisplayNode()
+{
+	Q_D(qSlicerVolumeDisplayControllerModuleWidget);
+	if(!d->VolumeRenderingDisplayNode)
+		return;
+
+	d->VolumePropertyNodeComboBox->setCurrentNode(d->VolumeRenderingDisplayNode->GetVolumePropertyNode());
+}
+
+
+void qSlicerVolumeDisplayControllerModuleWidget::onCurrentMRMLVolumePropertyNodeChanged( vtkMRMLNode* volumePropertyNode)
+{
+	Q_D(qSlicerVolumeDisplayControllerModuleWidget);
+	if (!d->VolumeRenderingDisplayNode)
+		return;
+
+	d->VolumeRenderingDisplayNode->SetAndObserveVolumePropertyNodeID(volumePropertyNode ? volumePropertyNode->GetID() : 0);
 }
