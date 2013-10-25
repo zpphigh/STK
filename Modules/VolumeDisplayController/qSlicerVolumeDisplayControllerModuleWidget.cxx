@@ -108,7 +108,7 @@ void qSlicerVolumeDisplayControllerModuleWidget::setup()
   d->setupUi(this);
 
   //d->ActiveVolumeNodeSelector->setAddEnabled(false);
-  //d->ActiveVolumeNodeSelector->setRenameEnabled(false);
+  d->ActiveVolumeNodeSelector->setRenameEnabled(false);
   //d->ActiveVolumeNodeSelector->setRemoveEnabled(false);
   this->Superclass::setup();
 
