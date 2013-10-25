@@ -480,3 +480,18 @@ void qSlicerVolumeDisplayControllerModuleWidget::onCurrentMRMLVolumePropertyNode
 
 	d->VolumeRenderingDisplayNode->SetAndObserveVolumePropertyNodeID(volumePropertyNode ? volumePropertyNode->GetID() : 0);
 }
+
+void qSlicerVolumeDisplayControllerModuleWidget::enter()
+{
+	Q_D(qSlicerVolumeDisplayControllerModuleWidget);
+	Superclass::enter();
+
+	if(!d->ActiveVolumeNodeSelector->currentNode())
+	{
+		vtkMRMLScalarVolumeNode* node = vtkMRMLScalarVolumeNode::SafeDownCast(this->mrmlScene()->GetNthNodeByClass(0,"vtkMRMLScalarVolumeNode"));
+		if(!node)
+			return;
+
+		d->ActiveVolumeNodeSelector->setCurrentNode(node);
+	}
+}
