@@ -298,7 +298,7 @@ stk_enable_option(SurgeryNavigation "Enable SurgeryNavigation support" ON
                   STK_LIB_SurgeryNavigation)
 
 # The STK infrastructure for SurgeryNavigation support. 
-stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" ON
+stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" OFF
                   STK_LIB_RoboticSurgery)
 
 # The STK infrastructure for SurgeryNavigation support. 
@@ -351,28 +351,27 @@ endif()
 # STK Libraries
 #
 
+stk_lib_option(SlicerExt
+               "Build the 3D Slicer Extention library" ON
+				CTK_ENABLE_SlicerExt
+				)
+
 stk_lib_option(Hyperthermia
                "Build the Hyperthermia library" ON
 				CTK_ENABLE_Hyperthermia
 				)
 
 stk_lib_option(RoboticSurgery
-               "Build the RoboticSurgery library" ON
+               "Build the RoboticSurgery library" OFF
 				CTK_ENABLE_RoboticSurgery
 				)
 
 stk_lib_option(SurgeryNavigation
-               "Build the SurgeryNavigation library" ON
+               "Build the SurgeryNavigation library" OFF
 				CTK_ENABLE_SurgeryNavigation
 				)
 
 
-if(Slicer_FOUND)
-stk_lib_option(SlicerExt
-               "Build the 3D Slicer Extention library" ON
-				CTK_ENABLE_SlicerExt
-				)
-endif()
 
 # Save the set of enabled libs in a cache file
 set(_enabled_libs)
@@ -393,11 +392,11 @@ stk_app_option(stkHyperthermiaApp
                STK_BUILD_EXAMPLES AND CTK_ENABLE_Hyperthermia )
 
 stk_app_option(stkRobotUR5Server
-               "Build the Universal Robot UR5 Server example application" ON
+               "Build the Universal Robot UR5 Server example application" OFF
                STK_BUILD_EXAMPLES AND CTK_ENABLE_RoboticSurgery)
 
 stk_app_option(stkRobotUR5Simulator
-               "Build the Universal Robot UR5 Simulator example application" ON
+               "Build the Universal Robot UR5 Simulator example application" OFF
                STK_BUILD_EXAMPLES AND CTK_ENABLE_RoboticSurgery)
 
 stk_app_option(stkAuroraTrackerApp
@@ -539,7 +538,7 @@ stkFunctionGenerateProjectXml(${STK_BINARY_DIR} ${PROJECT_NAME} "${target_direct
 # STK dependencies - Projects should be TOPOLOGICALLY ordered
 #-----------------------------------------------------------------------------
 set(STK_POSSIBLE_DEPENDENCIES
-  DCMTK
+  #DCMTK
   VTK
   ITK  
   OpenIGTLink
@@ -676,13 +675,12 @@ if(BUILD_TESTING)
 endif()
 
 
-if(Slicer_FOUND)
-	add_subdirectory(Modules)
-endif()
-
 #-----------------------------------------------------------------------------
 # The commands in this directory are intended to be executed as
 # the end of the whole configuration process, as a "last step".
 # This directory is typically the last SUBDIRS in the main CMakeLists.txt.
 add_subdirectory(CMake/LastConfigureStep)
+
+#Slicer Modules
+add_subdirectory(Modules)
 

@@ -14,9 +14,8 @@ Toolkit Dependency
 2. ITK
 3. OpenIGTLink
 4. IGSTK
-5. DCMTK
-6. CTK
-7. 3DSlicer
+5. CTK
+6. 3DSlicer
 
 
 Planned Features

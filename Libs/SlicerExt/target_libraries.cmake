@@ -6,5 +6,4 @@
 
 set(target_libraries
   QT_LIBRARIES
-  STKHyperthermia
   )
