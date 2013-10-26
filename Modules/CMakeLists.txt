@@ -4,6 +4,7 @@ set(Slicer_SKIP_SlicerEnableExtensionTesting TRUE)
 set(SlicerModules
   VolumeDisplayController
   SurgeryRoutePlanning
+  #TumorContourSketch
   )
 
 foreach(module ${SlicerModules})

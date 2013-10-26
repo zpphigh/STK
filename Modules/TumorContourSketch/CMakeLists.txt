@@ -1,10 +1,12 @@
-project(VolumeDisplayController)
+project(TumorContourSketch)
+
 find_package(STK REQUIRED)
 include(${STK_USE_FILE})
 include(${Slicer_USE_FILE})
 
+
 #-----------------------------------------------------------------------------
-set(MODULE_NAME VolumeDisplayController)
+set(MODULE_NAME TumorContourSketch)
 set(MODULE_TITLE ${MODULE_NAME})
 
 string(TOUPPER ${MODULE_NAME} MODULE_NAME_UPPER)
@@ -22,9 +24,6 @@ set(MODULE_INCLUDE_DIRECTORIES
   ${CMAKE_CURRENT_BINARY_DIR}/Logic
   ${CMAKE_CURRENT_SOURCE_DIR}/Widgets
   ${CMAKE_CURRENT_BINARY_DIR}/Widgets
-  ${Slicer_ModuleLogic_INCLUDE_DIRS}
-  ${Slicer_ModuleMRML_INCLUDE_DIRS} 
-  ${Slicer_ModuleWidgets_INCLUDE_DIRS} 
   )
 
 set(MODULE_SRCS
@@ -46,11 +45,6 @@ set(MODULE_UI_SRCS
 set(MODULE_TARGET_LIBRARIES
   vtkSlicer${MODULE_NAME}ModuleLogic
   qSlicer${MODULE_NAME}ModuleWidgets
-  qMRMLWidgets
-  qSlicerVolumesModuleWidgets
-  vtkSlicerVolumeRenderingModuleLogic
-  qSlicerVolumeRenderingModuleWidgets
-  STKSlicerExt
   )
 
 set(MODULE_RESOURCES
