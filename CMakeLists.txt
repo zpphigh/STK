@@ -677,11 +677,7 @@ endif()
 
 
 if(Slicer_FOUND)
-	option(STK_BUILD_SLICER_MODULE_VolumeDisplayController "Build VolumeDisplayController" ON)
-
-	if(STK_BUILD_SLICER_MODULE_VolumeDisplayController)
-		add_subdirectory(Modules/VolumeDisplayController)
-	endif()
+	add_subdirectory(Modules/VolumeDisplayController)
 endif()
 
 #-----------------------------------------------------------------------------

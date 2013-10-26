@@ -1,21 +1,21 @@
-cmake_minimum_required(VERSION 2.8.7)
+#cmake_minimum_required(VERSION 2.8.7)
 project(VolumeDisplayController)
-
-#-----------------------------------------------------------------------------
-if(NOT Slicer_SOURCE_DIR)
-  set(EXTENSION_NAME VolumeViewController)
-  set(EXTENSION_HOMEPAGE "https://github.com/Fitark/STK")
-  set(EXTENSION_CATEGORY "STK")
-  set(EXTENSION_CONTRIBUTORS "Weiming Zhai")
-  set(EXTENSION_DESCRIPTION "Simplified Volume Display Controller for 3D Slicer")
-  set(EXTENSION_ICONURL "http://viewvc.slicer.org/viewvc.cgi/Slicer4/trunk/Extensions/Testing/SurgeryNavigation/Resources/Icons/SurgeryNavigation.png?revision=19437&view=co")
-  set(EXTENSION_SCREENSHOTURLS "http://wiki.slicer.org/slicerWiki/images/4/42/Slicer-r19441-SurgeryNavigation-screenshot.png")
-endif()
+#
+##-----------------------------------------------------------------------------
+#if(NOT Slicer_SOURCE_DIR)
+#  set(EXTENSION_NAME VolumeViewController)
+#  set(EXTENSION_HOMEPAGE "https://github.com/Fitark/STK")
+#  set(EXTENSION_CATEGORY "STK")
+#  set(EXTENSION_CONTRIBUTORS "Weiming Zhai")
+#  set(EXTENSION_DESCRIPTION "Simplified Volume Display Controller for 3D Slicer")
+#  set(EXTENSION_ICONURL "http://viewvc.slicer.org/viewvc.cgi/Slicer4/trunk/Extensions/Testing/SurgeryNavigation/Resources/Icons/SurgeryNavigation.png?revision=19437&view=co")
+#  set(EXTENSION_SCREENSHOTURLS "http://wiki.slicer.org/slicerWiki/images/4/42/Slicer-r19441-SurgeryNavigation-screenshot.png")
+#endif()
 
 find_package(STK REQUIRED)
 include(${STK_USE_FILE})
 
-find_package(Slicer REQUIRED)
+#find_package(Slicer REQUIRED)
 include(${Slicer_USE_FILE})
 
 #-----------------------------------------------------------------------------
