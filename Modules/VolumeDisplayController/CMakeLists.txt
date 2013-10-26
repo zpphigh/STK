@@ -16,6 +16,7 @@ find_package(STK REQUIRED)
 include(${STK_USE_FILE})
 
 #find_package(Slicer REQUIRED)
+
 include(${Slicer_USE_FILE})
 
 #-----------------------------------------------------------------------------
