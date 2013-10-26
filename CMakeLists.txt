@@ -677,6 +677,7 @@ endif()
 
 
 if(Slicer_FOUND)
+	set(Slicer_SKIP_SlicerEnableExtensionTesting TRUE)
 	add_subdirectory(Modules/VolumeDisplayController)
 endif()
 
