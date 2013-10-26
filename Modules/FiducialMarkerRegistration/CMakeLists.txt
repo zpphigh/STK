@@ -1,11 +1,11 @@
-project(SurgeryRoutePlanning)
+project(FiducialMarkerRegistration)
 find_package(STK REQUIRED)
 include(${STK_USE_FILE})
 include(${Slicer_USE_FILE})
 
 
 #-----------------------------------------------------------------------------
-set(MODULE_NAME SurgeryRoutePlanning)
+set(MODULE_NAME FiducialMarkerRegistration)
 set(MODULE_TITLE ${MODULE_NAME})
 
 string(TOUPPER ${MODULE_NAME} MODULE_NAME_UPPER)
