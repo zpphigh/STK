@@ -418,9 +418,9 @@ void qSlicerVolumeDisplayControllerModuleWidget::applyPreset( vtkMRMLNode* node 
 	if (!presetNode || !volumePropertyNode)
 		return;
 
-	assert(presetNode->GetVolumeProperty());
-	assert(presetNode->GetVolumeProperty()->GetRGBTransferFunction());
-	assert(presetNode->GetVolumeProperty()->GetRGBTransferFunction()->GetRange()[1] >presetNode->GetVolumeProperty()->GetRGBTransferFunction()->GetRange()[0]);
+	//assert(presetNode->GetVolumeProperty());
+	//assert(presetNode->GetVolumeProperty()->GetRGBTransferFunction());
+	//assert(presetNode->GetVolumeProperty()->GetRGBTransferFunction()->GetRange()[1] >presetNode->GetVolumeProperty()->GetRGBTransferFunction()->GetRange()[0]);
 	volumePropertyNode->Copy(presetNode);
 	d->VolumeRenderingDisplayNode->Modified();
 }
