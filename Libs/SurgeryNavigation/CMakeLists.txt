@@ -61,6 +61,8 @@ set(KIT_SRCS
 	stkMRMLIGTLServerNode.cpp
 	stkIGTLToMRMLPosition.h
 	stkIGTLToMRMLPosition.cpp
+	stkIGTLToMRMLLinearTransform.h
+	stkIGTLToMRMLLinearTransform.cpp
   )
 
 
