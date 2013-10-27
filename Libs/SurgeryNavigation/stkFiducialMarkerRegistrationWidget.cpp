@@ -160,6 +160,39 @@ void stkFiducialMarkerRegistrationWidget::on_ClearFiducialMarkerToolButton_click
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
+	qSlicerApplication * app = qSlicerApplication::application();
+	if (!app) return;
+
+	vtkMRMLScene* scene = app->mrmlScene();
+	if (!scene)	return;
+
+	// get the active node
+	vtkMRMLNode *mrmlNode = scene->GetNodeByID("vtkMRMLMarkupsFiducialNode1");
+	if(!mrmlNode) return;
+	vtkMRMLMarkupsNode *listNode = vtkMRMLMarkupsNode::SafeDownCast(mrmlNode);
+	if (!listNode){
+		return;
+	}
+
+	// qDebug() << "Removing markups from list " << listNode->GetName();
+	ctkMessageBox deleteAllMsgBox;
+	deleteAllMsgBox.setWindowTitle("Delete All Fiducial Markers in this list?");
+	QString labelText = QString("Delete all ")
+		+ QString::number(listNode->GetNumberOfMarkups())
+		+ QString(" Markups in this list?");
+	// don't show again check box conflicts with informative text, so use
+	// a long text
+	deleteAllMsgBox.setText(labelText);
+	deleteAllMsgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+	deleteAllMsgBox.setDefaultButton(QMessageBox::Yes);
+	deleteAllMsgBox.setDontShowAgainVisible(true);
+	deleteAllMsgBox.setDontShowAgainSettingsKey("Markups/AlwaysDeleteAllMarkups");
+	int ret = deleteAllMsgBox.exec();
+	if (ret == QMessageBox::Yes)
+	{
+		listNode->RemoveAllMarkups();
+	}
+
 }
 
 
