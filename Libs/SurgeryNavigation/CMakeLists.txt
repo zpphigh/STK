@@ -52,7 +52,9 @@ set(KIT_SRCS
 	stkPolarisPivotCalibrationWidget.h
 	stkPolarisPivotCalibrationWidget.cpp
 	stkFiducialMarkerRegistrationWidget.h
-	stkFiducialMarkerRegistrationWidget.cpp	
+	stkFiducialMarkerRegistrationWidget.cpp
+	stkIGTLCircularBuffer.h
+	stkIGTLCircularBuffer.cpp
   )
 
 
