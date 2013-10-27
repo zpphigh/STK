@@ -15,29 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="ctkCollapsibleButton" name="CTKCollapsibleButton" native="true">
-     <property name="text" stdset="0">
-      <string>Display</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="qSlicerFiducialMarkerRegistrationFooBarWidget" name="FooBar" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
+    <widget class="stkFiducialMarkerRegistrationWidget" name="FiducialMarkerRegistrationWidget" native="true"/>
    </item>
   </layout>
  </widget>
@@ -49,15 +27,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ctkCollapsibleButton</class>
+   <class>stkFiducialMarkerRegistrationWidget</class>
    <extends>QWidget</extends>
-   <header>ctkCollapsibleButton.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>qSlicerFiducialMarkerRegistrationFooBarWidget</class>
-   <extends>QWidget</extends>
-   <header>qSlicerFiducialMarkerRegistrationFooBarWidget.h</header>
+   <header>stkFiducialMarkerRegistrationWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
