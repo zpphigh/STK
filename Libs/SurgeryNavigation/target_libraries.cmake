@@ -10,4 +10,5 @@ set(target_libraries
   IGSTK_LIBRARIES
   ITK_LIBRARIES
   VTK_LIBRARIES
+  STKSlicerExt
   )

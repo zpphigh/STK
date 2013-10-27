@@ -2,9 +2,10 @@ project(stkPolarisTrackerApp)
 
 find_package(IGSTK REQUIRED)
 include(${IGSTK_USE_FILE})
+include(${Slicer_USE_FILE})
 
-find_package(OpenIGTLink REQUIRED)
-include(${OpenIGTLink_USE_FILE})
+#find_package(OpenIGTLink REQUIRED)
+#include(${OpenIGTLink_USE_FILE})
 
 #
 # See STK/CMake/stkMacroBuildApp.cmake for details

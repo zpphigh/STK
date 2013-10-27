@@ -15,6 +15,7 @@ project(STKSurgeryNavigation)
 # 3rd party dependencies
 #
 include(${IGSTK_USE_FILE})
+include(${Slicer_USE_FILE})
 
 
 # CMake modules

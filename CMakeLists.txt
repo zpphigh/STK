@@ -45,12 +45,7 @@ project(STK)
 
 #We may try to find a previous build slicer to skip some external project builds
 find_package(Slicer)
-if(Slicer_FOUND)
-	OPTION(STK_USE_SLICER ON)
-else()
-	OPTION(STK_USE_SLICER OFF)
-endif()
-
+set(Slicer_SKIP_SlicerEnableExtensionTesting TRUE)
 
 #-----------------------------------------------------------------------------
 # Library mode: SHARED (default) or STATIC

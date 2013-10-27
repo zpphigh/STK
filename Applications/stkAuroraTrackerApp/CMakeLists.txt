@@ -4,7 +4,7 @@ project(stkAuroraTrackerApp)
 # 3rd party dependencies
 #
 include(${IGSTK_USE_FILE})
-include(${OpenIGTLink_USE_FILE})
+include(${Slicer_USE_FILE})
 
 #
 # See STK/CMake/stkMacroBuildApp.cmake for details
