@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Icons/AddFiducialMarkerOff.png</file>
+        <file>Icons/AddFiducialMarkerOn.png</file>
+        <file>Icons/StartTracker.png</file>
+        <file>Icons/StopTracker.png</file>
+        <file>Icons/TrackerToolMissing.png</file>
+        <file>Icons/TrackerToolOK.png</file>
+    </qresource>
+</RCC>

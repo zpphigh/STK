@@ -1,23 +1,164 @@
-<UI version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>stkFiducialMarkerRegistrationWidget</class>
- <widget class="QWidget" name="stkFiducialMarkerRegistrationWidget" >
-  <property name="objectName" >
-   <string notr="true">stkFiducialMarkerRegistrationWidget</string>
-  </property>
-  <property name="geometry" >
+ <widget class="QWidget" name="stkFiducialMarkerRegistrationWidget">
+  <property name="geometry">
    <rect>
-	<x>0</x>
-	<y>0</y>
-	<width>400</width>
-	<height>300</height>
+    <x>0</x>
+    <y>0</y>
+    <width>268</width>
+    <height>405</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>stkFiducialMarkerRegistrationWidget</string>
-  </property>  
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QToolButton" name="AddFiducialMarkerToolButton">
+       <property name="minimumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="Resources/stkSurgeryNavigation.qrc">
+         <normaloff>:/Icons/AddFiducialMarkerOff.png</normaloff>
+         <normalon>:/Icons/AddFiducialMarkerOn.png</normalon>:/Icons/AddFiducialMarkerOff.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="StartTrackerToolButton">
+       <property name="minimumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="Resources/stkSurgeryNavigation.qrc">
+         <normaloff>:/Icons/StartTracker.png</normaloff>
+         <normalon>:/Icons/StopTracker.png</normalon>:/Icons/StartTracker.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="CollectFiducialToolButton">
+       <property name="minimumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="Resources/stkSurgeryNavigation.qrc">
+         <normaloff>:/Icons/TrackerToolOK.png</normaloff>
+         <normalon>:/Icons/TrackerToolOK.png</normalon>
+         <disabledoff>:/Icons/TrackerToolMissing.png</disabledoff>
+         <disabledon>:/Icons/TrackerToolMissing.png</disabledon>:/Icons/TrackerToolOK.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="FiducialMarkerTableWidget">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <column>
+      <property name="text">
+       <string>ID</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Image Point</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Device Point</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
- <resources/>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="Resources/stkSurgeryNavigation.qrc"/>
+ </resources>
  <connections/>
-</UI>
+</ui>
