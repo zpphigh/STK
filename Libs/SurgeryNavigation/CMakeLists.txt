@@ -115,6 +115,7 @@ set(KIT_target_libraries
   qSlicerBaseQTCore
   qSlicerBaseQTApp
   SlicerBaseLogic
+  vtkSlicerMarkupsModuleMRML
   ${KIT_target_libraries}
 )
 
