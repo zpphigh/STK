@@ -5,7 +5,7 @@ set(SlicerModules
   VolumeDisplayController
   FiducialMarkerRegistration 
   SurgeryRoutePlanning
-  #TumorContourSketch
+  TumorContourSketch
   )
 
 foreach(module ${SlicerModules})
