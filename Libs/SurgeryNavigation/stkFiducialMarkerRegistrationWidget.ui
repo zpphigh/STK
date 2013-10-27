@@ -40,8 +40,8 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>64</width>
-         <height>64</height>
+         <width>48</width>
+         <height>48</height>
         </size>
        </property>
        <property name="checkable">
@@ -66,6 +66,12 @@
        <property name="text">
         <string>Delete</string>
        </property>
+       <property name="iconSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
       </widget>
      </item>
      <item>
@@ -85,10 +91,16 @@
        <property name="text">
         <string>Clear</string>
        </property>
+       <property name="iconSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="StartTrackerToolButton">
+      <widget class="QToolButton" name="StartTrackingToolButton">
        <property name="minimumSize">
         <size>
          <width>48</width>
@@ -111,14 +123,17 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>64</width>
-         <height>64</height>
+         <width>48</width>
+         <height>48</height>
         </size>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="CollectFiducialToolButton">
+      <widget class="QToolButton" name="CalibrationToolButton">
        <property name="minimumSize">
         <size>
          <width>48</width>
@@ -143,9 +158,12 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>64</width>
-         <height>64</height>
+         <width>48</width>
+         <height>48</height>
         </size>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

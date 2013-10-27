@@ -220,7 +220,7 @@ void stkAuroraTracker::SetFrequency( double frequencyInHz )
 }
 
 
-void stkAuroraTracker::AttachTrackerTool(QString name, QString portNumber)
+stkTrackerTool* stkAuroraTracker::AttachTrackerTool(QString name, QString portNumber)
 {
 	Q_D(stkAuroraTracker);
 
@@ -229,6 +229,7 @@ void stkAuroraTracker::AttachTrackerTool(QString name, QString portNumber)
 	int channelNumber = 0;
 
 	d->TrackerTools[name] = new stkAuroraTrackerTool(name,toolDof,port,channelNumber,d->Tracker);
+	return d->TrackerTools[name];	
 }
 
 void stkAuroraTracker::AttachTrackerTool5D(QString name, QString portNumber, QString channelNumber)

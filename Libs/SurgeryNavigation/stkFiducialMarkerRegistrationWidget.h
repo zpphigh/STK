@@ -25,11 +25,24 @@ public:
 	stkFiducialMarkerRegistrationWidget(QWidget *parent = 0);
 	~stkFiducialMarkerRegistrationWidget();
 
+
+
+	//The following three function is used to configure which Tracker to use and related parameters
+	void UseTrackerAurora(int comPort);
+	void UseTrackerPolaris(int comPort);
+	void UseTrackerAscension();
+
+public slots:
+	bool StartTracking();
+	void StopTracking();
+
 protected slots:
 	void on_AddFiducialMarkerToolButton_clicked();
 	void on_DeleteFiducialMarkerToolButton_clicked();
 	void on_ClearFiducialMarkerToolButton_clicked();
+	void on_StartTrackingToolButton_clicked();
 
+	void setCalibrationToolDataValid(bool valid);
 	void onMarkupNodeAdded();
 	void onActiveMarkupsNodeMarkupAddedEvent();
 	void onActiveMarkupsNodePointModifiedEvent(vtkObject *caller, vtkObject *callData);

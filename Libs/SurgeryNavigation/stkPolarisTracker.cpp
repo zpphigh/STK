@@ -213,11 +213,12 @@ void stkPolarisTracker::SetFrequency( double frequencyInHz )
 }
 
 
-void stkPolarisTracker::AttachTrackerTool(QString name,  QString  romFile)
+stkTrackerTool* stkPolarisTracker::AttachTrackerTool(QString name,  QString  romFile)
 {
 	Q_D(stkPolarisTracker);
 
 	d->TrackerTools[name] = new stkPolarisTrackerTool(name,romFile,d->Tracker);
+	return d->TrackerTools[name];
 }
 
 bool stkPolarisTracker::DetachTrackerTool(QString name)

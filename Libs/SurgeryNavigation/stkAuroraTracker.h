@@ -58,7 +58,7 @@ public:
 	int comPortNum() const;
 	void setComPortNum(int num);
 
-	virtual void AttachTrackerTool(QString name, QString portNumber);
+	virtual stkTrackerTool* AttachTrackerTool(QString name, QString portNumber);
 	virtual void AttachTrackerTool5D(QString name, QString portNumber, QString channelNumber);
 	virtual bool DetachTrackerTool(QString name);
 	virtual stkTrackerTool* GetTrackerTool(QString name);

@@ -18,14 +18,32 @@
 #include "itkPoint.h"
 typedef  std::vector<itk::Point<double, 3> > PointList;
 
+
+#include "stkPolarisTracker.h"
+#include "stkPolarisTrackerTool.h"
+#include "stkAuroraTracker.h"
+#include "stkAuroraTrackerTool.h"
+
+enum TrackerType{
+	TRACKER_TYPE_NONE      = 0,
+	TRACKER_TYPE_ASCENSION      = 1,
+	TRACKER_TYPE_POLARIS = 2,
+	TRACKER_TYPE_AURORA   = 3
+};
+
+
 class stkFiducialMarkerRegistrationWidgetPrivate : public Ui_stkFiducialMarkerRegistrationWidget
 {
 public:
-
 	int NumFiducials;
 	int NumFiducialsCollected;
 	PointList FiducialMarkerPoints;
 	PointList ToolPoints;
+
+	//Tracker
+	int TrackerType;
+	stkTracker* Tracker;
+	stkTrackerTool* CalibrationTool;
 
 };
 
@@ -35,6 +53,10 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 	d->setupUi(this);
+
+	d->TrackerType = TRACKER_TYPE_NONE;
+	d->Tracker = NULL;
+	d->CalibrationTool = NULL;
 
 	d->FiducialMarkerTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	d->FiducialMarkerTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows); 
@@ -54,6 +76,31 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 
 stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 {
+
+}
+
+void stkFiducialMarkerRegistrationWidget::UseTrackerAurora(int comPort)
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+	d->TrackerType = TRACKER_TYPE_AURORA;
+	stkAuroraTracker* tracker = new stkAuroraTracker;
+	tracker->setComPortNum(comPort);
+	d->Tracker = tracker;
+}
+
+void stkFiducialMarkerRegistrationWidget::UseTrackerPolaris(int comPort)
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+	d->TrackerType = TRACKER_TYPE_POLARIS;
+	stkPolarisTracker* tracker = new stkPolarisTracker;
+	tracker->setComPortNum(comPort);
+	d->Tracker = tracker;
+}
+
+void stkFiducialMarkerRegistrationWidget::UseTrackerAscension()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+	d->TrackerType = TRACKER_TYPE_ASCENSION;
 
 }
 
@@ -376,6 +423,51 @@ void stkFiducialMarkerRegistrationWidget::updateFiducialMarkers()
 
 	}
 	d->FiducialMarkerTableWidget->selectRow(0);
+}
 
+
+
+void stkFiducialMarkerRegistrationWidget::on_StartTrackingToolButton_clicked()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+
+	if(d->StartTrackingToolButton->isChecked())
+		this->StartTracking();
+	else
+		this->StopTracking();
+}
+
+
+bool stkFiducialMarkerRegistrationWidget::StartTracking()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+
+	if(d->TrackerType == TRACKER_TYPE_AURORA)
+	{
+		if(!d->Tracker->Open())
+			return false;
+
+		d->CalibrationTool = d->Tracker->AttachTrackerTool("CalibrationTool", "0");
+		if(!d->CalibrationTool)
+			return false;
+
+		connect(d->CalibrationTool, SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
+	}
+
+
+	return true;
+}
+
+void stkFiducialMarkerRegistrationWidget::StopTracking()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
 
 }
+
+void stkFiducialMarkerRegistrationWidget::setCalibrationToolDataValid(bool valid)
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+	d->CalibrationToolButton->setEnabled(valid);
+}
+
+

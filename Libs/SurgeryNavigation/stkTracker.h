@@ -58,7 +58,7 @@ public:
 	virtual void SetFrequency( double frequencyInHz ) = 0;
 
 
-	virtual void AttachTrackerTool(QString name, QString options) = 0;
+	virtual stkTrackerTool* AttachTrackerTool(QString name, QString options) = 0;
 	virtual void AttachTrackerTool5D(QString name, QString options, QString options2) = 0;
 	virtual bool DetachTrackerTool(QString name) =0;
 	virtual stkTrackerTool* GetTrackerTool(QString name) = 0;
