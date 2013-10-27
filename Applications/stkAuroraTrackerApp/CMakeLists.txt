@@ -28,6 +28,7 @@ set(KIT_UI_FORMS
 #include_directories
 set(${PROJECT_NAME}_DEPENDENCIES
   STKSurgeryNavigation
+  STKSlicerExt
 )
 
 # Fix this after having discussed include dependencies with Jc

@@ -1,10 +1,21 @@
-#ifndef STKFIDUCIALMARKERREGISTRATIONWIDGET_H
-#define STKFIDUCIALMARKERREGISTRATIONWIDGET_H
+/*=========================================================================
 
+  Library:   STK
+
+  Copyright (c) fitark.org
+
+=========================================================================*/
+#pragma once
+
+// STK includes
+#include "stkSurgeryNavigationExport.h"
+
+// Qt includes
 #include <QWidget>
-#include "ui_stkFiducialMarkerRegistrationWidget.h"
 
-class stkFiducialMarkerRegistrationWidget : public QWidget
+
+class stkFiducialMarkerRegistrationWidgetPrivate;
+class STK_SURGERYNAVIGATION_EXPORT stkFiducialMarkerRegistrationWidget : public QWidget
 {
 	Q_OBJECT
 
@@ -12,8 +23,10 @@ public:
 	stkFiducialMarkerRegistrationWidget(QWidget *parent = 0);
 	~stkFiducialMarkerRegistrationWidget();
 
-private:
-	Ui::stkFiducialMarkerRegistrationWidget ui;
-};
+protected:
+	QScopedPointer<stkFiducialMarkerRegistrationWidgetPrivate> d_ptr;
 
-#endif // STKFIDUCIALMARKERREGISTRATIONWIDGET_H
+private:
+	Q_DECLARE_PRIVATE(stkFiducialMarkerRegistrationWidget);
+	Q_DISABLE_COPY(stkFiducialMarkerRegistrationWidget);
+};
