@@ -13,6 +13,7 @@
 // Qt includes
 #include "qSlicerWidget.h"
 
+class vtkMRMLNode;
 
 class stkFiducialMarkerRegistrationWidgetPrivate;
 class STK_SURGERYNAVIGATION_EXPORT stkFiducialMarkerRegistrationWidget : public qSlicerWidget
@@ -27,7 +28,16 @@ public:
 public slots:
 	void on_AddFiducialMarkerToolButton_clicked();
 
+	void onMarkupNodeAdded();
+	void onActiveMarkupsNodeMarkupAddedEvent();
+	void onActiveMarkupsNodePointModifiedEvent(vtkObject *caller, vtkObject *callData);
+	void onActiveMarkupsNodeMarkupRemovedEvent();
+	void onActiveMarkupsNodeDisplayModifiedEvent();
 	void updateFiducialMarkers();
+
+private:
+	void observeMarkupsNode(vtkMRMLNode *markupsNode);
+
 
 protected:
 	QScopedPointer<stkFiducialMarkerRegistrationWidgetPrivate> d_ptr;

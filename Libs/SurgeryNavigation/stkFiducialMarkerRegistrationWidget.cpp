@@ -5,11 +5,14 @@
 #include <ctkVTKObject.h>
 
 #include "qSlicerApplication.h"
+
+#include "vtkCollection.h"
 #include "vtkMRMLScene.h"
 #include "vtkMRMLInteractionNode.h"
 #include "vtkMRMLSelectionNode.h"
 #include "vtkMRMLNode.h"
 #include "vtkMRMLMarkupsNode.h"
+#include "vtkMRMLDisplayNode.h"
 
 #include "itkPoint.h"
 typedef  std::vector<itk::Point<double, 3> > PointList;
@@ -34,9 +37,9 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 
 	d->FiducialMarkerTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	d->FiducialMarkerTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows); 
-	d->FiducialMarkerTableWidget->setColumnWidth(0,50);
-	d->FiducialMarkerTableWidget->setColumnWidth(1,150);
-	d->FiducialMarkerTableWidget->setColumnWidth(2,150);
+	d->FiducialMarkerTableWidget->setColumnWidth(0,30);
+	d->FiducialMarkerTableWidget->setColumnWidth(1,100);
+	d->FiducialMarkerTableWidget->setColumnWidth(2,100);
 
 	qSlicerApplication * app = qSlicerApplication::application();
 	if (!app) return;
@@ -44,7 +47,7 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	vtkMRMLScene* scene = app->mrmlScene();
 	if (!scene)	return;
 
-	this->qvtkConnect(scene,vtkMRMLScene::NodeAddedEvent, this, SLOT(updateFiducialMarkers())); 
+	this->qvtkConnect(scene,vtkMRMLScene::NodeAddedEvent, this, SLOT(onMarkupNodeAdded())); 
 }
 
 
@@ -79,6 +82,135 @@ void stkFiducialMarkerRegistrationWidget::on_AddFiducialMarkerToolButton_clicked
 		interationNode->SwitchToViewTransformMode();
 	}
 }
+
+void stkFiducialMarkerRegistrationWidget::onMarkupNodeAdded()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);	
+
+	qSlicerApplication * app = qSlicerApplication::application();
+	if (!app) return;
+
+	vtkMRMLScene* scene = app->mrmlScene();
+	if (!scene)	return;
+
+	vtkMRMLNode *markupsNodeMRML = scene->GetNodeByID("vtkMRMLMarkupsFiducialNode1");
+	if(!markupsNodeMRML) return;
+
+	vtkMRMLMarkupsNode *markupsNode = vtkMRMLMarkupsNode::SafeDownCast(markupsNodeMRML);
+	if(!markupsNode) return;
+
+	observeMarkupsNode(markupsNode);
+
+	updateFiducialMarkers();
+}
+
+
+//-----------------------------------------------------------------------------
+void stkFiducialMarkerRegistrationWidget::observeMarkupsNode(vtkMRMLNode *markupsNode)
+{
+	qSlicerApplication * app = qSlicerApplication::application();
+	if (!app) return;
+
+	vtkMRMLScene* scene = app->mrmlScene();
+	if (!scene)	return;
+
+	
+	// remove all connections
+	vtkCollection *col = scene->GetNodesByClass("vtkMRMLMarkupsNode");
+	unsigned int numNodes = col->GetNumberOfItems();
+	for (unsigned int n = 0; n < numNodes; n++)
+	{
+		vtkMRMLNode *node = vtkMRMLNode::SafeDownCast(col->GetItemAsObject(n));
+		if (node)
+		{
+			if (markupsNode)
+			{
+				// is this the markups node?
+				if (node->GetID() && markupsNode->GetID() && strcmp(node->GetID(), markupsNode->GetID()) == 0)
+				{
+					// don't disconnect
+					// qDebug() << "\tskipping disconnecting " << node->GetID();
+					continue;
+				}
+			}
+			// qDebug() << "\tdisconnecting " << node->GetID();
+			//this->qvtkDisconnect(node, vtkMRMLMarkupsNode::LockModifiedEvent,					this, SLOT(onActiveMarkupsNodeLockModifiedEvent()));
+			//this->qvtkDisconnect(node, vtkMRMLMarkupsNode::LabelFormatModifiedEvent,			this, SLOT(onActiveMarkupsNodeLabelFormatModifiedEvent()));
+			this->qvtkDisconnect(node, vtkMRMLMarkupsNode::PointModifiedEvent,					this, SLOT(onActiveMarkupsNodePointModifiedEvent(vtkObject*,vtkObject*)));
+			//this->qvtkDisconnect(node, vtkMRMLMarkupsNode::NthMarkupModifiedEvent,			this, SLOT(onActiveMarkupsNodeNthMarkupModifiedEvent(vtkObject*,vtkObject*)));
+			this->qvtkDisconnect(node, vtkMRMLMarkupsNode::MarkupAddedEvent,					this, SLOT(onActiveMarkupsNodeMarkupAddedEvent()));
+			this->qvtkDisconnect(node, vtkMRMLMarkupsNode::MarkupRemovedEvent,					this, SLOT(onActiveMarkupsNodeMarkupRemovedEvent()));
+
+			// display node
+			vtkMRMLMarkupsNode *displayableNode = vtkMRMLMarkupsNode::SafeDownCast(node);
+			if (displayableNode)
+			{
+				vtkMRMLDisplayNode *displayNode = displayableNode->GetDisplayNode();
+				if (displayNode)
+				{
+					this->qvtkDisconnect(displayNode, vtkCommand::ModifiedEvent,				this, SLOT(onActiveMarkupsNodeDisplayModifiedEvent()));
+				}
+			}
+		}
+	}
+	col->RemoveAllItems();
+	col->Delete();
+
+
+	if (markupsNode)
+	{
+		// is the node already connected?
+		if (this->qvtkIsConnected(markupsNode, vtkMRMLMarkupsNode::LockModifiedEvent,		this, SLOT(onActiveMarkupsNodeLockModifiedEvent())))
+		{
+			// qDebug() << "\tmarkups node is already connected: " << markupsNode->GetID();
+		}
+		else
+		{
+			// add connections for this node
+			//this->qvtkConnect(markupsNode, vtkMRMLMarkupsNode::LockModifiedEvent,				this, SLOT(onActiveMarkupsNodeLockModifiedEvent()));
+			//this->qvtkConnect(markupsNode, vtkMRMLMarkupsNode::LabelFormatModifiedEvent,		this, SLOT(onActiveMarkupsNodeLabelFormatModifiedEvent()));
+			this->qvtkConnect(markupsNode, vtkMRMLMarkupsNode::PointModifiedEvent,				this, SLOT(onActiveMarkupsNodePointModifiedEvent(vtkObject*,vtkObject*)));
+			//this->qvtkConnect(markupsNode, vtkMRMLMarkupsNode::NthMarkupModifiedEvent,		this, SLOT(onActiveMarkupsNodeNthMarkupModifiedEvent(vtkObject*,vtkObject*)));
+			this->qvtkConnect(markupsNode, vtkMRMLMarkupsNode::MarkupAddedEvent,				this, SLOT(onActiveMarkupsNodeMarkupAddedEvent()));
+			this->qvtkConnect(markupsNode, vtkMRMLMarkupsNode::MarkupRemovedEvent,				this, SLOT(onActiveMarkupsNodeMarkupRemovedEvent()));
+			// qDebug() << "\tconnected markups node " << markupsNode->GetID();
+			// display node
+			vtkMRMLMarkupsNode *displayableNode = vtkMRMLMarkupsNode::SafeDownCast(markupsNode);
+			if (displayableNode)
+			{
+				vtkMRMLDisplayNode *displayNode = displayableNode->GetDisplayNode();
+				if (displayNode)
+				{
+					this->qvtkConnect(displayNode, vtkCommand::ModifiedEvent,this, SLOT(onActiveMarkupsNodeDisplayModifiedEvent()));
+				}
+			}
+		}
+	}
+}
+
+
+
+//-----------------------------------------------------------------------------
+void stkFiducialMarkerRegistrationWidget::onActiveMarkupsNodeMarkupAddedEvent()//vtkMRMLNode *markupsNode)
+{
+	updateFiducialMarkers();
+}
+
+void stkFiducialMarkerRegistrationWidget::onActiveMarkupsNodePointModifiedEvent(vtkObject *caller, vtkObject *callData)
+{
+	updateFiducialMarkers();
+}
+
+void stkFiducialMarkerRegistrationWidget::onActiveMarkupsNodeMarkupRemovedEvent()
+{
+	updateFiducialMarkers();
+}
+
+void stkFiducialMarkerRegistrationWidget::onActiveMarkupsNodeDisplayModifiedEvent()
+{
+	updateFiducialMarkers();
+}
+
 
 void stkFiducialMarkerRegistrationWidget::updateFiducialMarkers()
 {
