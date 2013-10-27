@@ -55,6 +55,8 @@ set(KIT_SRCS
 	stkFiducialMarkerRegistrationWidget.cpp
 	stkIGTLCircularBuffer.h
 	stkIGTLCircularBuffer.cpp
+	stkIGTLToMRMLBase.h
+	stkIGTLToMRMLBase.cpp
   )
 
 
