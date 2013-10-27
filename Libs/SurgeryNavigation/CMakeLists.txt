@@ -51,6 +51,8 @@ set(KIT_SRCS
 	stkPivotCalibrationWidget.cpp	
 	stkPolarisPivotCalibrationWidget.h
 	stkPolarisPivotCalibrationWidget.cpp
+	stkFiducialMarkerRegistrationWidget.h
+	stkFiducialMarkerRegistrationWidget.cpp	
   )
 
 
@@ -66,6 +68,7 @@ set(KIT_MOC_SRCS
 	stkPolarisTrackerWidget.h
 	stkPivotCalibrationWidget.h
 	stkPolarisPivotCalibrationWidget.h
+	stkFiducialMarkerRegistrationWidget.h
   )
 
 
@@ -75,6 +78,7 @@ set(KIT_UI_FORMS
 	stkPolarisTrackerWidget.ui
 	stkPivotCalibrationWidget.ui
 	stkPolarisPivotCalibrationWidget.ui
+	stkFiducialMarkerRegistrationWidget.ui
 )
 
 # Resources
