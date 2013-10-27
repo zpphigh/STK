@@ -23,6 +23,9 @@ public:
 	stkFiducialMarkerRegistrationWidget(QWidget *parent = 0);
 	~stkFiducialMarkerRegistrationWidget();
 
+public slots:
+	void on_AddFiducialMarkerToolButton_clicked();
+
 protected:
 	QScopedPointer<stkFiducialMarkerRegistrationWidgetPrivate> d_ptr;
 

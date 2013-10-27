@@ -86,11 +86,37 @@ set(KIT_resources
 	Resources/stkSurgeryNavigation.qrc
 )
 
+# Includes
+set(KIT_INCLUDE_DIRECTORIES
+	${MRMLCore_INCLUDE_DIRS}
+	${Slicer_Libs_INCLUDE_DIRS}
+    ${Slicer_Base_INCLUDE_DIRS}
+    ${Slicer_ModuleLogic_INCLUDE_DIRS}
+    ${Slicer_ModuleMRML_INCLUDE_DIRS} 
+	${Slicer_ModuleWidgets_INCLUDE_DIRS} 
+    ${KIT_INCLUDE_DIRECTORIES}
+)
+
+include_directories(${KIT_INCLUDE_DIRECTORIES})
+
 # Target libraries - See CMake/stkFunctionGetTargetLibraries.cmake
 # The following macro will read the target libraries from the file 'target_libraries.cmake'
 set(KIT_target_libraries)
 
 stkFunctionGetTargetLibraries(KIT_target_libraries)
+
+set(KIT_target_libraries
+  MRMLDisplayableManager
+  MRMLLogic
+  RemoteIO
+  MRMLCore
+  qSlicerModulesCore
+  qSlicerBaseQTGUI
+  qSlicerBaseQTCore
+  qSlicerBaseQTApp
+  SlicerBaseLogic
+  ${KIT_target_libraries}
+)
 
 stkMacroBuildLib(
   NAME ${PROJECT_NAME}
