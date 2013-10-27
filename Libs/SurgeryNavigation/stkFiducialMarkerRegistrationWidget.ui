@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>268</width>
+    <width>392</width>
     <height>405</height>
    </rect>
   </property>
@@ -20,14 +20,14 @@
       <widget class="QToolButton" name="AddFiducialMarkerToolButton">
        <property name="minimumSize">
         <size>
-         <width>64</width>
-         <height>64</height>
+         <width>48</width>
+         <height>48</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>64</width>
-         <height>64</height>
+         <width>48</width>
+         <height>48</height>
         </size>
        </property>
        <property name="text">
@@ -50,17 +50,55 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="StartTrackerToolButton">
+      <widget class="QPushButton" name="DeleteFiducialMarkerToolButton">
        <property name="minimumSize">
         <size>
-         <width>64</width>
-         <height>64</height>
+         <width>48</width>
+         <height>48</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>64</width>
-         <height>64</height>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ClearFiducialMarkerToolButton">
+       <property name="minimumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Clear</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="StartTrackerToolButton">
+       <property name="minimumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
         </size>
        </property>
        <property name="text">
@@ -83,14 +121,14 @@
       <widget class="QToolButton" name="CollectFiducialToolButton">
        <property name="minimumSize">
         <size>
-         <width>64</width>
-         <height>64</height>
+         <width>48</width>
+         <height>48</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>64</width>
-         <height>64</height>
+         <width>48</width>
+         <height>48</height>
         </size>
        </property>
        <property name="text">

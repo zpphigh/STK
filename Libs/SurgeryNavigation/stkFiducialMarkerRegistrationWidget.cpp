@@ -13,6 +13,7 @@
 #include "vtkMRMLNode.h"
 #include "vtkMRMLMarkupsNode.h"
 #include "vtkMRMLDisplayNode.h"
+#include "ctkMessageBox.h"
 
 #include "itkPoint.h"
 typedef  std::vector<itk::Point<double, 3> > PointList;
@@ -82,6 +83,85 @@ void stkFiducialMarkerRegistrationWidget::on_AddFiducialMarkerToolButton_clicked
 		interationNode->SwitchToViewTransformMode();
 	}
 }
+
+void stkFiducialMarkerRegistrationWidget::on_DeleteFiducialMarkerToolButton_clicked()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+
+	// get the selected rows
+	QList<QTableWidgetItem *> selectedItems = d->FiducialMarkerTableWidget->selectedItems();
+
+	// first, check if nothing is selected
+	if (selectedItems.isEmpty())
+	{
+		return;
+	}
+
+	qSlicerApplication * app = qSlicerApplication::application();
+	if (!app) return;
+
+	vtkMRMLScene* scene = app->mrmlScene();
+	if (!scene)	return;
+
+	// get the active node
+	vtkMRMLNode *mrmlNode = scene->GetNodeByID("vtkMRMLMarkupsFiducialNode1");
+	if(!mrmlNode) return;
+	vtkMRMLMarkupsNode *listNode = vtkMRMLMarkupsNode::SafeDownCast(mrmlNode);
+	if (!listNode){
+		return;
+	}
+
+	
+	// iterate over the selected items and save their row numbers (there are
+	// selected indices for each column in a row, so jump by the number of
+	// columns), so can delete without relying on the table
+	QList<int> rows;
+	
+	for (int i = 0; i < selectedItems.size(); i += d->FiducialMarkerTableWidget->columnCount())
+	{
+		// get the row
+		int row = selectedItems.at(i)->row();
+		// qDebug() << "Saving: i = " << i << ", row = " << row;
+		rows << row;
+	}
+	// sort the list
+	qSort(rows);
+
+	ctkMessageBox deleteAllMsgBox;
+	deleteAllMsgBox.setWindowTitle("Delete Fiducial Markers in this list?");
+	QString labelText = QString("Delete ")
+		+ QString::number(rows.size())
+		+ QString(" Fiducial Markers from this list?");
+	// don't show again check box conflicts with informative text, so use
+	// a long text
+	deleteAllMsgBox.setText(labelText);
+	deleteAllMsgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+	deleteAllMsgBox.setDefaultButton(QMessageBox::Yes);
+	deleteAllMsgBox.setDontShowAgainVisible(true);
+	deleteAllMsgBox.setDontShowAgainSettingsKey("Markups/AlwaysDeleteMarkups");
+	int ret = deleteAllMsgBox.exec();
+	if (ret == QMessageBox::Yes)
+	{
+		// delete from the end
+		for (int i = rows.size() - 1; i >= 0; --i)
+		{
+			int index = rows.at(i);
+			// qDebug() << "Deleting: i = " << i << ", index = " << index;
+			// remove the markup at that row
+			listNode->RemoveMarkup(index);
+		}
+	}
+
+	// clear the selection on the table
+	d->FiducialMarkerTableWidget->clearSelection();
+}
+
+void stkFiducialMarkerRegistrationWidget::on_ClearFiducialMarkerToolButton_clicked()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+
+}
+
 
 void stkFiducialMarkerRegistrationWidget::onMarkupNodeAdded()
 {

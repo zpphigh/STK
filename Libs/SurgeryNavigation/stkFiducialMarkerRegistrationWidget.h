@@ -25,8 +25,10 @@ public:
 	stkFiducialMarkerRegistrationWidget(QWidget *parent = 0);
 	~stkFiducialMarkerRegistrationWidget();
 
-public slots:
+protected slots:
 	void on_AddFiducialMarkerToolButton_clicked();
+	void on_DeleteFiducialMarkerToolButton_clicked();
+	void on_ClearFiducialMarkerToolButton_clicked();
 
 	void onMarkupNodeAdded();
 	void onActiveMarkupsNodeMarkupAddedEvent();
