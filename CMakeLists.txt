@@ -367,7 +367,7 @@ stk_lib_option(RoboticSurgery
 				)
 
 stk_lib_option(SurgeryNavigation
-               "Build the SurgeryNavigation library" OFF
+               "Build the SurgeryNavigation library" ON
 				CTK_ENABLE_SurgeryNavigation
 				)
 
