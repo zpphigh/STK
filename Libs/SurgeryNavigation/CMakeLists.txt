@@ -57,6 +57,8 @@ set(KIT_SRCS
 	stkIGTLCircularBuffer.cpp
 	stkIGTLToMRMLBase.h
 	stkIGTLToMRMLBase.cpp
+	stkMRMLIGTLServerNode.h
+	stkMRMLIGTLServerNode.cpp
   )
 
 
