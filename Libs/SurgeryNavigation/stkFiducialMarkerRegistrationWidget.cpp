@@ -3,6 +3,7 @@
 
 
 #include <ctkVTKObject.h>
+#include "ctkMessageBox.h"
 
 #include "qSlicerApplication.h"
 
@@ -13,16 +14,26 @@
 #include "vtkMRMLNode.h"
 #include "vtkMRMLMarkupsNode.h"
 #include "vtkMRMLDisplayNode.h"
-#include "ctkMessageBox.h"
+#include "vtkMRMLLinearTransformNode.h"
 
+
+// ITK includes
 #include "itkPoint.h"
-typedef  std::vector<itk::Point<double, 3> > PointList;
+#include <itkAffineTransform.h>
+#include <itkImage.h>
+#include <itkLandmarkBasedTransformInitializer.h>
+#include <itkSimilarity3DTransform.h>
+#include <itkTransformFileWriter.h>
 
+// STD includes
+#include <numeric>
 
 #include "stkPolarisTracker.h"
 #include "stkPolarisTrackerTool.h"
 #include "stkAuroraTracker.h"
 #include "stkAuroraTrackerTool.h"
+
+typedef  std::vector<itk::Point<double, 3> > PointList;
 
 enum TrackerType{
 	TRACKER_TYPE_NONE      = 0,
@@ -45,6 +56,7 @@ public:
 	stkTracker* Tracker;
 	stkTrackerTool* CalibrationTool;
 
+	bool ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode);
 };
 
 
@@ -470,4 +482,99 @@ void stkFiducialMarkerRegistrationWidget::setCalibrationToolDataValid(bool valid
 	d->CalibrationToolButton->setEnabled(valid);
 }
 
+
+
+bool stkFiducialMarkerRegistrationWidgetPrivate::ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode)
+{
+	if (NumFiducials < 4)
+		return false;
+
+	//如果采集的点不足也不可以计算
+	if( NumFiducialsCollected < NumFiducials )
+		return false;
+
+	//计算ITK Transform
+	typedef itk::Similarity3DTransform<double> SimilarityTransformType;
+	SimilarityTransformType::Pointer  simiTrans = SimilarityTransformType::New();
+	simiTrans->SetIdentity();
+	simiTrans->SetScale(1.0);
+
+	typedef itk::LandmarkBasedTransformInitializer<SimilarityTransformType,
+		itk::Image<short, 3>, itk::Image<short, 3> > InitializerType;
+	InitializerType::Pointer initializer = InitializerType::New();
+
+	//这里需要临时将fixedPoints和movingPoints各点的坐标的xy值取反，z值不变，暂时没有弄清原因
+	PointList fixedPoints;
+	PointList movingPoints;
+	fixedPoints.resize(NumFiducials);
+	movingPoints.resize(NumFiducials);
+	for( int i = 0 ; i < NumFiducials; i++)
+	{
+		fixedPoints[i][0] = -FiducialMarkerPoints[i][0];
+		fixedPoints[i][1] = -FiducialMarkerPoints[i][1];
+		fixedPoints[i][2] = FiducialMarkerPoints[i][2];
+
+		movingPoints[i][0] = -ToolPoints[i][0];
+		movingPoints[i][1] = -ToolPoints[i][1];
+		movingPoints[i][2] = ToolPoints[i][2];
+	}
+
+	initializer->SetTransform(simiTrans);
+	initializer->SetFixedLandmarks(fixedPoints);
+	initializer->SetMovingLandmarks(movingPoints);
+	initializer->InitializeTransform();
+
+	itk::AffineTransform<double, 3>::Pointer transform = itk::AffineTransform<double, 3>::New();
+	transform->SetCenter(simiTrans->GetCenter() );
+	transform->SetMatrix(simiTrans->GetMatrix() );
+	transform->SetTranslation(simiTrans->GetTranslation() );
+
+
+	int i, j;
+	vtkSmartPointer<vtkMatrix4x4> vtkmat = vtkSmartPointer<vtkMatrix4x4>::New();
+	vtkmat->Identity();
+
+	typedef itk::MatrixOffsetTransformBase<double,3,3> DoubleLinearTransformType;// Linear transform of doubles, dimension 3
+	DoubleLinearTransformType::Pointer dlt = dynamic_cast<DoubleLinearTransformType*>( transform.GetPointer() );
+	if (dlt)
+	{
+		for (i=0; i < 3; i++)
+		{
+			for (j=0; j < 3; j++)
+			{
+				(*vtkmat)[i][j] = dlt->GetMatrix()[i][j];
+			}
+			(*vtkmat)[i][3] = dlt->GetOffset()[i];
+		}
+	}
+	else{
+		return false;
+	}
+
+
+	vtkSmartPointer<vtkMatrix4x4> lps2ras = vtkSmartPointer<vtkMatrix4x4>::New();
+	lps2ras->Identity();
+	(*lps2ras)[0][0] = (*lps2ras)[1][1] = -1.0;
+
+	vtkSmartPointer<vtkMatrix4x4> ras2lps = vtkSmartPointer<vtkMatrix4x4>::New();
+	ras2lps->Identity();
+	(*ras2lps)[0][0] = (*ras2lps)[1][1] = -1.0;			
+
+	// Convert from LPS (ITK) to RAS (Slicer)
+	//
+	// Tras = lps2ras * Tlps * ras2lps
+	//
+	vtkMatrix4x4::Multiply4x4(lps2ras, vtkmat, vtkmat);
+	vtkMatrix4x4::Multiply4x4(vtkmat, ras2lps, vtkmat);
+
+	// Convert the sense of the transform (from an ITK resampling
+	// transform to a Slicer modeling transform)
+	//
+	vtkmat->Invert();
+
+	// Set the matrix on the node
+	tnode->SetAndObserveMatrixTransformToParent( vtkmat );
+
+	return true;
+}
 
