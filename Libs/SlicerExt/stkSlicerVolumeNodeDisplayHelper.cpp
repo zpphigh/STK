@@ -122,7 +122,6 @@ vtkMRMLVolumeRenderingDisplayNode* stkSlicerVolumeNodeDisplayHelper::CreateVolum
 }
 
 
-
 vtkMRMLVolumeRenderingDisplayNode* createVolumeRenderingDisplayNode(vtkMRMLVolumeNode* volumeNode, vtkColorTransferFunction* colorTransfer, vtkPiecewiseFunction* piecewiseFunction)
 {
 	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
@@ -183,6 +182,19 @@ vtkMRMLVolumeRenderingDisplayNode* createVolumeRenderingDisplayNode(vtkMRMLVolum
 
 
 // --------------------------------------------------------------------------
+void stkSlicerVolumeNodeDisplayHelper::Set2DOpacity(double t)
+{
+	qSlicerLayoutManager* layoutManager = qSlicerApplication::application()->layoutManager();
+	QStringList sliceNames = layoutManager->sliceViewNames();
+	foreach(QString slicename, sliceNames)
+	{
+		qMRMLSliceControllerWidget* SliceController = layoutManager->sliceWidget(slicename)->sliceController();
+		vtkMRMLSliceLogic* SliceLogic = SliceController->sliceLogic();
+		SliceController->setForegroundOpacity(t);
+	}
+
+}
+
 void stkSlicerVolumeNodeDisplayHelper::Display3DVolume(std::string nodeID, vtkColorTransferFunction* colorTransfer, vtkPiecewiseFunction* piecewiseFunction)
 {
 	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
