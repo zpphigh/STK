@@ -25,8 +25,6 @@ public:
 	stkFiducialMarkerRegistrationWidget(QWidget *parent = 0);
 	~stkFiducialMarkerRegistrationWidget();
 
-
-
 	//The following three function is used to configure which Tracker to use and related parameters
 	void UseTrackerAurora(int comPort);
 	void UseTrackerPolaris(int comPort);

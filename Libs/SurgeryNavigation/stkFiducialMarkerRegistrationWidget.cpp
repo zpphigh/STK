@@ -66,6 +66,7 @@ public:
 
 	stkMRMLIGTLServerNode*		  IGTLServerNode;
 	stkIGTLToMRMLPosition*        PositionConverter;
+	vtkMRMLLinearTransformNode*		IGTTransformNode;
 
 
 	QTimer importDataAndEventsTimer;
@@ -84,6 +85,7 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	d->CalibrationTool = NULL;
 	d->IGTLServerNode = NULL;
 	d->PositionConverter = NULL;
+	d->IGTTransformNode = NULL;
 	
 
 	d->FiducialMarkerTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -102,6 +104,12 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 
 	d->importDataAndEventsTimer.start(5);
 
+
+	d->IGTTransformNode = vtkMRMLLinearTransformNode::New();	
+	d->IGTTransformNode->SetName("IGTTransform");
+	d->IGTTransformNode->SetDescription("Tracker Transform");
+	scene->AddNode(d->IGTTransformNode);
+	d->IGTTransformNode->Delete();
 
 	//automatic start IGTL server 
 	StartIGTLServer();
@@ -509,6 +517,40 @@ void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
 	double x=0.0, y=0.0, z=0.0;
+
+	vtkMRMLLinearTransformNode *calibTransform = vtkMRMLLinearTransformNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("CalibrationTool"));
+	if (calibTransform == NULL)
+		return;
+
+	x = calibTransform->GetMatrixTransformToParent()->GetElement(0, 3);
+	y = calibTransform->GetMatrixTransformToParent()->GetElement(1, 3);
+	z = calibTransform->GetMatrixTransformToParent()->GetElement(2, 3);
+
+	int row = d->FiducialMarkerTableWidget->currentRow();
+	if(row<0)
+		return;
+
+	char str[50];
+	sprintf(str, "%.1f,%.1f,%.1f",x,y,z);
+	d->FiducialMarkerTableWidget->setItem(row,2,new QTableWidgetItem(str));		
+
+	itk::Point<double, 3> point;
+	point[0] = x;
+	point[1] = y;
+	point[2] = z;
+	d->ToolPoints[row]= point;	
+
+	//automatic jump to the next row
+	if((row+1) < d->FiducialMarkerTableWidget->rowCount()){
+		row++;
+		d->FiducialMarkerTableWidget->selectRow(row);
+	}else{
+		d->FiducialMarkerTableWidget->selectRow(0);
+	}	
+
+	d->NumFiducialsCollected++;
+	
+	d->ComputeRegistrationTransform(d->IGTTransformNode);
 }
 
 bool stkFiducialMarkerRegistrationWidget::StartTracking()
