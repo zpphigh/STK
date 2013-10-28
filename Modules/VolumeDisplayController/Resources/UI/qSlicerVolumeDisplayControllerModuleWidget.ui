@@ -17,7 +17,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>数据选择</string>
+      <string>VolumeData</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -45,6 +45,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QCheckBox" name="AxialSliceVisibileCheckBox">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>80</width>
@@ -52,7 +58,7 @@
            </size>
           </property>
           <property name="text">
-           <string>横断面</string>
+           <string>Axial</string>
           </property>
          </widget>
         </item>
@@ -65,6 +71,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QCheckBox" name="CoronalSliceVisibileCheckBox">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>80</width>
@@ -72,7 +84,7 @@
            </size>
           </property>
           <property name="text">
-           <string>冠状面</string>
+           <string>Coronal</string>
           </property>
          </widget>
         </item>
@@ -85,6 +97,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QCheckBox" name="SagittalSliceVisibileCheckBox">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>80</width>
@@ -92,7 +110,7 @@
            </size>
           </property>
           <property name="text">
-           <string>矢状面</string>
+           <string>Sagittal</string>
           </property>
          </widget>
         </item>
@@ -107,7 +125,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>三维显示</string>
+      <string>3D Display</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -138,7 +156,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>三维剪切操作</string>
+           <string>Crop Volume</string>
           </property>
           <property name="indicatorIcon" stdset="0">
            <iconset>
@@ -159,14 +177,14 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>三维剪切显示</string>
+           <string>Display Crop Box</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="resetFocalPointPushButton">
           <property name="text">
-           <string>三维居中显示</string>
+           <string>Center Volume</string>
           </property>
          </widget>
         </item>
@@ -193,7 +211,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>二维显示</string>
+      <string>2D Display</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
