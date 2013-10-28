@@ -59,26 +59,7 @@
 #include "vtkTriangleFilter.h"
 #include "vtkMassProperties.h"
 
-class stkSlicerVolumeNodeDisplayHelperPrivate
-{
-public:
 
-};
-
-stkSlicerVolumeNodeDisplayHelper::stkSlicerVolumeNodeDisplayHelper(QObject *parent)
-: QObject(parent),d_ptr(new stkSlicerVolumeNodeDisplayHelperPrivate)
-{
-	Q_D(stkSlicerVolumeNodeDisplayHelper);
-
-}
-
-stkSlicerVolumeNodeDisplayHelper::~stkSlicerVolumeNodeDisplayHelper()
-{
-	Q_D(stkSlicerVolumeNodeDisplayHelper);
-}
-
-
-// --------------------------------------------------------------------------
 vtkMRMLVolumeRenderingDisplayNode* stkSlicerVolumeNodeDisplayHelper::CreateVolumeRenderingDisplayNode(vtkMRMLVolumeNode* volumeNode)
 {
 	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
