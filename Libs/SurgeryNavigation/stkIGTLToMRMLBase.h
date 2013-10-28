@@ -26,8 +26,6 @@
 #include <vector>
 #include <string>
 
-//class vtkMRMLIGTLQueryNode;
-class vtkSlicerSurgeryNavigationLogic;
 class stkIGTLToMRMLBasePrivate;
 
 class STK_SURGERYNAVIGATION_EXPORT stkIGTLToMRMLBase : public vtkObject
@@ -83,10 +81,6 @@ class STK_SURGERYNAVIGATION_EXPORT stkIGTLToMRMLBase : public vtkObject
 
   vtkGetMacro( CheckCRC, int );
   vtkSetMacro( CheckCRC, int );
-
-  // Set/Get pointer to OpenIGTlinkIFLogic 
-  void SetSurgeryNavigationLogic(vtkSlicerSurgeryNavigationLogic* logic);
-  vtkSlicerSurgeryNavigationLogic* GetSurgeryNavigationLogic();
 
   // Visualization
   // If an MRML node for this converter type can be visualized,

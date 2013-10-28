@@ -24,32 +24,17 @@ public:
   stkIGTLToMRMLBasePrivate();
   ~stkIGTLToMRMLBasePrivate();
 
-  void SetSurgeryNavigationLogic(vtkSlicerSurgeryNavigationLogic* logic);
-  vtkSlicerSurgeryNavigationLogic* GetSurgeryNavigationLogic();
-
 protected:
-  vtkSlicerSurgeryNavigationLogic* SurgeryNavigationLogic;
 };
 
 stkIGTLToMRMLBasePrivate::stkIGTLToMRMLBasePrivate()
 {
-  this->SurgeryNavigationLogic = NULL;
 }
 
 stkIGTLToMRMLBasePrivate::~stkIGTLToMRMLBasePrivate()
 {
 }
 
-void stkIGTLToMRMLBasePrivate::SetSurgeryNavigationLogic(vtkSlicerSurgeryNavigationLogic* logic)
-{
-  this->SurgeryNavigationLogic = logic;
-}
-
-
-vtkSlicerSurgeryNavigationLogic* stkIGTLToMRMLBasePrivate::GetSurgeryNavigationLogic()
-{
-  return this->SurgeryNavigationLogic;
-}
 
 
 //---------------------------------------------------------------------------
@@ -72,30 +57,6 @@ stkIGTLToMRMLBase::~stkIGTLToMRMLBase()
 void stkIGTLToMRMLBase::PrintSelf(ostream& os, vtkIndent indent)
 {
   this->vtkObject::PrintSelf(os, indent);
-}
-
-
-//---------------------------------------------------------------------------
-void stkIGTLToMRMLBase::SetSurgeryNavigationLogic(vtkSlicerSurgeryNavigationLogic* logic)
-{
-  if (this->Private)
-    {
-    this->Private->SetSurgeryNavigationLogic(logic);
-    }
-}
-
-
-//---------------------------------------------------------------------------
-vtkSlicerSurgeryNavigationLogic* stkIGTLToMRMLBase::GetSurgeryNavigationLogic()
-{
-  if (this->Private)
-    {
-    return this->Private->GetSurgeryNavigationLogic();
-    }
-  else
-    {
-    return NULL;
-    }
 }
 
 
