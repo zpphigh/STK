@@ -2,40 +2,10 @@
 
 #include <qSlicerApplication.h>
 #include <qSlicerLayoutManager.h>
-#include <qSlicerModuleManager.h>
-#include <qSlicerAbstractCoreModule.h>
-#include <qSlicerAbstractModule.h>
 
 #include <vtkRenderer.h>
-#include <vtkMRMLScene.h>
-#include <vtkMRMLScalarVolumeDisplayNode.h>
-#include <vtkMRMLScalarVolumeNode.h>
-#include <vtkMRMLViewNode.h>
-#include <vtkMRMLVolumePropertyNode.h>
 #include <qMRMLThreeDWidget.h>
 #include <qMRMLThreeDView.h>
-#include <vtkMRMLVolumePropertyNode.h>
-
-
-class stkSlicerDisplayHelperPrivate
-{
-public:
-
-};
-
-stkSlicerDisplayHelper::stkSlicerDisplayHelper(QObject *parent)
-: QObject(parent),d_ptr(new stkSlicerDisplayHelperPrivate)
-{
-	Q_D(stkSlicerDisplayHelper);
-
-}
-
-stkSlicerDisplayHelper::~stkSlicerDisplayHelper()
-{
-	Q_D(stkSlicerDisplayHelper);
-}
-
-
 
 // --------------------------------------------------------------------------
 void stkSlicerDisplayHelper::ResetFocalPoint()
