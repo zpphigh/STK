@@ -43,6 +43,7 @@ protected slots:
 	void on_DeleteFiducialMarkerToolButton_clicked();
 	void on_ClearFiducialMarkerToolButton_clicked();
 	void on_StartTrackingToolButton_clicked();
+	void on_CalibrationToolButton_clicked();
 
 	void setCalibrationToolDataValid(bool valid);
 	void onMarkupNodeAdded();

@@ -31,6 +31,8 @@ set(KIT_SRCS
   stkSlicerVolumeNodeDisplayHelper.cpp
   stkMRMLCrossPointNode.h
   stkMRMLCrossPointNode.cpp
+  stkMRMLHelper.h
+  stkMRMLHelper.cpp
 )
 
 # Headers that should run through moc

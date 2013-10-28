@@ -30,6 +30,7 @@
 // STD includes
 #include <numeric>
 
+#include "stkMRMLHelper.h"
 #include "stkPolarisTracker.h"
 #include "stkPolarisTrackerTool.h"
 #include "stkAuroraTracker.h"
@@ -91,10 +92,7 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	d->FiducialMarkerTableWidget->setColumnWidth(1,100);
 	d->FiducialMarkerTableWidget->setColumnWidth(2,100);
 
-	qSlicerApplication * app = qSlicerApplication::application();
-	if (!app) return;
-
-	vtkMRMLScene* scene = app->mrmlScene();
+	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
 	if (!scene)	return;
 
 	this->qvtkConnect(scene,vtkMRMLScene::NodeAddedEvent, this, SLOT(onMarkupNodeAdded())); 
@@ -122,10 +120,7 @@ void stkFiducialMarkerRegistrationWidget::StartIGTLServer()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
-	qSlicerApplication * app = qSlicerApplication::application();
-	if (!app) return;
-
-	vtkMRMLScene* scene = app->mrmlScene();
+	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
 	if (!scene)	return;
 
 	if(!d->IGTLServerNode)
@@ -196,10 +191,7 @@ void stkFiducialMarkerRegistrationWidget::on_AddFiducialMarkerToolButton_clicked
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
-	qSlicerApplication * app = qSlicerApplication::application();
-	if (!app) return;
-
-	vtkMRMLScene* scene = app->mrmlScene();
+	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
 	if (!scene)	return;
 
 	vtkMRMLInteractionNode* interationNode = vtkMRMLInteractionNode::SafeDownCast(scene->GetNthNodeByClass(0, "vtkMRMLInteractionNode"));
@@ -295,10 +287,7 @@ void stkFiducialMarkerRegistrationWidget::on_ClearFiducialMarkerToolButton_click
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
-	qSlicerApplication * app = qSlicerApplication::application();
-	if (!app) return;
-
-	vtkMRMLScene* scene = app->mrmlScene();
+	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
 	if (!scene)	return;
 
 	// get the active node
@@ -335,10 +324,7 @@ void stkFiducialMarkerRegistrationWidget::onMarkupNodeAdded()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);	
 
-	qSlicerApplication * app = qSlicerApplication::application();
-	if (!app) return;
-
-	vtkMRMLScene* scene = app->mrmlScene();
+	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
 	if (!scene)	return;
 
 	vtkMRMLNode *markupsNodeMRML = scene->GetNodeByID("vtkMRMLMarkupsFiducialNode1");
@@ -356,12 +342,8 @@ void stkFiducialMarkerRegistrationWidget::onMarkupNodeAdded()
 //-----------------------------------------------------------------------------
 void stkFiducialMarkerRegistrationWidget::observeMarkupsNode(vtkMRMLNode *markupsNode)
 {
-	qSlicerApplication * app = qSlicerApplication::application();
-	if (!app) return;
-
-	vtkMRMLScene* scene = app->mrmlScene();
+	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
 	if (!scene)	return;
-
 	
 	// remove all connections
 	vtkCollection *col = scene->GetNodesByClass("vtkMRMLMarkupsNode");
@@ -464,10 +446,7 @@ void stkFiducialMarkerRegistrationWidget::updateFiducialMarkers()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);	
 
-	qSlicerApplication * app = qSlicerApplication::application();
-	if (!app) return;
-
-	vtkMRMLScene* scene = app->mrmlScene();
+	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
 	if (!scene)	return;
 
 	vtkMRMLNode *markupsNodeMRML = scene->GetNodeByID("vtkMRMLMarkupsFiducialNode1");
@@ -525,6 +504,12 @@ void stkFiducialMarkerRegistrationWidget::on_StartTrackingToolButton_clicked()
 		this->StopTracking();
 }
 
+void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+
+	double x=0.0, y=0.0, z=0.0;
+}
 
 bool stkFiducialMarkerRegistrationWidget::StartTracking()
 {
