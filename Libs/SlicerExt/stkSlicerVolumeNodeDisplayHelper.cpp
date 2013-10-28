@@ -192,7 +192,6 @@ void stkSlicerVolumeNodeDisplayHelper::Set2DOpacity(double t)
 		vtkMRMLSliceLogic* SliceLogic = SliceController->sliceLogic();
 		SliceController->setForegroundOpacity(t);
 	}
-
 }
 
 void stkSlicerVolumeNodeDisplayHelper::Display3DVolume(std::string nodeID, vtkColorTransferFunction* colorTransfer, vtkPiecewiseFunction* piecewiseFunction)
