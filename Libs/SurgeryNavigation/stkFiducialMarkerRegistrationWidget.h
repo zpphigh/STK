@@ -32,9 +32,15 @@ public:
 	void UseTrackerPolaris(int comPort);
 	void UseTrackerAscension();
 
+	void ImportFromCircularBuffers();
+	void ImportEvents(); // check if there are any events in the connectors that should be invoked in the main thread (such as connected, disconnected)
+
+
 public slots:
 	bool StartTracking();
 	void StopTracking();
+
+	void StartIGTLServer();
 
 protected slots:
 	void on_AddFiducialMarkerToolButton_clicked();
@@ -49,6 +55,8 @@ protected slots:
 	void onActiveMarkupsNodeMarkupRemovedEvent();
 	void onActiveMarkupsNodeDisplayModifiedEvent();
 	void updateFiducialMarkers();
+
+
 
 private:
 	void observeMarkupsNode(vtkMRMLNode *markupsNode);

@@ -12,10 +12,11 @@
 #include "vtkMRMLInteractionNode.h"
 #include "vtkMRMLSelectionNode.h"
 #include "vtkMRMLNode.h"
+#include "qMRMLNodeFactory.h"
 #include "vtkMRMLMarkupsNode.h"
 #include "vtkMRMLDisplayNode.h"
 #include "vtkMRMLLinearTransformNode.h"
-
+#include <vtkNew.h>
 
 // ITK includes
 #include "itkPoint.h"
@@ -33,6 +34,10 @@
 #include "stkAuroraTracker.h"
 #include "stkAuroraTrackerTool.h"
 
+#include "stkIGTLToMRMLBase.h"
+#include "stkIGTLToMRMLPosition.h"
+#include "stkMRMLIGTLServerNode.h"
+
 typedef  std::vector<itk::Point<double, 3> > PointList;
 
 enum TrackerType{
@@ -41,7 +46,6 @@ enum TrackerType{
 	TRACKER_TYPE_POLARIS = 2,
 	TRACKER_TYPE_AURORA   = 3
 };
-
 
 class stkFiducialMarkerRegistrationWidgetPrivate : public Ui_stkFiducialMarkerRegistrationWidget
 {
@@ -57,6 +61,9 @@ public:
 	stkTrackerTool* CalibrationTool;
 
 	bool ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode);
+
+	stkMRMLIGTLServerNode*		  IGTLServerNode;
+	stkIGTLToMRMLPosition*        PositionConverter;
 };
 
 
@@ -69,6 +76,9 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	d->TrackerType = TRACKER_TYPE_NONE;
 	d->Tracker = NULL;
 	d->CalibrationTool = NULL;
+	d->IGTLServerNode = NULL;
+	d->PositionConverter = NULL;
+	
 
 	d->FiducialMarkerTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	d->FiducialMarkerTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows); 
@@ -83,6 +93,7 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	if (!scene)	return;
 
 	this->qvtkConnect(scene,vtkMRMLScene::NodeAddedEvent, this, SLOT(onMarkupNodeAdded())); 
+
 }
 
 
@@ -90,6 +101,64 @@ stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 {
 
 }
+
+void stkFiducialMarkerRegistrationWidget::StartIGTLServer()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+
+	qSlicerApplication * app = qSlicerApplication::application();
+	if (!app) return;
+
+	vtkMRMLScene* scene = app->mrmlScene();
+	if (!scene)	return;
+
+	if(!d->IGTLServerNode)
+	{
+		scene->RegisterNodeClass(vtkNew<stkMRMLIGTLServerNode>().GetPointer());
+
+		vtkMRMLNode * node = qMRMLNodeFactory::createNode(scene, "stkMRMLIGTLServerNode");
+		d->IGTLServerNode = stkMRMLIGTLServerNode::SafeDownCast(node);
+		d->IGTLServerNode->DisableModifiedEventOn();
+		d->IGTLServerNode->SetServerPort(18944); //TrackServer use port 18944
+		d->IGTLServerNode->SetName("IGTLServer");
+		d->IGTLServerNode->DisableModifiedEventOff();
+		d->IGTLServerNode->InvokePendingModifiedEvent();
+
+		d->PositionConverter = stkIGTLToMRMLPosition::New();
+		d->IGTLServerNode->RegisterMessageConverter(d->PositionConverter);
+	}
+
+	if( d->IGTLServerNode && d->IGTLServerNode->GetState() == stkMRMLIGTLServerNode::STATE_OFF )
+	{
+		d->IGTLServerNode->Start();
+		d->IGTLServerNode->Modified();
+	}	
+}
+
+
+//---------------------------------------------------------------------------
+void stkFiducialMarkerRegistrationWidget::ImportFromCircularBuffers()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+
+	if(!d->IGTLServerNode)
+		return;
+
+	d->IGTLServerNode->ImportDataFromCircularBuffer();
+}
+
+//---------------------------------------------------------------------------
+void stkFiducialMarkerRegistrationWidget::ImportEvents()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+
+	if(!d->IGTLServerNode)
+		return;
+
+	d->IGTLServerNode->ImportEventsFromEventBuffer();
+}
+
+
 
 void stkFiducialMarkerRegistrationWidget::UseTrackerAurora(int comPort)
 {
