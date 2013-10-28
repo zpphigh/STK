@@ -134,6 +134,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="CalibrationToolButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="minimumSize">
         <size>
          <width>48</width>
