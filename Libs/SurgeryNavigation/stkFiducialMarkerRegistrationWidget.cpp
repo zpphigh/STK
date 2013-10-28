@@ -63,6 +63,7 @@ public:
 	stkTrackerTool* CalibrationTool;
 
 	bool ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode);
+	void ComputeTransform();
 
 	stkMRMLIGTLServerNode*		  IGTLServerNode;
 	stkIGTLToMRMLPosition*        PositionConverter;
@@ -91,8 +92,8 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	d->FiducialMarkerTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	d->FiducialMarkerTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows); 
 	d->FiducialMarkerTableWidget->setColumnWidth(0,30);
-	d->FiducialMarkerTableWidget->setColumnWidth(1,100);
-	d->FiducialMarkerTableWidget->setColumnWidth(2,100);
+	d->FiducialMarkerTableWidget->setColumnWidth(1,130);
+	d->FiducialMarkerTableWidget->setColumnWidth(2,130);
 
 	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
 	if (!scene)	return;
@@ -551,6 +552,8 @@ void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 	d->NumFiducialsCollected++;
 	
 	d->ComputeRegistrationTransform(d->IGTTransformNode);
+
+	calibTransform->SetAndObserveTransformNodeID(d->IGTTransformNode->GetID());
 }
 
 bool stkFiducialMarkerRegistrationWidget::StartTracking()
@@ -601,6 +604,10 @@ void stkFiducialMarkerRegistrationWidget::setCalibrationToolDataValid(bool valid
 }
 
 
+void stkFiducialMarkerRegistrationWidgetPrivate::ComputeTransform()
+{
+
+}
 
 bool stkFiducialMarkerRegistrationWidgetPrivate::ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode)
 {
