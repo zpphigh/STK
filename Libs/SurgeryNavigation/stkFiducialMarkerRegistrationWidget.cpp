@@ -1,6 +1,7 @@
 #include "stkFiducialMarkerRegistrationWidget.h"
 #include "ui_stkFiducialMarkerRegistrationWidget.h"
 
+#include <QTimer>
 
 #include <ctkVTKObject.h>
 #include "ctkMessageBox.h"
@@ -64,6 +65,10 @@ public:
 
 	stkMRMLIGTLServerNode*		  IGTLServerNode;
 	stkIGTLToMRMLPosition*        PositionConverter;
+
+
+	QTimer importDataAndEventsTimer;
+	QTimer trackDataTimer;
 };
 
 
@@ -94,6 +99,17 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 
 	this->qvtkConnect(scene,vtkMRMLScene::NodeAddedEvent, this, SLOT(onMarkupNodeAdded())); 
 
+	//时钟设置和启动
+	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
+
+	d->importDataAndEventsTimer.start(5);
+
+
+	//automatic start IGTL server 
+	StartIGTLServer();
+
+	//we set what tracker we use here 
+	UseTrackerAurora(3);
 }
 
 
@@ -135,20 +151,7 @@ void stkFiducialMarkerRegistrationWidget::StartIGTLServer()
 	}	
 }
 
-
-//---------------------------------------------------------------------------
-void stkFiducialMarkerRegistrationWidget::ImportFromCircularBuffers()
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-
-	if(!d->IGTLServerNode)
-		return;
-
-	d->IGTLServerNode->ImportDataFromCircularBuffer();
-}
-
-//---------------------------------------------------------------------------
-void stkFiducialMarkerRegistrationWidget::ImportEvents()
+void stkFiducialMarkerRegistrationWidget::importDataAndEvents()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
@@ -156,8 +159,8 @@ void stkFiducialMarkerRegistrationWidget::ImportEvents()
 		return;
 
 	d->IGTLServerNode->ImportEventsFromEventBuffer();
+	d->IGTLServerNode->ImportDataFromCircularBuffer();
 }
-
 
 
 void stkFiducialMarkerRegistrationWidget::UseTrackerAurora(int comPort)
@@ -167,6 +170,8 @@ void stkFiducialMarkerRegistrationWidget::UseTrackerAurora(int comPort)
 	stkAuroraTracker* tracker = new stkAuroraTracker;
 	tracker->setComPortNum(comPort);
 	d->Tracker = tracker;
+
+	this->connect(&d->trackDataTimer, SIGNAL(timeout()),  d->Tracker, SLOT(TrackAndSendData()));
 }
 
 void stkFiducialMarkerRegistrationWidget::UseTrackerPolaris(int comPort)
@@ -176,6 +181,8 @@ void stkFiducialMarkerRegistrationWidget::UseTrackerPolaris(int comPort)
 	stkPolarisTracker* tracker = new stkPolarisTracker;
 	tracker->setComPortNum(comPort);
 	d->Tracker = tracker;
+
+	this->connect(&d->trackDataTimer, SIGNAL(timeout()),  d->Tracker, SLOT(TrackAndSendData()));
 }
 
 void stkFiducialMarkerRegistrationWidget::UseTrackerAscension()
@@ -535,6 +542,21 @@ bool stkFiducialMarkerRegistrationWidget::StartTracking()
 		connect(d->CalibrationTool, SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
 	}
 
+
+	//Connect IGT Server
+	if( !d->Tracker->isServerConnected())
+	{
+		if(!d->Tracker->ConnectServer("localhost",18944))
+			return false;
+	}
+	//Start Tracking
+	if(!d->Tracker->isTracking())
+	{
+		d->Tracker->StartTracking();
+	}
+
+	//start tracker timer
+	d->trackDataTimer.start(30);
 
 	return true;
 }

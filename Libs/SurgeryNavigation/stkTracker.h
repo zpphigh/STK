@@ -63,14 +63,14 @@ public:
 	virtual bool DetachTrackerTool(QString name) =0;
 	virtual stkTrackerTool* GetTrackerTool(QString name) = 0;
 
-	//获得一个跟踪数据并发送出去
-	virtual void TrackAndSendData() = 0;
-
-
 	bool ConnectServer(QString hostname, int port);
 	void DisconnectServer();
 
 	int SendData(const void* data, int length);
+
+public slots:
+	//获得一个跟踪数据并发送出去
+	virtual void TrackAndSendData() = 0;
 
 protected:
 	void DelayNSeconds(int seconds);

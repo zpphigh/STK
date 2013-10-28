@@ -45,8 +45,6 @@ public:
 	// stops tracker from tracking the tools. 
 	virtual void StopTracking();
 
-	virtual void TrackAndSendData();
-
 	// defines the frequency at which the Transform information will be queried from the Tracker device.
 	// Note that Tracker devices have their own internal frequency rate, and if you set here
 	// a frequency that is higher than what the Tracker device is capable to
@@ -62,6 +60,9 @@ public:
 	virtual void AttachTrackerTool5D(QString name, QString portNumber, QString channelNumber);
 	virtual bool DetachTrackerTool(QString name);
 	virtual stkTrackerTool* GetTrackerTool(QString name);
+
+public slots:
+	virtual void TrackAndSendData();
 
 protected:
 	QScopedPointer<stkAuroraTrackerPrivate> d_ptr;
