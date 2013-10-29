@@ -2,6 +2,8 @@
     <qresource prefix="/">
         <file>Icons/AddFiducialMarkerOff.png</file>
         <file>Icons/AddFiducialMarkerOn.png</file>
+		<file>Icons/DeleteFiducialMarker.png</file>
+		<file>Icons/ClearFiducialMarker.png</file>
         <file>Icons/StartTracker.png</file>
         <file>Icons/StopTracker.png</file>
         <file>Icons/TrackerToolMissing.png</file>

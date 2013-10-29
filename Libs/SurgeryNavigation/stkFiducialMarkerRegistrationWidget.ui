@@ -64,7 +64,11 @@
         </size>
        </property>
        <property name="text">
-        <string>Delete</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="Resources/stkSurgeryNavigation.qrc">
+         <normaloff>:/Icons/DeleteFiducialMarker.png</normaloff>:/Icons/DeleteFiducialMarker.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -89,7 +93,11 @@
         </size>
        </property>
        <property name="text">
-        <string>Clear</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="Resources/stkSurgeryNavigation.qrc">
+         <normaloff>:/Icons/ClearFiducialMarker.png</normaloff>:/Icons/ClearFiducialMarker.png</iconset>
        </property>
        <property name="iconSize">
         <size>
