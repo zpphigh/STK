@@ -676,6 +676,3 @@ endif()
 # This directory is typically the last SUBDIRS in the main CMakeLists.txt.
 add_subdirectory(CMake/LastConfigureStep)
 
-#Slicer Modules
-#add_subdirectory(Modules)
-
