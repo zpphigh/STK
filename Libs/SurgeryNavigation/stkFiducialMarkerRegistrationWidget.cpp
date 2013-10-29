@@ -61,15 +61,13 @@ public:
 	//Tracker
 	int TrackerType;
 	stkTracker* Tracker;
-	stkTrackerTool* CalibrationTool;
 
 	bool ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode);
 	void ComputeTransform();
 
 	stkMRMLIGTLServerNode*		  IGTLServerNode;
 	vtkSmartPointer<stkIGTLToMRMLPosition> PositionConverter;
-	vtkMRMLLinearTransformNode*		IGTTransformNode;
-
+	vtkSmartPointer<vtkMRMLLinearTransformNode> IGTTransformNode;
 
 	QTimer importDataAndEventsTimer;
 	QTimer trackDataTimer;
@@ -84,7 +82,6 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 
 	d->TrackerType = TRACKER_TYPE_NONE;
 	d->Tracker = NULL;
-	d->CalibrationTool = NULL;
 	d->IGTLServerNode = NULL;
 	d->PositionConverter = NULL;
 	d->IGTTransformNode = NULL;
@@ -107,11 +104,11 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	d->importDataAndEventsTimer.start(5);
 
 
-	d->IGTTransformNode = vtkMRMLLinearTransformNode::New();	
+	d->IGTTransformNode = vtkSmartPointer<vtkMRMLLinearTransformNode>::New();	
 	d->IGTTransformNode->SetName("IGTTransform");
 	d->IGTTransformNode->SetDescription("Tracker Transform");
 	scene->AddNode(d->IGTTransformNode);
-	d->IGTTransformNode->Delete();
+//	d->IGTTransformNode->Delete();
 
 	//automatic start IGTL server 
 	StartIGTLServer();
@@ -565,11 +562,10 @@ bool stkFiducialMarkerRegistrationWidget::StartTracking()
 		if(!d->Tracker->Open())
 			return false;
 
-		d->CalibrationTool = d->Tracker->AttachTrackerTool("CalibrationTool", "0");
-		if(!d->CalibrationTool)
+		if(!d->Tracker->AttachTrackerTool("CalibrationTool", "0"))
 			return false;
 
-		connect(d->CalibrationTool, SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
+		connect(d->Tracker->GetTrackerTool("CalibrationTool"), SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
 	}
 
 
