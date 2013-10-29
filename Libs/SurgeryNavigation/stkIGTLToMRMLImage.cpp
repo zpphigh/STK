@@ -60,15 +60,15 @@ vtkMRMLNode* stkIGTLToMRMLImage::CreateNewNode(vtkMRMLScene* scene, const char* 
   //image->SetOrigin( fov/2, -fov/2, -0.0 );
   image->SetOrigin(0.0, 0.0, 0.0);
   image->SetNumberOfScalarComponents(1);
-  image->SetScalarTypeToShort();
+  image->SetScalarTypeToUnsignedChar();
   image->AllocateScalars();
 
   short* dest = (short*) image->GetScalarPointer();
   if (dest)
-    {
-    memset(dest, 0x00, 256*256*sizeof(short));
-    image->Update();
-    }
+  {
+	memset(dest, 0x00, 256*256*sizeof(unsigned char));
+	image->Update();
+  }
 
   scalarNode->SetAndObserveImageData(image);
 
@@ -91,7 +91,7 @@ vtkMRMLNode* stkIGTLToMRMLImage::CreateNewNode(vtkMRMLScene* scene, const char* 
     displayNode->SetScene(scene);
 
 
-    double range[2];
+    /*double range[2];
     vtkDebugMacro("Set basic display info");
     scalarNode->GetImageData()->GetScalarRange(range);
     range[0] = 0.0;
@@ -99,7 +99,7 @@ vtkMRMLNode* stkIGTLToMRMLImage::CreateNewNode(vtkMRMLScene* scene, const char* 
     displayNode->SetLowerThreshold(range[0]);
     displayNode->SetUpperThreshold(range[1]);
     displayNode->SetWindow(range[1] - range[0]);
-    displayNode->SetLevel(0.5 * (range[1] + range[0]) );
+    displayNode->SetLevel(0.5 * (range[1] + range[0]) );*/
 
     vtkDebugMacro("Adding node..");
     scene->AddNode(displayNode);
@@ -173,7 +173,8 @@ int stkIGTLToMRMLImage::IGTLToMRML(igtl::MessageBase::Pointer buffer, vtkMRMLNod
 	imgMsg->GetOrigin(origin);
 	imgMsg->GetSubVolume(svsize, svoffset);
 	imgMsg->GetMatrix(matrix);
-	origin[0] = -100;origin[1] = -100;origin[2] = 0;
+	origin[1] -= 80;
+	//origin[0] = -100;origin[1] = -100;origin[2] = 0;
 
 	// check if the IGTL data fits to the current MRML node
 	vtkMRMLScalarVolumeNode* volumeNode = vtkMRMLScalarVolumeNode::SafeDownCast(node);
