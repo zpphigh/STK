@@ -39,6 +39,7 @@
 #include "stkIGTLToMRMLBase.h"
 #include "stkIGTLToMRMLPosition.h"
 #include "stkMRMLIGTLServerNode.h"
+#include <vtkSmartPointer.h>
 
 typedef  std::vector<itk::Point<double, 3> > PointList;
 
@@ -66,7 +67,7 @@ public:
 	void ComputeTransform();
 
 	stkMRMLIGTLServerNode*		  IGTLServerNode;
-	stkIGTLToMRMLPosition*        PositionConverter;
+	vtkSmartPointer<stkIGTLToMRMLPosition> PositionConverter;
 	vtkMRMLLinearTransformNode*		IGTTransformNode;
 
 
@@ -143,8 +144,7 @@ void stkFiducialMarkerRegistrationWidget::StartIGTLServer()
 		d->IGTLServerNode->SetName("IGTLServer");
 		d->IGTLServerNode->DisableModifiedEventOff();
 		d->IGTLServerNode->InvokePendingModifiedEvent();
-
-		d->PositionConverter = stkIGTLToMRMLPosition::New();
+		d->PositionConverter = vtkSmartPointer<stkIGTLToMRMLPosition>::New();
 		d->IGTLServerNode->RegisterMessageConverter(d->PositionConverter);
 	}
 
