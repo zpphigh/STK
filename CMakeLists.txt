@@ -677,5 +677,5 @@ endif()
 add_subdirectory(CMake/LastConfigureStep)
 
 #Slicer Modules
-add_subdirectory(Modules)
+#add_subdirectory(Modules)
 
