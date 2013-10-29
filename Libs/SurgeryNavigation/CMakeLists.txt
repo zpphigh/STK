@@ -63,6 +63,8 @@ set(KIT_SRCS
 	stkIGTLToMRMLPosition.cpp
 	stkIGTLToMRMLLinearTransform.h
 	stkIGTLToMRMLLinearTransform.cpp
+	stkIGTLToMRMLImage.h
+	stkIGTLToMRMLImage.cpp
   )
 
 
