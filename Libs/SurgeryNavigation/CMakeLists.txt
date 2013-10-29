@@ -65,6 +65,8 @@ set(KIT_SRCS
 	stkIGTLToMRMLLinearTransform.cpp
 	stkIGTLToMRMLImage.h
 	stkIGTLToMRMLImage.cpp
+	stkIGTLImageClientNode.h
+	stkIGTLImageClientNode.cpp
   )
 
 
