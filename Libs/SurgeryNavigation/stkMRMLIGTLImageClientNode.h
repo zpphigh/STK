@@ -27,9 +27,13 @@ class STK_SURGERYNAVIGATION_EXPORT stkMRMLIGTLImageClientNode : public vtkMRMLNo
   virtual const char* GetNodeTagName()
     {return "IGTLImageClient";}
 
+  bool ConnectIGTLServer(const char* hostname, int port);
+  void DisconnectIGTLServer();
+
   void SetImageSize(int x, int y, int z);
   void SetImageSpacing(float x, float y, float z);
   void SetImageOrigin(float x, float y, float z);
+  bool SendImage( unsigned char* bufPtr, int bufSize);
 
  protected:
   stkMRMLIGTLImageClientNode();
@@ -43,6 +47,7 @@ private:
   int imageSize[3];
   float imageSpacing[3];
   float imageOrigin[3];
+  int imageBufSize;
 
   void allocateImageMessage();
 };
