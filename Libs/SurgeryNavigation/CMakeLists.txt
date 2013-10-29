@@ -57,16 +57,16 @@ set(KIT_SRCS
 	stkIGTLCircularBuffer.cpp
 	stkIGTLToMRMLBase.h
 	stkIGTLToMRMLBase.cpp
-	stkMRMLIGTLServerNode.h
-	stkMRMLIGTLServerNode.cpp
 	stkIGTLToMRMLPosition.h
 	stkIGTLToMRMLPosition.cpp
 	stkIGTLToMRMLLinearTransform.h
 	stkIGTLToMRMLLinearTransform.cpp
 	stkIGTLToMRMLImage.h
 	stkIGTLToMRMLImage.cpp
-	stkIGTLImageClientNode.h
-	stkIGTLImageClientNode.cpp
+	stkMRMLIGTLServerNode.h
+	stkMRMLIGTLServerNode.cpp
+	stkMRMLIGTLImageClientNode.h
+	stkMRMLIGTLImageClientNode.cpp
   )
 
 

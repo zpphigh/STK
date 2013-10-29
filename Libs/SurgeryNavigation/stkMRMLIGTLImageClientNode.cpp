@@ -1,5 +1,5 @@
 // OpenIGTLinkIF MRML includes
-#include "stkIGTLImageClientNode.h"
+#include "stkMRMLIGTLImageClientNode.h"
 
 // OpenIGTLink includes
 #include <igtlServerSocket.h>
@@ -14,11 +14,11 @@
 
 
 //------------------------------------------------------------------------------
-vtkMRMLNodeNewMacro(stkIGTLImageClientNode);
+vtkMRMLNodeNewMacro(stkMRMLIGTLImageClientNode);
 
 
 //----------------------------------------------------------------------------
-stkIGTLImageClientNode::stkIGTLImageClientNode()
+stkMRMLIGTLImageClientNode::stkMRMLIGTLImageClientNode()
 {
 	imageClientSocket = igtl::ClientSocket::New();
 
@@ -37,34 +37,34 @@ stkIGTLImageClientNode::stkIGTLImageClientNode()
 }
 
 //----------------------------------------------------------------------------
-stkIGTLImageClientNode::~stkIGTLImageClientNode()
+stkMRMLIGTLImageClientNode::~stkMRMLIGTLImageClientNode()
 {
  
 
 }
 
-void stkIGTLImageClientNode::SetImageSize(int x, int y, int z)
+void stkMRMLIGTLImageClientNode::SetImageSize(int x, int y, int z)
 {
 	imageSize[0] = x;
 	imageSize[1] = y;
 	imageSize[2] = z;
 }
 
-void stkIGTLImageClientNode::SetImageSpacing(float x, float y, float z)
+void stkMRMLIGTLImageClientNode::SetImageSpacing(float x, float y, float z)
 {
 	imageSpacing[0] = x;
 	imageSpacing[1] = y;
 	imageSpacing[2] = z;
 }
 
-void stkIGTLImageClientNode::SetImageOrigin(float x, float y, float z)
+void stkMRMLIGTLImageClientNode::SetImageOrigin(float x, float y, float z)
 {
 	imageOrigin[0] = x;
 	imageOrigin[1] = y;
 	imageOrigin[2] = z;
 }
 
-void stkIGTLImageClientNode::allocateImageMessage()
+void stkMRMLIGTLImageClientNode::allocateImageMessage()
 {
 	imageMessage = igtl::ImageMessage::New();
 
