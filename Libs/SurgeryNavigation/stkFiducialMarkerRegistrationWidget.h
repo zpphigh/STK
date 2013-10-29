@@ -14,6 +14,7 @@
 #include "qSlicerWidget.h"
 
 class vtkMRMLNode;
+class stkTrackerTool;
 
 class stkFiducialMarkerRegistrationWidgetPrivate;
 class STK_SURGERYNAVIGATION_EXPORT stkFiducialMarkerRegistrationWidget : public qSlicerWidget
@@ -29,6 +30,8 @@ public:
 	void UseTrackerAurora(int comPort);
 	void UseTrackerPolaris(int comPort);
 	void UseTrackerAscension();
+
+	stkTrackerTool* GetTrackerTool(QString name);
 
 public slots:
 	bool StartTracking();

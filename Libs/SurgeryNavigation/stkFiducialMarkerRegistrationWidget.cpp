@@ -108,7 +108,6 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	d->IGTTransformNode->SetName("IGTTransform");
 	d->IGTTransformNode->SetDescription("Tracker Transform");
 	scene->AddNode(d->IGTTransformNode);
-//	d->IGTTransformNode->Delete();
 
 	//automatic start IGTL server 
 	StartIGTLServer();
@@ -120,6 +119,7 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 
 stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 {
+	Q_D(stkFiducialMarkerRegistrationWidget);
 
 }
 
@@ -553,6 +553,13 @@ void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 	calibTransform->SetAndObserveTransformNodeID(d->IGTTransformNode->GetID());
 }
 
+
+stkTrackerTool* stkFiducialMarkerRegistrationWidget::GetTrackerTool(QString name)
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+	return d->Tracker->GetTrackerTool(name);
+}
+
 bool stkFiducialMarkerRegistrationWidget::StartTracking()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
@@ -562,10 +569,14 @@ bool stkFiducialMarkerRegistrationWidget::StartTracking()
 		if(!d->Tracker->Open())
 			return false;
 
-		if(!d->Tracker->AttachTrackerTool("CalibrationTool", "0"))
+		stkTrackerTool* CalibrationTool = d->Tracker->AttachTrackerTool("CalibrationTool", "0");
+		if(!CalibrationTool)
 			return false;
 
-		connect(d->Tracker->GetTrackerTool("CalibrationTool"), SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
+		d->Tracker->AttachTrackerTool("UltrasoundTool", "1");
+		d->Tracker->AttachTrackerTool("SurgeryTool", "2");
+
+		connect(CalibrationTool, SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
 	}
 
 
