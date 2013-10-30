@@ -27,6 +27,7 @@ public:
 
 public slots:
 	void importDataAndEvents();
+	void UpdateSliceByLocator();
 
 	void SetRTImageShiftX(int);
 	void SetRTImageShiftY(int);

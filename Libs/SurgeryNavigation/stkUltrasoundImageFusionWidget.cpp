@@ -14,6 +14,9 @@
 #include "vtkMRMLSliceLogic.h"
 
 #include <vtkMatrix4x4.h>
+#include <vtkNew.h>
+#include <vtkTransform.h>
+#include <vtkMRMLScalarVolumeNode.h>
 
 enum ImageOrient{
 	SLICE_RTIMAGE_NONE      = 0,
@@ -337,4 +340,45 @@ void stkUltrasoundImageFusionWidget::on_DisplayFusionButton_clicked()
 		d->DisplayUSButton->setChecked(false);
 		d->DisplayCTButton->setChecked(false);
 	}
+}
+
+
+void stkUltrasoundImageFusionWidget::UpdateSliceByLocator()
+{	
+	Q_D(stkUltrasoundImageFusionWidget);
+
+	if( !d->sliceLocatorTransform)
+		return;
+
+	vtkMRMLLinearTransformNode* igtTransform = vtkMRMLLinearTransformNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("IGTTransform"));
+
+	if( igtTransform == NULL )
+		return;
+
+	vtkMatrix4x4::Multiply4x4(igtTransform->GetMatrixTransformToParent(), d->sliceLocatorTransform->GetMatrixTransformToParent(), d->sliceMatrix);
+	vtkNew<vtkTransform> transform;
+	transform->SetMatrix(d->sliceMatrix);
+
+	//Begin手工调节标定参数，角度不需要调节，主要是调节平移
+	float shiftX = d->rtImageShift[0];
+	float shiftY = d->rtImageShift[1];
+	float shiftZ = d->rtImageShift[2];
+	transform->Translate(shiftX,shiftY,shiftZ); // step3：前面的最后左右
+	//End 手工调节标定参数
+
+	//UltrasoundTool
+	transform->RotateZ(-90.0 + d->rtImageRotate[2]);
+	transform->RotateY(d->rtImageRotate[1]);
+	transform->RotateX(d->rtImageRotate[0]);
+	transform->GetMatrix(d->sliceMatrix);
+
+	d->UpdateSliceNode(0,d->sliceMatrix);
+	d->UpdateSliceNode(1,d->sliceMatrix);
+	d->UpdateSliceNode(2,d->sliceMatrix);
+
+	vtkMRMLScalarVolumeNode* rtImageNode = vtkMRMLScalarVolumeNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("RTImage"));
+	if (rtImageNode ==NULL)
+		return;
+
+	rtImageNode->SetIJKToRASMatrix(d->sliceMatrix);
 }

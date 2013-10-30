@@ -84,7 +84,6 @@ vtkMRMLNode* stkIGTLToMRMLImage::CreateNewNode(vtkMRMLScene* scene, const char* 
     scalarNode->SetName(name);
     scene->SaveStateForUndo();
 
-    vtkDebugMacro("Setting scene info");
     scalarNode->SetScene(scene);
     scalarNode->SetDescription("Received by OpenIGTLink");
 
@@ -101,7 +100,6 @@ vtkMRMLNode* stkIGTLToMRMLImage::CreateNewNode(vtkMRMLScene* scene, const char* 
     displayNode->SetWindow(range[1] - range[0]);
     displayNode->SetLevel(0.5 * (range[1] + range[0]) );*/
 
-    vtkDebugMacro("Adding node..");
     scene->AddNode(displayNode);
 
 	vtkMRMLColorLogic* colorLogic = vtkMRMLColorLogic::SafeDownCast(qSlicerApplication::application()->moduleManager()->module("Colors")->logic());
