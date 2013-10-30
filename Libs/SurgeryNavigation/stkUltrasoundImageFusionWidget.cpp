@@ -326,7 +326,7 @@ void stkUltrasoundImageFusionWidget::SetImageFusionOpacity(int opacity)
 }
 
 
-void stkUltrasoundImageFusionWidget::on_UltrasoundTool_clicked()
+void stkUltrasoundImageFusionWidget::on_UltrasoundToolButton_clicked()
 {
 	Q_D(stkUltrasoundImageFusionWidget);
 	if(d->UltrasoundToolButton->isChecked())
@@ -379,6 +379,16 @@ void stkUltrasoundImageFusionWidget::on_DisplayFusionButton_clicked()
 bool stkUltrasoundImageFusionWidget::StartTrackSlice()
 {
 	Q_D(stkUltrasoundImageFusionWidget);
+	
+	//Ultrasound Tool Observe the IGTTransform
+	vtkMRMLLinearTransformNode* igtTransform = vtkMRMLLinearTransformNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("IGTTransform"));
+	if(!igtTransform)
+		return false;
+
+	vtkMRMLLinearTransformNode *ultrasoundTransform = vtkMRMLLinearTransformNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("UltrasoundTool"));
+	if (ultrasoundTransform != NULL)
+		ultrasoundTransform->SetAndObserveTransformNodeID(igtTransform->GetID());
+
 
 	d->sliceLocatorTransform = vtkMRMLLinearTransformNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("UltrasoundTool"));
 	if( d->sliceLocatorTransform == NULL )

@@ -40,7 +40,7 @@ public slots:
 	void SetRTImageRotateZ(int);
 	void SetImageFusionOpacity(int);
 
-	void on_UltrasoundTool_clicked();
+	void on_UltrasoundToolButton_clicked();
 	void on_DisplayUSButton_clicked();
 	void on_DisplayCTButton_clicked();
 	void on_DisplayFusionButton_clicked();
