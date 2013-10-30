@@ -23,6 +23,10 @@ public:
 	stkUltrasoundImageFusionWidget(QWidget *parent = 0);
 	~stkUltrasoundImageFusionWidget();
 
+	void StartIGTLImageServer();
+
+public slots:
+	void importDataAndEvents();
 
 protected:
 	QScopedPointer<stkUltrasoundImageFusionWidgetPrivate> d_ptr;
