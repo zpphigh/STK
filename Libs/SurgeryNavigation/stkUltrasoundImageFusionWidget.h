@@ -28,6 +28,13 @@ public:
 public slots:
 	void importDataAndEvents();
 
+	void SetRTImageShiftX(int);
+	void SetRTImageShiftY(int);
+	void SetRTImageShiftZ(int);
+	void SetRTImageRotateX(int);
+	void SetRTImageRotateY(int);
+	void SetRTImageRotateZ(int);
+
 protected:
 	QScopedPointer<stkUltrasoundImageFusionWidgetPrivate> d_ptr;
 

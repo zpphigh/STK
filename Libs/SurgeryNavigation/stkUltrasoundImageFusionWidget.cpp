@@ -59,11 +59,11 @@ stkUltrasoundImageFusionWidgetPrivate::stkUltrasoundImageFusionWidgetPrivate()
 	this->sliceOrientation[1] = SLICE_RTIMAGE_PERP;//SLICE_RTIMAGE_INPLANE;
 	this->sliceOrientation[2] = SLICE_RTIMAGE_PERP;//SLICE_RTIMAGE_INPLANE90;
 
-	this->rtImageShift[0] = 0;
+	this->rtImageShift[0] = -185;
 	this->rtImageShift[1] = 0;
-	this->rtImageShift[2] = 0;
+	this->rtImageShift[2] = 21;
 	this->rtImageRotate[0] = 0.0;
-	this->rtImageRotate[1] = 0.0;
+	this->rtImageRotate[1] = 1.6;
 	this->rtImageRotate[2] = 0.0;
 
 	sliceLocatorTransform = NULL;
@@ -161,7 +161,29 @@ stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 	Q_D(stkUltrasoundImageFusionWidget);
 	d->setupUi(this);
 
+	d->IGTLImageServerNode = NULL;
 
+	d->XShiftSlider->setValue(d->rtImageShift[0]);
+	d->YShiftSlider->setValue(d->rtImageShift[1]);
+	d->ZShiftSlider->setValue(d->rtImageShift[2]);
+	d->XShiftLabel->setText(QString::number(d->rtImageShift[0]));
+	d->YShiftLabel->setText(QString::number(d->rtImageShift[1]));
+	d->ZShiftLabel->setText(QString::number(d->rtImageShift[2]));
+	d->XRotateSlider->setValue(d->rtImageRotate[0]*10);
+	d->YRotateSlider->setValue(d->rtImageRotate[1]*10);
+	d->ZRotateSlider->setValue(d->rtImageRotate[2]*10);
+	d->XRotateLabel->setText(QString("%1").arg(d->rtImageRotate[0]));
+	d->YRotateLabel->setText(QString("%1").arg(d->rtImageRotate[1]));
+	d->ZRotateLabel->setText(QString("%1").arg(d->rtImageRotate[2]));
+
+
+	//信号和槽 当滑动条的值发生改变时，即产生一个valueChanged(int)信号 设置QLineEdit控件的显示文本   
+	connect(d->XShiftSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageShiftX(int)));  
+	connect(d->YShiftSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageShiftY(int)));  
+	connect(d->ZShiftSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageShiftZ(int)));  
+	connect(d->XRotateSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageRotateX(int)));  
+	connect(d->YRotateSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageRotateY(int)));  
+	connect(d->ZRotateSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageRotateZ(int))); 
 
 	//start timer
 	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
@@ -173,6 +195,48 @@ stkUltrasoundImageFusionWidget::~stkUltrasoundImageFusionWidget()
 
 }
 
+
+void stkUltrasoundImageFusionWidget::SetRTImageShiftX(int shift)
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	d->rtImageShift[0] = shift;
+	d->XShiftLabel->setText(QString::number(d->rtImageShift[0]));
+}
+
+void stkUltrasoundImageFusionWidget::SetRTImageShiftY(int shift)
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	d->rtImageShift[1] = shift;
+	d->YShiftLabel->setText(QString::number(d->rtImageShift[1]));
+}
+
+void stkUltrasoundImageFusionWidget::SetRTImageShiftZ(int shift)
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	d->rtImageShift[2] = shift;
+	d->ZShiftLabel->setText(QString::number(d->rtImageShift[2]));
+}
+
+void stkUltrasoundImageFusionWidget::SetRTImageRotateX(int rotate)
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	d->rtImageRotate[0] = rotate/10.0;
+	d->XRotateLabel->setText(QString("%1").arg(d->rtImageRotate[0]));
+}
+
+void stkUltrasoundImageFusionWidget::SetRTImageRotateY(int rotate)
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	d->rtImageRotate[1] = rotate/10.0;
+	d->YRotateLabel->setText(QString("%1").arg(d->rtImageRotate[1]));
+}
+
+void stkUltrasoundImageFusionWidget::SetRTImageRotateZ(int rotate)
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	d->rtImageRotate[2] = rotate/10.0;
+	d->ZRotateLabel->setText(QString("%1").arg(d->rtImageRotate[2]));
+}
 
 
 void stkUltrasoundImageFusionWidget::StartIGTLImageServer()
