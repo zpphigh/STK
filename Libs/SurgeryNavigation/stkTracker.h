@@ -61,6 +61,7 @@ public:
 	virtual stkTrackerTool* AttachTrackerTool(QString name, QString options) = 0;
 	virtual void AttachTrackerTool5D(QString name, QString options, QString options2) = 0;
 	virtual bool DetachTrackerTool(QString name) =0;
+	virtual bool DetachAllTools() = 0;
 	virtual stkTrackerTool* GetTrackerTool(QString name) = 0;
 
 	bool ConnectServer(QString hostname, int port);

@@ -59,6 +59,7 @@ public:
 	virtual stkTrackerTool* AttachTrackerTool(QString name, QString portNumber);
 	virtual void AttachTrackerTool5D(QString name, QString portNumber, QString channelNumber);
 	virtual bool DetachTrackerTool(QString name);
+	virtual bool DetachAllTools();
 	virtual stkTrackerTool* GetTrackerTool(QString name);
 
 public slots:

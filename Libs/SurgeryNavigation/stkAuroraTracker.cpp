@@ -262,6 +262,22 @@ bool stkAuroraTracker::DetachTrackerTool(QString name)
 	return true;
 }
 
+bool stkAuroraTracker::DetachAllTools()
+{
+	Q_D(stkAuroraTracker);
+
+	foreach(const QString &name, d->TrackerTools.keys())
+	{
+		stkAuroraTrackerTool* tool = d->TrackerTools[name];
+		if(tool)
+			tool->DetachFromTracker();
+	}
+
+	d->TrackerTools.clear();
+
+	return true;
+}
+
 
 stkTrackerTool* stkAuroraTracker::GetTrackerTool(QString name)
 {

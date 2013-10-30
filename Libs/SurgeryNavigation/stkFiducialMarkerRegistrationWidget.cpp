@@ -120,7 +120,11 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
+	
+	StopTracking();
 
+	d->Tracker->DetachAllTools();
+	d->Tracker->Close();
 }
 
 void stkFiducialMarkerRegistrationWidget::StartIGTLServer()

@@ -238,6 +238,21 @@ bool stkPolarisTracker::DetachTrackerTool(QString name)
 	return true;
 }
 
+bool stkPolarisTracker::DetachAllTools()
+{
+	Q_D(stkPolarisTracker);
+
+	foreach(const QString &name, d->TrackerTools.keys())
+	{
+		stkPolarisTrackerTool* tool = d->TrackerTools[name];
+		if(tool)
+			tool->DetachFromTracker();
+	}
+
+	d->TrackerTools.clear();
+
+	return true;
+}
 
 stkTrackerTool* stkPolarisTracker::GetTrackerTool(QString name)
 {
