@@ -65,8 +65,8 @@ set(KIT_SRCS
 	stkIGTLToMRMLImage.cpp
 	stkMRMLIGTLServerNode.h
 	stkMRMLIGTLServerNode.cpp
-	stkMRMLIGTLImageClientNode.h
-	stkMRMLIGTLImageClientNode.cpp
+	stkIGTLImageClient.h
+	stkIGTLImageClient.cpp
 	stkUltrasoundImageFusionWidget.h
     stkUltrasoundImageFusionWidget.cpp
   )
@@ -86,6 +86,7 @@ set(KIT_MOC_SRCS
 	stkPolarisPivotCalibrationWidget.h
 	stkFiducialMarkerRegistrationWidget.h
 	stkUltrasoundImageFusionWidget.h
+	stkIGTLImageClient.h
   )
 
 
