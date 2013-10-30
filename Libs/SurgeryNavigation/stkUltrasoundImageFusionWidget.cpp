@@ -5,6 +5,7 @@
 
 #include "stkMRMLHelper.h"
 #include "stkMRMLIGTLServerNode.h"
+#include "stkIGTLToMRMLImage.h"
 
 #include "vtkMRMLScene.h"
 #include "qMRMLNodeFactory.h"
@@ -17,6 +18,7 @@
 #include <vtkNew.h>
 #include <vtkTransform.h>
 #include <vtkMRMLScalarVolumeNode.h>
+
 
 enum ImageOrient{
 	SLICE_RTIMAGE_NONE      = 0,
@@ -44,6 +46,7 @@ public:
 
 
 	stkMRMLIGTLServerNode* IGTLImageServerNode;
+	vtkSmartPointer<stkIGTLToMRMLImage> ImageConverter;
 	QTimer importDataAndEventsTimer;
 };
 
@@ -172,6 +175,7 @@ stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 	d->setupUi(this);
 
 	d->IGTLImageServerNode = NULL;
+	d->ImageConverter = NULL;
 
 	d->XShiftSlider->setValue(d->rtImageShift[0]);
 	d->YShiftSlider->setValue(d->rtImageShift[1]);
@@ -269,6 +273,9 @@ void stkUltrasoundImageFusionWidget::StartIGTLImageServer()
 		d->IGTLImageServerNode->SetName("IGTLImageServer");
 		d->IGTLImageServerNode->DisableModifiedEventOff();
 		d->IGTLImageServerNode->InvokePendingModifiedEvent();
+
+		d->ImageConverter = vtkSmartPointer<stkIGTLToMRMLImage>::New();
+		d->IGTLImageServerNode->RegisterMessageConverter(d->ImageConverter);
 	}
 
 	if( d->IGTLImageServerNode && d->IGTLImageServerNode->GetState() == stkMRMLIGTLServerNode::STATE_OFF )
