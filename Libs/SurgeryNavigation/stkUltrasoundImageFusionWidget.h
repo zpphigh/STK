@@ -9,17 +9,27 @@
 
 // STK includes
 #include "stkSurgeryNavigationExport.h"
-#include "ui_stkUltrasoundImageFusionWidget.h"
 
-class STK_SURGERYNAVIGATION_EXPORT stkUltrasoundImageFusionWidget : public QWidget
+// Qt includes
+#include "qSlicerWidget.h"
+
+class stkUltrasoundImageFusionWidgetPrivate;
+class STK_SURGERYNAVIGATION_EXPORT stkUltrasoundImageFusionWidget : public qSlicerWidget
 {
 	Q_OBJECT
 
 public:
+	typedef qSlicerWidget Superclass;
 	stkUltrasoundImageFusionWidget(QWidget *parent = 0);
 	~stkUltrasoundImageFusionWidget();
 
+
+protected:
+	QScopedPointer<stkUltrasoundImageFusionWidgetPrivate> d_ptr;
+
 private:
-	Ui::stkUltrasoundImageFusionWidget ui;
+	Q_DECLARE_PRIVATE(stkUltrasoundImageFusionWidget);
+	Q_DISABLE_COPY(stkUltrasoundImageFusionWidget);
+
 };
 
