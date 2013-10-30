@@ -379,6 +379,10 @@ void stkUltrasoundImageFusionWidget::on_DisplayFusionButton_clicked()
 bool stkUltrasoundImageFusionWidget::StartTrackSlice()
 {
 	Q_D(stkUltrasoundImageFusionWidget);
+
+	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
+	if(!scene)
+		return false;
 	
 	//Ultrasound Tool Observe the IGTTransform
 	vtkMRMLLinearTransformNode* igtTransform = vtkMRMLLinearTransformNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("IGTTransform"));
@@ -406,7 +410,7 @@ bool stkUltrasoundImageFusionWidget::StartTrackSlice()
 	this->qvtkConnect(d->sliceLocatorTransform, vtkMRMLLinearTransformNode::TransformModifiedEvent, this, SLOT(UpdateSliceByLocator())); 
 
 	d->sliceCompositeNode[0]->SetForegroundVolumeID(rtImageNode->GetID()); //Background 不变，显示混合影像
-	vtkMRMLScalarVolumeNode* ctImageNode = vtkMRMLScalarVolumeNode::SafeDownCast(this->mrmlScene()->GetNodeByID(d->sliceCompositeNode[0]->GetBackgroundVolumeID()));
+	vtkMRMLScalarVolumeNode* ctImageNode = vtkMRMLScalarVolumeNode::SafeDownCast(scene->GetNodeByID(d->sliceCompositeNode[0]->GetBackgroundVolumeID()));
 	if(ctImageNode)
 	{
 		d->sliceNode[0]->SetSliceVisible(true);
