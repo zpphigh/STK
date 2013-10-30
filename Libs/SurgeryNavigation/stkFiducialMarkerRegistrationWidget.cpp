@@ -578,7 +578,7 @@ bool stkFiducialMarkerRegistrationWidget::StartTracking()
 			return false;
 
 		d->Tracker->AttachTrackerTool("UltrasoundTool", "1");
-		d->Tracker->AttachTrackerTool("SurgeryTool", "2");
+		//d->Tracker->AttachTrackerTool("SurgeryTool", "2");
 
 		connect(CalibrationTool, SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
 	}

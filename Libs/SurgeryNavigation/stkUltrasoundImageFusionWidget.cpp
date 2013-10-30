@@ -189,6 +189,9 @@ stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 	connect(d->ZRotateSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageRotateZ(int))); 
 	connect(d->ImageFusionSlider, SIGNAL(valueChanged(int)), this, SLOT(SetImageFusionOpacity(int))); 
 
+
+	StartIGTLImageServer();
+
 	//start timer
 	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
 	d->importDataAndEventsTimer.start(10);
@@ -308,6 +311,21 @@ void stkUltrasoundImageFusionWidget::SetImageFusionOpacity(int opacity)
 	}
 }
 
+
+void stkUltrasoundImageFusionWidget::on_UltrasoundTool_clicked()
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	if(d->UltrasoundToolButton->isChecked())
+	{
+		if(!StartTrackSlice())
+			d->UltrasoundToolButton->setChecked(false);
+	}else{
+		StopTrackSlice();
+	}	
+}
+
+
+
 void stkUltrasoundImageFusionWidget::on_DisplayUSButton_clicked()
 {
 	Q_D(stkUltrasoundImageFusionWidget);
@@ -341,6 +359,61 @@ void stkUltrasoundImageFusionWidget::on_DisplayFusionButton_clicked()
 		d->DisplayCTButton->setChecked(false);
 	}
 }
+
+
+
+bool stkUltrasoundImageFusionWidget::StartTrackSlice()
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+
+	d->sliceLocatorTransform = vtkMRMLLinearTransformNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("UltrasoundTool"));
+	if( d->sliceLocatorTransform == NULL )
+		return false;
+
+	vtkMRMLScalarVolumeNode* rtImageNode = vtkMRMLScalarVolumeNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("RTImage"));
+	if (rtImageNode ==NULL)
+		return false;
+
+	d->CheckSliceNode();
+
+	if( !d->sliceNode[0]) 
+		return false;
+
+	this->qvtkConnect(d->sliceLocatorTransform, vtkMRMLLinearTransformNode::TransformModifiedEvent, this, SLOT(UpdateSliceByLocator())); 
+
+	d->sliceCompositeNode[0]->SetForegroundVolumeID(rtImageNode->GetID()); //Background 不变，显示混合影像
+	vtkMRMLScalarVolumeNode* ctImageNode = vtkMRMLScalarVolumeNode::SafeDownCast(this->mrmlScene()->GetNodeByID(d->sliceCompositeNode[0]->GetBackgroundVolumeID()));
+	if(ctImageNode)
+	{
+		d->sliceNode[0]->SetSliceVisible(true);
+	}
+
+	d->sliceCompositeNode[1]->SetBackgroundVolumeID(rtImageNode->GetID()); //第二个切面仅显示超声
+
+	//d->m_SliceCompositeNode[2]，第三个切面不变
+
+	int opacity = d->ImageFusionSlider->value();
+	SetImageFusionOpacity(opacity);
+
+	this->UpdateSliceByLocator();
+	return true;
+}
+
+void stkUltrasoundImageFusionWidget::StopTrackSlice()
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+
+	d->sliceLocatorTransform = vtkMRMLLinearTransformNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("UltrasoundTool"));
+	if( d->sliceLocatorTransform == NULL )
+		return;
+
+	this->qvtkDisconnect(d->sliceLocatorTransform, vtkMRMLLinearTransformNode::TransformModifiedEvent, this, SLOT(UpdateSliceByLocator())); 
+
+	d->CheckSliceNode();
+	if (d->sliceNode[0])
+		d->sliceNode[0]->SetSliceVisible(false);
+}
+
 
 
 void stkUltrasoundImageFusionWidget::UpdateSliceByLocator()

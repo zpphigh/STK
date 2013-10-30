@@ -23,7 +23,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QToolButton" name="USProbeToolButton">
+         <widget class="QToolButton" name="UltrasoundToolButton">
           <property name="enabled">
            <bool>false</bool>
           </property>
