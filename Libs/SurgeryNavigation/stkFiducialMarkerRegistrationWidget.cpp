@@ -592,6 +592,8 @@ bool stkFiducialMarkerRegistrationWidget::StartTracking()
 		d->Tracker->StartTracking();
 	}
 
+	emit TrackingStarted();
+
 	//start tracker timer
 	d->trackDataTimer.start(30);
 
@@ -602,6 +604,10 @@ void stkFiducialMarkerRegistrationWidget::StopTracking()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
+	if(d->Tracker->isTracking())
+		d->Tracker->StopTracking();
+
+	emit TrackingStoped();
 }
 
 void stkFiducialMarkerRegistrationWidget::setCalibrationToolDataValid(bool valid)

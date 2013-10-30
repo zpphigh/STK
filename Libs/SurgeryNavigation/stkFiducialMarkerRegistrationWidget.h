@@ -39,6 +39,10 @@ public slots:
 
 	void StartIGTLServer();
 
+signals:
+	void TrackingStarted();
+	void TrackingStoped();
+
 protected slots:
 	void on_AddFiducialMarkerToolButton_clicked();
 	void on_DeleteFiducialMarkerToolButton_clicked();
