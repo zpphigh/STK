@@ -34,6 +34,11 @@ public slots:
 	void SetRTImageRotateX(int);
 	void SetRTImageRotateY(int);
 	void SetRTImageRotateZ(int);
+	void SetImageFusionOpacity(int);
+
+	void on_DisplayUSButton_clicked();
+	void on_DisplayCTButton_clicked();
+	void on_DisplayFusionButton_clicked();
 
 protected:
 	QScopedPointer<stkUltrasoundImageFusionWidgetPrivate> d_ptr;

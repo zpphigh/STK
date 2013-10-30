@@ -58,7 +58,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="displayCTButton">
+         <widget class="QToolButton" name="DisplayCTButton">
           <property name="minimumSize">
            <size>
             <width>48</width>
@@ -94,7 +94,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="displayUSButton">
+         <widget class="QToolButton" name="DisplayUSButton">
           <property name="minimumSize">
            <size>
             <width>48</width>
@@ -129,7 +129,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="displayUSCTButton">
+         <widget class="QToolButton" name="DisplayFusionButton">
           <property name="minimumSize">
            <size>
             <width>48</width>
@@ -175,7 +175,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSlider" name="mergeUSSlider">
+         <widget class="QSlider" name="ImageFusionSlider">
           <property name="maximum">
            <number>100</number>
           </property>

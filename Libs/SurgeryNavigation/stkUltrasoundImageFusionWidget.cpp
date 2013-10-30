@@ -184,6 +184,7 @@ stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 	connect(d->XRotateSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageRotateX(int)));  
 	connect(d->YRotateSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageRotateY(int)));  
 	connect(d->ZRotateSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageRotateZ(int))); 
+	connect(d->ImageFusionSlider, SIGNAL(valueChanged(int)), this, SLOT(SetImageFusionOpacity(int))); 
 
 	//start timer
 	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
@@ -273,4 +274,67 @@ void stkUltrasoundImageFusionWidget::importDataAndEvents()
 
 	d->IGTLImageServerNode->ImportEventsFromEventBuffer();
 	d->IGTLImageServerNode->ImportDataFromCircularBuffer();
+}
+
+
+void stkUltrasoundImageFusionWidget::SetImageFusionOpacity(int opacity)
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	d->CheckSliceNode();
+	if (d->sliceCompositeNode[0])
+	{
+		d->sliceCompositeNode[0]->SetForegroundOpacity(opacity/100.0);
+	}
+
+	if( opacity == 0){
+		d->DisplayCTButton->setChecked(true);
+		d->DisplayUSButton->setChecked(false);
+		d->DisplayFusionButton->setChecked(false);
+	}else if (opacity == 50){
+		d->DisplayCTButton->setChecked(false);
+		d->DisplayUSButton->setChecked(false);
+		d->DisplayFusionButton->setChecked(true);
+	}else if (opacity == 100){
+		d->DisplayCTButton->setChecked(false);
+		d->DisplayUSButton->setChecked(true);
+		d->DisplayFusionButton->setChecked(false);
+	}else{
+		d->DisplayCTButton->setChecked(false);
+		d->DisplayUSButton->setChecked(false);
+		d->DisplayFusionButton->setChecked(false);
+	}
+}
+
+void stkUltrasoundImageFusionWidget::on_DisplayUSButton_clicked()
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	if(d->DisplayUSButton->isChecked()){
+		d->ImageFusionSlider->setValue(100);
+		d->DisplayCTButton->setChecked(false);
+		d->DisplayFusionButton->setChecked(false);
+	}	
+}
+
+
+void stkUltrasoundImageFusionWidget::on_DisplayCTButton_clicked()
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+
+	if(d->DisplayCTButton->isChecked()){
+		d->ImageFusionSlider->setValue(0);
+		d->DisplayUSButton->setChecked(false);
+		d->DisplayFusionButton->setChecked(false);
+	}	
+}
+
+
+void stkUltrasoundImageFusionWidget::on_DisplayFusionButton_clicked()
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+
+	if(d->DisplayFusionButton->isChecked()){
+		d->ImageFusionSlider->setValue(50);
+		d->DisplayUSButton->setChecked(false);
+		d->DisplayCTButton->setChecked(false);
+	}
 }
