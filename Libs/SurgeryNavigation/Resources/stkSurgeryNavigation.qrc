@@ -8,5 +8,10 @@
         <file>Icons/StopTracker.png</file>
         <file>Icons/TrackerToolMissing.png</file>
         <file>Icons/TrackerToolOK.png</file>
+		<file>Icons/DisplayCT.png</file>
+		<file>Icons/DisplayUS.png</file>
+		<file>Icons/DisplayFusion.png</file>
+		<file>Icons/USProbeOff.png</file>
+		<file>Icons/USProbeOn.png</file>
     </qresource>
 </RCC>
