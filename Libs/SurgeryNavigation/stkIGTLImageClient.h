@@ -18,9 +18,11 @@ class STK_SURGERYNAVIGATION_EXPORT stkIGTLImageClient : public QObject
 {
 	Q_OBJECT
 public:
-	 stkIGTLImageClient(QObject *parent = 0);
+
+	stkIGTLImageClient(QObject *parent = 0);
 	 ~stkIGTLImageClient();
 
+  bool isServerConnected();
   bool ConnectIGTLServer(const char* hostname, int port);
   void DisconnectIGTLServer();
 

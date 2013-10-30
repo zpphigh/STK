@@ -50,6 +50,16 @@ stkIGTLImageClient::~stkIGTLImageClient()
  
 }
 
+bool stkIGTLImageClient::isServerConnected()
+{
+	Q_D(stkIGTLImageClient);
+
+	if( d->imageClientSocket.IsNull())
+		return false;
+
+	return d->imageClientSocket->GetConnected();
+}
+
 bool stkIGTLImageClient::ConnectIGTLServer(const char* hostname, int port)
 {
 	Q_D(stkIGTLImageClient);
