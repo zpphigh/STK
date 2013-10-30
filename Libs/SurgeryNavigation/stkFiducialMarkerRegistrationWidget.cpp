@@ -101,7 +101,7 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	//时钟设置和启动
 	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
 
-	d->importDataAndEventsTimer.start(5);
+	d->importDataAndEventsTimer.start(20);
 
 
 	d->IGTTransformNode = vtkSmartPointer<vtkMRMLLinearTransformNode>::New();	
@@ -599,7 +599,7 @@ bool stkFiducialMarkerRegistrationWidget::StartTracking()
 	emit TrackingStarted();
 
 	//start tracker timer
-	d->trackDataTimer.start(30);
+	d->trackDataTimer.start(50);
 
 	return true;
 }

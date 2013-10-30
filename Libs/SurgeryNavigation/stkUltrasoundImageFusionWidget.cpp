@@ -72,6 +72,13 @@ stkUltrasoundImageFusionWidgetPrivate::stkUltrasoundImageFusionWidgetPrivate()
 	sliceLocatorTransform = NULL;
 }
 
+void stkUltrasoundImageFusionWidget::setUltrasoundToolDataValid(bool valid)
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+	d->UltrasoundToolButton->setEnabled(valid);
+}
+
+
 
 void stkUltrasoundImageFusionWidgetPrivate::CheckSliceNode()
 {
@@ -194,7 +201,7 @@ stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 
 	//start timer
 	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
-	d->importDataAndEventsTimer.start(10);
+	d->importDataAndEventsTimer.start(20);
 }
 
 stkUltrasoundImageFusionWidget::~stkUltrasoundImageFusionWidget()

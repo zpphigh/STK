@@ -26,6 +26,7 @@ public:
 	void StartIGTLImageServer();
 
 public slots:
+	void setUltrasoundToolDataValid(bool valid);
 	void importDataAndEvents();
 	void UpdateSliceByLocator();
 	bool StartTrackSlice();
