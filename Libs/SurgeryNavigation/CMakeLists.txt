@@ -67,6 +67,8 @@ set(KIT_SRCS
 	stkMRMLIGTLServerNode.cpp
 	stkMRMLIGTLImageClientNode.h
 	stkMRMLIGTLImageClientNode.cpp
+	stkUltrasoundImageFusionWidget.h
+    stkUltrasoundImageFusionWidget.cpp
   )
 
 
@@ -83,6 +85,7 @@ set(KIT_MOC_SRCS
 	stkPivotCalibrationWidget.h
 	stkPolarisPivotCalibrationWidget.h
 	stkFiducialMarkerRegistrationWidget.h
+	stkUltrasoundImageFusionWidget.h
   )
 
 
@@ -93,6 +96,7 @@ set(KIT_UI_FORMS
 	stkPivotCalibrationWidget.ui
 	stkPolarisPivotCalibrationWidget.ui
 	stkFiducialMarkerRegistrationWidget.ui
+	stkUltrasoundImageFusionWidget.ui
 )
 
 # Resources
