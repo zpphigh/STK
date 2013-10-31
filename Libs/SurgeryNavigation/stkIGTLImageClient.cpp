@@ -28,20 +28,19 @@ stkIGTLImageClient::stkIGTLImageClient(QObject *parent)
 
 	d->imageClientSocket = igtl::ClientSocket::New();
 
-	d->imageSize[0] = 0;
-	d->imageSize[1] = 0;
-	d->imageSize[2] = 0;
+	d->imageSize[0] = 640;
+	d->imageSize[1] = 480;
+	d->imageSize[2] = 1;
 
-	d->imageSpacing[0] = 0;
-	d->imageSpacing[1] = 0;
-	d->imageSpacing[2] = 0;
+	d->imageSpacing[0] = 1;
+	d->imageSpacing[1] = 1;
+	d->imageSpacing[2] = 5;
 
 	d->imageOrigin[0] = 0;
 	d->imageOrigin[1] = 0;
 	d->imageOrigin[2] = 0;
 
 	d->imageBufSize = 0;
- 
 }
 
 //----------------------------------------------------------------------------
@@ -144,8 +143,9 @@ void stkIGTLImageClient::allocateImageMessage()
 	d->imageMessage->SetDimensions(d->imageSize);
 	d->imageMessage->SetSpacing(d->imageSpacing);
 	d->imageMessage->SetOrigin(d->imageOrigin);
+	d->imageMessage->SetNumComponents(1);
 	d->imageMessage->SetScalarTypeToUint8();
-	d->imageMessage->SetDeviceName("ImageMessage");
+	d->imageMessage->SetDeviceName("RTImage");
 	d->imageMessage->SetSubVolume(d->imageSize, svoffset);
 	d->imageMessage->AllocateScalars();
 }
