@@ -144,6 +144,7 @@ void stkIGTLImageClient::allocateImageMessage()
 	matrix[0][2] = 0.0;  matrix[1][2] = 0.0;  matrix[2][2] = 1.0; matrix[3][2] = 0.0;
 	matrix[0][3] = 0.0;  matrix[1][3] = 0.0;  matrix[2][3] = 0.0; matrix[3][3] = 1.0;
 
+	
 	d->imageMessage->SetMatrix(matrix);
 	d->imageMessage->SetDimensions(d->imageSize);
 	d->imageMessage->SetSpacing(d->imageSpacing);
@@ -152,6 +153,8 @@ void stkIGTLImageClient::allocateImageMessage()
 	d->imageMessage->SetScalarTypeToUint8();
 	d->imageMessage->SetDeviceName("RTImage");
 	d->imageMessage->SetSubVolume(d->imageSize, svoffset);
+
+	d->imageBufSize =d->imageMessage->GetScalarSize()*d->imageSize[0]*d->imageSize[1]*d->imageSize[2];
 	d->imageMessage->AllocateScalars();
 }
 
