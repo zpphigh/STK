@@ -205,12 +205,12 @@ stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 
 	//start timer
 	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
-	d->importDataAndEventsTimer.start(20);
+	d->importDataAndEventsTimer.start(5);
 }
 
 stkUltrasoundImageFusionWidget::~stkUltrasoundImageFusionWidget()
 {
-
+	StopIGTLImageServer();
 }
 
 
@@ -284,6 +284,22 @@ void stkUltrasoundImageFusionWidget::StartIGTLImageServer()
 		d->IGTLImageServerNode->Modified();
 	}	
 }
+
+
+void stkUltrasoundImageFusionWidget::StopIGTLImageServer()
+{
+	Q_D(stkUltrasoundImageFusionWidget);
+
+	if(!d->IGTLImageServerNode)
+		return;
+
+	if ( d->IGTLImageServerNode->GetState() != stkMRMLIGTLServerNode::STATE_OFF )
+	{
+		d->IGTLImageServerNode->Stop();
+	}
+
+}
+
 
 void stkUltrasoundImageFusionWidget::importDataAndEvents()
 {

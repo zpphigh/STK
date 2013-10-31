@@ -24,7 +24,8 @@ public:
 	~stkUltrasoundImageFusionWidget();
 
 	void StartIGTLImageServer();
-
+	void StopIGTLImageServer();
+	
 public slots:
 	void setUltrasoundToolDataValid(bool valid);
 	void importDataAndEvents();

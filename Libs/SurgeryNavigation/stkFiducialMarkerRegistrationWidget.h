@@ -38,6 +38,7 @@ public slots:
 	void StopTracking();
 
 	void StartIGTLServer();
+	void StopIGTServer();
 
 signals:
 	void TrackingStarted();
