@@ -11,12 +11,12 @@
 class stkIGTLImageClientPrivate 
 {
 public:
-	igtl::ClientSocket::Pointer imageClientSocket;
-	igtl::ImageMessage::Pointer imageMessage;
-	int imageSize[3];
-	float imageSpacing[3];
-	float imageOrigin[3];
-	int imageBufSize;
+	igtl::ClientSocket::Pointer ImageClientSocket;
+	igtl::ImageMessage::Pointer ImageMessage;
+	int ImageSize[3];
+	float ImageSpacing[3];
+	float ImageOrigin[3];
+	int ImageBufSize;
 };
 
 
@@ -26,22 +26,22 @@ stkIGTLImageClient::stkIGTLImageClient(QObject *parent)
 {
 	Q_D(stkIGTLImageClient);
 
-	d->imageClientSocket = igtl::ClientSocket::New();
-	d->imageMessage = igtl::ImageMessage::New();
+	d->ImageClientSocket = igtl::ClientSocket::New();
+	d->ImageMessage = igtl::ImageMessage::New();
 
-	d->imageSize[0] = 640;
-	d->imageSize[1] = 480;
-	d->imageSize[2] = 1;
+	d->ImageSize[0] = 640;
+	d->ImageSize[1] = 480;
+	d->ImageSize[2] = 1;
 
-	d->imageSpacing[0] = 1;
-	d->imageSpacing[1] = 1;
-	d->imageSpacing[2] = 5;
+	d->ImageSpacing[0] = 1;
+	d->ImageSpacing[1] = 1;
+	d->ImageSpacing[2] = 5;
 
-	d->imageOrigin[0] = 0;
-	d->imageOrigin[1] = 0;
-	d->imageOrigin[2] = 0;
+	d->ImageOrigin[0] = 0;
+	d->ImageOrigin[1] = 0;
+	d->ImageOrigin[2] = 0;
 
-	d->imageBufSize = 0;
+	d->ImageBufSize = 0;
 }
 
 //----------------------------------------------------------------------------
@@ -54,24 +54,24 @@ bool stkIGTLImageClient::isServerConnected()
 {
 	Q_D(stkIGTLImageClient);
 
-	if( d->imageClientSocket.IsNull())
+	if( d->ImageClientSocket.IsNull())
 		return false;
 
-	return d->imageClientSocket->GetConnected();
+	return d->ImageClientSocket->GetConnected();
 }
 
 bool stkIGTLImageClient::ConnectIGTLServer(const char* hostname, int port)
 {
 	Q_D(stkIGTLImageClient);
 
-	if(d->imageClientSocket.IsNull())
+	if(d->ImageClientSocket.IsNull())
 		return false;
 
 	// return if the client is connected
-	if(d->imageClientSocket->GetConnected())
+	if(d->ImageClientSocket->GetConnected())
 		return true;
 
-	if(d->imageClientSocket->ConnectToServer(hostname,port))
+	if(d->ImageClientSocket->ConnectToServer(hostname,port))
 		return false;
 
 	return true;
@@ -81,12 +81,49 @@ void stkIGTLImageClient::DisconnectIGTLServer()
 {
 	Q_D(stkIGTLImageClient);
 
-	if(!d->imageClientSocket)
+	if(!d->ImageClientSocket)
 		return;
 
-	if(d->imageClientSocket->GetConnected())
-		d->imageClientSocket->CloseSocket();
+	if(d->ImageClientSocket->GetConnected())
+		d->ImageClientSocket->CloseSocket();
 }
+
+void stkIGTLImageClient::SetImageSize(int* s)
+{
+	SetImageSize(s[0],s[1],s[2]);
+}
+
+
+void stkIGTLImageClient::SetImageSpacing(float* s)
+{
+	SetImageSpacing(s[0],s[1],s[2]);
+}
+
+
+void stkIGTLImageClient::SetImageOrigin(float* o)
+{
+	SetImageOrigin(o[0],o[1],o[2]);
+}
+
+int* stkIGTLImageClient::GetImageSize()
+{
+	Q_D(stkIGTLImageClient);
+	return d->ImageSize;
+}
+
+float* stkIGTLImageClient::GetImageSpacing()
+{
+	Q_D(stkIGTLImageClient);
+	return d->ImageSpacing;
+}
+
+
+float* stkIGTLImageClient::GetImageOrigin()
+{
+	Q_D(stkIGTLImageClient);
+	return d->ImageOrigin;
+}
+
 
 
 void stkIGTLImageClient::SetImageSize(int x, int y, int z)
@@ -94,16 +131,16 @@ void stkIGTLImageClient::SetImageSize(int x, int y, int z)
 	Q_D(stkIGTLImageClient);
 
 	int size[3];
-	d->imageMessage->GetDimensions(size);
+	d->ImageMessage->GetDimensions(size);
 
 	if( size[0] == x && size[1] == y && size[2] == z)
 		return;
 
-	d->imageSize[0] = x;
-	d->imageSize[1] = y;
-	d->imageSize[2] = z;
+	d->ImageSize[0] = x;
+	d->ImageSize[1] = y;
+	d->ImageSize[2] = z;
 
-	d->imageBufSize = d->imageMessage->GetScalarSize()*x*y*z;
+	d->ImageBufSize = d->ImageMessage->GetScalarSize()*x*y*z;
 
 	allocateImageMessage();
 }
@@ -112,29 +149,29 @@ void stkIGTLImageClient::SetImageSpacing(float x, float y, float z)
 {
 	Q_D(stkIGTLImageClient);
 
-	d->imageSpacing[0] = x;
-	d->imageSpacing[1] = y;
-	d->imageSpacing[2] = z;
+	d->ImageSpacing[0] = x;
+	d->ImageSpacing[1] = y;
+	d->ImageSpacing[2] = z;
 
-	d->imageMessage->SetSpacing(d->imageSpacing);
+	d->ImageMessage->SetSpacing(d->ImageSpacing);
 }
 
 void stkIGTLImageClient::SetImageOrigin(float x, float y, float z)
 {
 	Q_D(stkIGTLImageClient);
 
-	d->imageOrigin[0] = x;
-	d->imageOrigin[1] = y;
-	d->imageOrigin[2] = z;
+	d->ImageOrigin[0] = x;
+	d->ImageOrigin[1] = y;
+	d->ImageOrigin[2] = z;
 
-	d->imageMessage->SetOrigin(d->imageOrigin);
+	d->ImageMessage->SetOrigin(d->ImageOrigin);
 }
 
 void stkIGTLImageClient::allocateImageMessage()
 {
 	Q_D(stkIGTLImageClient);
 
-	d->imageMessage = igtl::ImageMessage::New();
+	d->ImageMessage = igtl::ImageMessage::New();
 
 	int   svoffset[] = {0, 0, 0}; // sub-volume offset
 
@@ -145,17 +182,17 @@ void stkIGTLImageClient::allocateImageMessage()
 	matrix[0][3] = 0.0;  matrix[1][3] = 0.0;  matrix[2][3] = 0.0; matrix[3][3] = 1.0;
 
 	
-	d->imageMessage->SetMatrix(matrix);
-	d->imageMessage->SetDimensions(d->imageSize);
-	d->imageMessage->SetSpacing(d->imageSpacing);
-	d->imageMessage->SetOrigin(d->imageOrigin);
-	d->imageMessage->SetNumComponents(1);
-	d->imageMessage->SetScalarTypeToUint8();
-	d->imageMessage->SetDeviceName("RTImage");
-	d->imageMessage->SetSubVolume(d->imageSize, svoffset);
+	d->ImageMessage->SetMatrix(matrix);
+	d->ImageMessage->SetDimensions(d->ImageSize);
+	d->ImageMessage->SetSpacing(d->ImageSpacing);
+	d->ImageMessage->SetOrigin(d->ImageOrigin);
+	d->ImageMessage->SetNumComponents(1);
+	d->ImageMessage->SetScalarTypeToUint8();
+	d->ImageMessage->SetDeviceName("RTImage");
+	d->ImageMessage->SetSubVolume(d->ImageSize, svoffset);
 
-	d->imageBufSize =d->imageMessage->GetScalarSize()*d->imageSize[0]*d->imageSize[1]*d->imageSize[2];
-	d->imageMessage->AllocateScalars();
+	d->ImageBufSize =d->ImageMessage->GetScalarSize()*d->ImageSize[0]*d->ImageSize[1]*d->ImageSize[2];
+	d->ImageMessage->AllocateScalars();
 }
 
 
@@ -163,10 +200,10 @@ bool stkIGTLImageClient::SendImage( unsigned char* bufPtr)
 {
 	Q_D(stkIGTLImageClient);
 
-	memcpy(d->imageMessage->GetScalarPointer(),bufPtr,d->imageBufSize);
-	d->imageMessage->Pack();
+	memcpy(d->ImageMessage->GetScalarPointer(),bufPtr,d->ImageBufSize);
+	d->ImageMessage->Pack();
 
-	d->imageClientSocket->Send(d->imageMessage->GetPackPointer(), d->imageMessage->GetPackSize());
+	d->ImageClientSocket->Send(d->ImageMessage->GetPackPointer(), d->ImageMessage->GetPackSize());
 
 	return true;
 }

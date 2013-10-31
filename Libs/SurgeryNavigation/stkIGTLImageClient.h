@@ -26,6 +26,14 @@ public:
   bool ConnectIGTLServer(const char* hostname, int port);
   void DisconnectIGTLServer();
 
+
+  void SetImageSize(int*);
+  void SetImageSpacing(float*);
+  void SetImageOrigin(float*);
+  int* GetImageSize();
+  float* GetImageSpacing();
+  float* GetImageOrigin();
+
   void SetImageSize(int x, int y, int z);
   void SetImageSpacing(float x, float y, float z);
   void SetImageOrigin(float x, float y, float z);
