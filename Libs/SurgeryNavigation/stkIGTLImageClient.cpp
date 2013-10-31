@@ -159,14 +159,11 @@ void stkIGTLImageClient::allocateImageMessage()
 }
 
 
-bool stkIGTLImageClient::SendImage( unsigned char* bufPtr, int bufSize)
+bool stkIGTLImageClient::SendImage( unsigned char* bufPtr)
 {
 	Q_D(stkIGTLImageClient);
 
-	if(d->imageBufSize < bufSize)
-		return false;
-
-	memcpy(d->imageMessage->GetScalarPointer(),bufPtr,bufSize);
+	memcpy(d->imageMessage->GetScalarPointer(),bufPtr,d->imageBufSize);
 	d->imageMessage->Pack();
 
 	d->imageClientSocket->Send(d->imageMessage->GetPackPointer(), d->imageMessage->GetPackSize());
