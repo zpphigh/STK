@@ -33,6 +33,20 @@ set(KIT_SRCS
   stkMRMLCrossPointNode.cpp
   stkMRMLHelper.h
   stkMRMLHelper.cpp
+  stkMeasureWidget.h
+  stkMeasureWidget.cpp
+  stkProbeWidget.h
+  stkProbeWidget.cpp
+  stkMeasureRepresentation.h
+  stkMeasureRepresentation.cpp
+  stkProbeRepresentation3D.h
+  stkProbeRepresentation3D.cpp
+  stkMRMLProbeDisplayableManager.h
+  stkMRMLProbeDisplayableManager.cpp
+  stkMRMLProbeNode.h
+  stkMRMLProbeNode.cpp
+  stkMRMLProbeStorageNode.h
+  stkMRMLProbeStorageNode.cpp
 )
 
 # Headers that should run through moc
@@ -77,6 +91,7 @@ set(KIT_target_libraries
   vtkSlicerVolumeRenderingModuleMRML
   vtkSlicerAnnotationsModuleLogic
   vtkSlicerAnnotationsModuleMRML
+  vtkSlicerAnnotationsModuleMRMLDisplayableManager
   ${KIT_target_libraries}
 )
 
