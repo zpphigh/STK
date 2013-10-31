@@ -27,6 +27,7 @@ stkIGTLImageClient::stkIGTLImageClient(QObject *parent)
 	Q_D(stkIGTLImageClient);
 
 	d->imageClientSocket = igtl::ClientSocket::New();
+	d->imageMessage = igtl::ImageMessage::New();
 
 	d->imageSize[0] = 640;
 	d->imageSize[1] = 480;
@@ -114,6 +115,8 @@ void stkIGTLImageClient::SetImageSpacing(float x, float y, float z)
 	d->imageSpacing[0] = x;
 	d->imageSpacing[1] = y;
 	d->imageSpacing[2] = z;
+
+	d->imageMessage->SetSpacing(d->imageSpacing);
 }
 
 void stkIGTLImageClient::SetImageOrigin(float x, float y, float z)
@@ -123,6 +126,8 @@ void stkIGTLImageClient::SetImageOrigin(float x, float y, float z)
 	d->imageOrigin[0] = x;
 	d->imageOrigin[1] = y;
 	d->imageOrigin[2] = z;
+
+	d->imageMessage->SetOrigin(d->imageOrigin);
 }
 
 void stkIGTLImageClient::allocateImageMessage()
