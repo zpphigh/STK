@@ -101,7 +101,7 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	//时钟设置和启动
 	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
 
-	d->importDataAndEventsTimer.start(20);
+	d->importDataAndEventsTimer.start(5);
 
 
 	d->IGTTransformNode = vtkSmartPointer<vtkMRMLLinearTransformNode>::New();	
@@ -122,6 +122,7 @@ stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 	Q_D(stkFiducialMarkerRegistrationWidget);
 	
 	StopTracking();
+	StopIGTServer();	
 
 	d->Tracker->DetachAllTools();
 	d->Tracker->Close();
@@ -155,6 +156,20 @@ void stkFiducialMarkerRegistrationWidget::StartIGTLServer()
 		d->IGTLServerNode->Modified();
 	}	
 }
+
+void stkFiducialMarkerRegistrationWidget::StopIGTServer()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+	if(!d->IGTLServerNode )
+		return;
+
+	if ( d->IGTLServerNode->GetState() != stkMRMLIGTLServerNode::STATE_OFF )
+	{
+		d->IGTLServerNode->Stop();
+	}
+}
+
+
 
 void stkFiducialMarkerRegistrationWidget::importDataAndEvents()
 {
