@@ -33,6 +33,8 @@ set(KIT_SRCS
 	stkTracker.cpp
 	stkTrackerThread.h
 	stkTrackerThread.cpp
+	stkIGTLServerThread.h
+	stkIGTLServerThread.cpp
 	stkTrackerTool.h
 	stkTrackerTool.cpp
 	stkTrackingErrorObserver.h
@@ -78,6 +80,7 @@ set(KIT_SRCS
 set(KIT_MOC_SRCS
 	stkTracker.h
 	stkTrackerThread.h
+	stkIGTLServerThread.h
 	stkTrackerTool.h
 	stkAuroraTracker.h
 	stkAuroraTrackerTool.h
