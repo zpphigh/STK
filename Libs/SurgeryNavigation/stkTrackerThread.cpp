@@ -87,13 +87,8 @@ bool stkTrackerThread::StartTracking()
 		if(!d->Tracker->Open())
 			return false;
 
-		stkTrackerTool* CalibrationTool = d->Tracker->AttachTrackerTool("CalibrationTool", "0");
-		if(!CalibrationTool)
-			return false;
-
+		d->Tracker->AttachTrackerTool("CalibrationTool", "0");
 		d->Tracker->AttachTrackerTool("UltrasoundTool", "1");
-		//d->Tracker->AttachTrackerTool("SurgeryTool", "2");
-	//		connect(CalibrationTool, SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
 	}
 
 	//Connect IGT Server
