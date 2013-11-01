@@ -201,6 +201,7 @@ stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 	connect(d->ImageFusionSlider, SIGNAL(valueChanged(int)), this, SLOT(SetImageFusionOpacity(int))); 
 
 
+	d->CheckSliceNode();
 	StartIGTLImageServer();
 
 	//start timer
@@ -316,11 +317,10 @@ void stkUltrasoundImageFusionWidget::importDataAndEvents()
 void stkUltrasoundImageFusionWidget::SetImageFusionOpacity(int opacity)
 {
 	Q_D(stkUltrasoundImageFusionWidget);
-	d->CheckSliceNode();
-	if (d->sliceCompositeNode[0])
-	{
-		d->sliceCompositeNode[0]->SetForegroundOpacity(opacity/100.0);
-	}
+	if (!d->sliceCompositeNode[0])
+		return;
+
+	d->sliceCompositeNode[0]->SetForegroundOpacity(opacity/100.0);
 
 	if( opacity == 0){
 		d->DisplayCTButton->setChecked(true);
@@ -400,6 +400,9 @@ bool stkUltrasoundImageFusionWidget::StartTrackSlice()
 	if(!scene)
 		return false;
 	
+	if( !d->sliceNode[0]) 
+		return false;
+
 	//Ultrasound Tool Observe the IGTTransform
 	vtkMRMLLinearTransformNode* igtTransform = vtkMRMLLinearTransformNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("IGTTransform"));
 	if(!igtTransform)
@@ -416,11 +419,6 @@ bool stkUltrasoundImageFusionWidget::StartTrackSlice()
 
 	vtkMRMLScalarVolumeNode* rtImageNode = vtkMRMLScalarVolumeNode::SafeDownCast(stkMRMLHelper::GetSingleMRMLNodeByName("RTImage"));
 	if (rtImageNode ==NULL)
-		return false;
-
-	d->CheckSliceNode();
-
-	if( !d->sliceNode[0]) 
 		return false;
 
 	this->qvtkConnect(d->sliceLocatorTransform, vtkMRMLLinearTransformNode::TransformModifiedEvent, this, SLOT(UpdateSliceByLocator())); 
@@ -453,7 +451,6 @@ void stkUltrasoundImageFusionWidget::StopTrackSlice()
 
 	this->qvtkDisconnect(d->sliceLocatorTransform, vtkMRMLLinearTransformNode::TransformModifiedEvent, this, SLOT(UpdateSliceByLocator())); 
 
-	d->CheckSliceNode();
 	if (d->sliceNode[0])
 		d->sliceNode[0]->SetSliceVisible(false);
 }
