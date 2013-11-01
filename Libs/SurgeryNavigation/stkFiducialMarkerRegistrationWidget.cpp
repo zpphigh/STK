@@ -32,7 +32,6 @@
 
 #include "stkMRMLHelper.h"
 #include <vtkMatrix4x4.h>
-#include "stkTrackerThread.h"
 #include "stkTrackerTool.h"
 #include "stkIGTLToMRMLBase.h"
 #include "stkIGTLToMRMLPosition.h"
@@ -49,7 +48,6 @@ public:
 	PointList FiducialMarkerPoints;
 	PointList ToolPoints;
 
-	stkTrackerThread* TrackerThread;
 	bool ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode);
 
 	stkMRMLIGTLServerNode*		  IGTLServerNode;
@@ -65,10 +63,6 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 	d->setupUi(this);
-
-	d->TrackerThread = new stkTrackerThread;
-	d->TrackerThread->SetIGTServer("localhost",18944);
-	d->TrackerThread->UseTrackerAurora(3);
 
 	d->IGTLServerNode = NULL;
 	d->PositionConverter = NULL;
@@ -98,11 +92,6 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 
 	//automatic start IGTL server 
 	StartIGTLServer();
-
-	d->TrackerThread->start();
-
-	connect(d->TrackerThread,SIGNAL(TrackingStarted()),this,SLOT(TrackingStarted()));
-
 }
 
 
@@ -111,16 +100,6 @@ stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
 	StopIGTServer();	
-}
-
-void stkFiducialMarkerRegistrationWidget::TrackingStarted()
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-
-	stkTrackerTool* CalibrationTool = d->TrackerThread->GetTrackerTool("CalibrationTool");
-
-	if(CalibrationTool)
-		this->connect(CalibrationTool, SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
 }
 
 
@@ -484,22 +463,6 @@ void stkFiducialMarkerRegistrationWidget::updateFiducialMarkers()
 	d->FiducialMarkerTableWidget->selectRow(0);
 }
 
-
-
-void stkFiducialMarkerRegistrationWidget::on_StartTrackingToolButton_clicked()
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-
-	if(d->StartTrackingToolButton->isChecked())
-	{
-		d->TrackerThread->start();
-	}
-	else
-	{
-		d->TrackerThread->AbortTracking();
-	}
-}
-
 void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
@@ -542,14 +505,6 @@ void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 
 	calibTransform->SetAndObserveTransformNodeID(d->IGTTransformNode->GetID());
 }
-
-
-stkTrackerTool* stkFiducialMarkerRegistrationWidget::GetTrackerTool(QString name)
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-	return d->TrackerThread->GetTrackerTool(name);
-}
-
 
 void stkFiducialMarkerRegistrationWidget::setCalibrationToolDataValid(bool valid)
 {
