@@ -33,11 +33,7 @@
 #include "stkMRMLHelper.h"
 #include <vtkMatrix4x4.h>
 #include "stkTrackerTool.h"
-#include "stkIGTLToMRMLBase.h"
-#include "stkIGTLToMRMLPosition.h"
-#include "stkMRMLIGTLServerNode.h"
 #include <vtkSmartPointer.h>
-#include "stkIGTLServerManager.h"
 #include <QThread>
 
 typedef  std::vector<itk::Point<double, 3> > PointList;
@@ -52,9 +48,7 @@ public:
 
 	bool ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode);
 
-	stkIGTLServerManager* IGTLServerManager;
 	vtkSmartPointer<vtkMRMLLinearTransformNode> IGTTransformNode;
-	QTimer importDataAndEventsTimer;
 };
 
 
@@ -82,29 +76,13 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	d->IGTTransformNode->SetName("IGTTransform");
 	d->IGTTransformNode->SetDescription("Tracker Transform");
 	scene->AddNode(d->IGTTransformNode);
-
-
-	d->IGTLServerManager = new stkIGTLServerManager;
-	d->IGTLServerManager->StartIGTLServer();
-//	d->IGTLServerManager->start();
-
-
-	//时钟设置和启动
-	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  d->IGTLServerManager, SLOT(importDataAndEvents()));
-	d->importDataAndEventsTimer.start(5);
 }
 
 
 stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
-
-	//d->IGTLServerThread->StopIGTServer();
 }
-
-
-
-
 
 void stkFiducialMarkerRegistrationWidget::on_AddFiducialMarkerToolButton_clicked()
 {
@@ -235,7 +213,6 @@ void stkFiducialMarkerRegistrationWidget::on_ClearFiducialMarkerToolButton_click
 	{
 		listNode->RemoveAllMarkups();
 	}
-
 }
 
 
@@ -304,7 +281,6 @@ void stkFiducialMarkerRegistrationWidget::observeMarkupsNode(vtkMRMLNode *markup
 	}
 	col->RemoveAllItems();
 	col->Delete();
-
 
 	if (markupsNode)
 	{
@@ -504,7 +480,6 @@ bool stkFiducialMarkerRegistrationWidgetPrivate::ComputeRegistrationTransform(vt
 	transform->SetCenter(simiTrans->GetCenter() );
 	transform->SetMatrix(simiTrans->GetMatrix() );
 	transform->SetTranslation(simiTrans->GetTranslation() );
-
 
 	int i, j;
 	vtkSmartPointer<vtkMatrix4x4> vtkmat = vtkSmartPointer<vtkMatrix4x4>::New();
