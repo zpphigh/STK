@@ -21,6 +21,7 @@ public:
 
 	QString IGTLServerName;
 	int IGTLServerPort;
+	bool AbortTracking;
 };
 
 
@@ -32,6 +33,7 @@ stkTrackerThread::stkTrackerThread(QObject *parent)
 	d->Tracker = NULL;
 	d->IGTLServerName = QString("");
 	d->IGTLServerPort = 18944;
+	d->AbortTracking = true;
 }
 
 stkTrackerThread::~stkTrackerThread()
@@ -116,11 +118,18 @@ void stkTrackerThread::StopTracking()
 
 void stkTrackerThread::run()
 {
-	forever {
+	Q_D(stkTrackerThread);
+	d->AbortTracking = false;
 
+	StartTracking();
 
-		QThread::msleep(400);
+	while(!d->AbortTracking){
+
+		d->Tracker->TrackAndSendData();
+		QThread::msleep(30);
 	}
+
+	StopTracking();
 }
 
 void stkTrackerThread::TrackAndSendData()
@@ -128,4 +137,11 @@ void stkTrackerThread::TrackAndSendData()
 	Q_D(stkTrackerThread);
 
 	d->Tracker->TrackAndSendData();
+}
+
+
+void stkTrackerThread::AbortTracking()
+{
+	Q_D(stkTrackerThread);
+	d->AbortTracking = true;
 }

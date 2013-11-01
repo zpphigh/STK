@@ -56,7 +56,6 @@ public:
 	vtkSmartPointer<vtkMRMLLinearTransformNode> IGTTransformNode;
 
 	QTimer importDataAndEventsTimer;
-	QTimer trackDataTimer;
 };
 
 
@@ -99,18 +98,15 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	//automatic start IGTL server 
 	StartIGTLServer();
 
-	this->connect(&d->trackDataTimer, SIGNAL(timeout()),  d->TrackerThread, SLOT(TrackAndSendData()));
+	d->TrackerThread->start();
 }
 
 
 stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
-	
-	d->TrackerThread->StopTracking();
 
 	StopIGTServer();	
-
 }
 
 void stkFiducialMarkerRegistrationWidget::StartIGTLServer()
@@ -481,12 +477,11 @@ void stkFiducialMarkerRegistrationWidget::on_StartTrackingToolButton_clicked()
 
 	if(d->StartTrackingToolButton->isChecked())
 	{
-		d->TrackerThread->StartTracking();
-		d->trackDataTimer.start(50);
+		d->TrackerThread->start();
 	}
 	else
 	{
-		d->TrackerThread->StopTracking();
+		d->TrackerThread->AbortTracking();
 	}
 }
 

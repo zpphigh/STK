@@ -29,6 +29,8 @@ public:
 	bool StartTracking();
 	void StopTracking();
 
+	void AbortTracking();
+
 signals:
 	void TrackingStarted();
 	void TrackingStoped();
