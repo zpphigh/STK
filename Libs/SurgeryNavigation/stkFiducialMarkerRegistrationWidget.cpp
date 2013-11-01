@@ -37,6 +37,8 @@
 #include "stkIGTLToMRMLPosition.h"
 #include "stkMRMLIGTLServerNode.h"
 #include <vtkSmartPointer.h>
+#include "stkIGTLServerManager.h"
+#include <QThread>
 
 typedef  std::vector<itk::Point<double, 3> > PointList;
 
@@ -50,10 +52,8 @@ public:
 
 	bool ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode);
 
-	stkMRMLIGTLServerNode*		  IGTLServerNode;
-	vtkSmartPointer<stkIGTLToMRMLPosition> PositionConverter;
+	stkIGTLServerManager* IGTLServerManager;
 	vtkSmartPointer<vtkMRMLLinearTransformNode> IGTTransformNode;
-
 	QTimer importDataAndEventsTimer;
 };
 
@@ -64,8 +64,7 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	Q_D(stkFiducialMarkerRegistrationWidget);
 	d->setupUi(this);
 
-	d->IGTLServerNode = NULL;
-	d->PositionConverter = NULL;
+	
 	d->IGTTransformNode = NULL;
 
 	d->FiducialMarkerTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -79,19 +78,20 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 
 	this->qvtkConnect(scene,vtkMRMLScene::NodeAddedEvent, this, SLOT(onMarkupNodeAdded())); 
 
-	//时钟设置和启动
-	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
-
-	d->importDataAndEventsTimer.start(5);
-
-
 	d->IGTTransformNode = vtkSmartPointer<vtkMRMLLinearTransformNode>::New();	
 	d->IGTTransformNode->SetName("IGTTransform");
 	d->IGTTransformNode->SetDescription("Tracker Transform");
 	scene->AddNode(d->IGTTransformNode);
 
-	//automatic start IGTL server 
-	StartIGTLServer();
+
+	d->IGTLServerManager = new stkIGTLServerManager;
+	d->IGTLServerManager->StartIGTLServer();
+//	d->IGTLServerManager->start();
+
+
+	//时钟设置和启动
+	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  d->IGTLServerManager, SLOT(importDataAndEvents()));
+	d->importDataAndEventsTimer.start(5);
 }
 
 
@@ -99,63 +99,11 @@ stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
-	StopIGTServer();	
-}
-
-
-void stkFiducialMarkerRegistrationWidget::StartIGTLServer()
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-
-	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
-	if (!scene)	return;
-
-	if(!d->IGTLServerNode)
-	{
-		scene->RegisterNodeClass(vtkNew<stkMRMLIGTLServerNode>().GetPointer());
-
-		vtkMRMLNode * node = qMRMLNodeFactory::createNode(scene, "stkMRMLIGTLServerNode");
-		d->IGTLServerNode = stkMRMLIGTLServerNode::SafeDownCast(node);
-		d->IGTLServerNode->DisableModifiedEventOn();
-		d->IGTLServerNode->SetServerPort(18944); //TrackServer use port 18944
-		d->IGTLServerNode->SetName("IGTLServer");
-		d->IGTLServerNode->DisableModifiedEventOff();
-		d->IGTLServerNode->InvokePendingModifiedEvent();
-		d->PositionConverter = vtkSmartPointer<stkIGTLToMRMLPosition>::New();
-		d->IGTLServerNode->RegisterMessageConverter(d->PositionConverter);
-	}
-
-	if( d->IGTLServerNode && d->IGTLServerNode->GetState() == stkMRMLIGTLServerNode::STATE_OFF )
-	{
-		d->IGTLServerNode->Start();
-		d->IGTLServerNode->Modified();
-	}	
-}
-
-void stkFiducialMarkerRegistrationWidget::StopIGTServer()
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-	if(!d->IGTLServerNode )
-		return;
-
-	if ( d->IGTLServerNode->GetState() != stkMRMLIGTLServerNode::STATE_OFF )
-	{
-		d->IGTLServerNode->Stop();
-	}
+	//d->IGTLServerThread->StopIGTServer();
 }
 
 
 
-void stkFiducialMarkerRegistrationWidget::importDataAndEvents()
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-
-	if(!d->IGTLServerNode)
-		return;
-
-	d->IGTLServerNode->ImportEventsFromEventBuffer();
-	d->IGTLServerNode->ImportDataFromCircularBuffer();
-}
 
 
 void stkFiducialMarkerRegistrationWidget::on_AddFiducialMarkerToolButton_clicked()
