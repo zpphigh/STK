@@ -5,7 +5,7 @@
 #include "igstkMacros.h"
 #include "igstkEvents.h"
 #include "igstkPivotCalibration.h"
-#include <QQuaternion>
+#include <qquaternion.h>
 
 
 typedef itk::MemberCommand<stkPivotCalibrationWidgetPrivate>  InitializationObserverType;

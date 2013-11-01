@@ -58,7 +58,7 @@
 #include <vtkPolyDataMapper.h>
 #include <vtkHandleWidget.h>
 #include <QVector3D>
-#include <QQuaternion>
+#include <qquaternion.h>
 
 // std includes
 #include <string>

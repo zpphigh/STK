@@ -10,7 +10,7 @@
 #include <vtkObjectFactory.h>
 #include <vtkMatrix4x4.h>
 #include <vtkMath.h>
-#include <QQuaternion.h>
+#include <qquaternion.h>
 #include "qvector3d.h"
 
 
