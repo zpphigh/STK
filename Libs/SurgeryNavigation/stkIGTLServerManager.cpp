@@ -79,7 +79,7 @@ void stkIGTLServerManager::StopIGTServer()
 }
 
 
-void stkIGTLServerManager::StartIGTLImageServer()
+void stkIGTLServerManager::StartImageServer()
 {
 	Q_D(stkIGTLServerManager);
 
@@ -108,7 +108,7 @@ void stkIGTLServerManager::StartIGTLImageServer()
 }
 
 
-void stkIGTLServerManager::StopIGTLImageServer()
+void stkIGTLServerManager::StopImageServer()
 {
 	Q_D(stkIGTLServerManager);
 

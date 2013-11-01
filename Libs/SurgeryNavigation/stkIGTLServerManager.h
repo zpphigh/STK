@@ -24,8 +24,8 @@ public:
 
 	void StartIGTLServer();
 	void StopIGTServer();
-	void StartIGTLImageServer();
-	void StopIGTLImageServer();
+	void StartImageServer();
+	void StopImageServer();
 
 public slots:
 	void importDataAndEvents();
