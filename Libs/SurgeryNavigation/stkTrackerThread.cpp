@@ -21,7 +21,7 @@ public:
 
 	QString IGTLServerName;
 	int IGTLServerPort;
-	bool AbortTracking;
+	bool Abort;
 };
 
 
@@ -33,7 +33,7 @@ stkTrackerThread::stkTrackerThread(QObject *parent)
 	d->Tracker = NULL;
 	d->IGTLServerName = QString("");
 	d->IGTLServerPort = 18944;
-	d->AbortTracking = true;
+	d->Abort = true;
 }
 
 stkTrackerThread::~stkTrackerThread()
@@ -46,20 +46,11 @@ stkTrackerThread::~stkTrackerThread()
 	d->Tracker->Close();
 }
 
-void stkTrackerThread::UseTrackerAurora(int comPort)
+void stkTrackerThread::InitAuroraTracker(int comPort)
 {
 	Q_D(stkTrackerThread);
 	d->TrackerType = TRACKER_TYPE_AURORA;
 	stkAuroraTracker* tracker = new stkAuroraTracker;
-	tracker->setComPortNum(comPort);
-	d->Tracker = tracker;
-}
-
-void stkTrackerThread::UseTrackerPolaris(int comPort)
-{
-	Q_D(stkTrackerThread);
-	d->TrackerType = TRACKER_TYPE_POLARIS;
-	stkPolarisTracker* tracker = new stkPolarisTracker;
 	tracker->setComPortNum(comPort);
 	d->Tracker = tracker;
 }
@@ -77,7 +68,7 @@ void stkTrackerThread::SetIGTServer(QString hostname, int port)
 	d->IGTLServerPort = port;
 }
 
-bool stkTrackerThread::StartTracking()
+bool stkTrackerThread::startTracking()
 {
 	Q_D(stkTrackerThread);
 
@@ -108,7 +99,7 @@ bool stkTrackerThread::StartTracking()
 	return true;
 }
 
-void stkTrackerThread::StopTracking()
+void stkTrackerThread::stopTracking()
 {
 	Q_D(stkTrackerThread);
 
@@ -121,21 +112,21 @@ void stkTrackerThread::StopTracking()
 void stkTrackerThread::run()
 {
 	Q_D(stkTrackerThread);
-	d->AbortTracking = false;
+	d->Abort = false;
 
-	StartTracking();
+	startTracking();
 
-	while(!d->AbortTracking){
+	while(!d->Abort){
 
 		d->Tracker->TrackAndSendData();
 		QThread::msleep(30);
 	}
 
-	StopTracking();
+	stopTracking();
 }
 
-void stkTrackerThread::AbortTracking()
+void stkTrackerThread::Abort()
 {
 	Q_D(stkTrackerThread);
-	d->AbortTracking = true;
+	d->Abort = true;
 }
