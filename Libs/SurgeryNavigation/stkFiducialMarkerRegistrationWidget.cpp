@@ -31,24 +31,14 @@
 #include <numeric>
 
 #include "stkMRMLHelper.h"
-#include "stkPolarisTracker.h"
-#include "stkPolarisTrackerTool.h"
-#include "stkAuroraTracker.h"
-#include "stkAuroraTrackerTool.h"
-
+#include <vtkMatrix4x4.h>
+#include "stkTrackerThread.h"
 #include "stkIGTLToMRMLBase.h"
 #include "stkIGTLToMRMLPosition.h"
 #include "stkMRMLIGTLServerNode.h"
 #include <vtkSmartPointer.h>
 
 typedef  std::vector<itk::Point<double, 3> > PointList;
-
-enum TrackerType{
-	TRACKER_TYPE_NONE      = 0,
-	TRACKER_TYPE_ASCENSION      = 1,
-	TRACKER_TYPE_POLARIS = 2,
-	TRACKER_TYPE_AURORA   = 3
-};
 
 class stkFiducialMarkerRegistrationWidgetPrivate : public Ui_stkFiducialMarkerRegistrationWidget
 {
@@ -58,12 +48,8 @@ public:
 	PointList FiducialMarkerPoints;
 	PointList ToolPoints;
 
-	//Tracker
-	int TrackerType;
-	stkTracker* Tracker;
-
+	stkTrackerThread* TrackerThread;
 	bool ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode);
-	void ComputeTransform();
 
 	stkMRMLIGTLServerNode*		  IGTLServerNode;
 	vtkSmartPointer<stkIGTLToMRMLPosition> PositionConverter;
@@ -80,12 +66,13 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	Q_D(stkFiducialMarkerRegistrationWidget);
 	d->setupUi(this);
 
-	d->TrackerType = TRACKER_TYPE_NONE;
-	d->Tracker = NULL;
+	d->TrackerThread = new stkTrackerThread;
+	d->TrackerThread->SetIGTServer("localhost",18944);
+	d->TrackerThread->UseTrackerAurora(3);
+
 	d->IGTLServerNode = NULL;
 	d->PositionConverter = NULL;
 	d->IGTTransformNode = NULL;
-	
 
 	d->FiducialMarkerTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	d->FiducialMarkerTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows); 
@@ -112,8 +99,7 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	//automatic start IGTL server 
 	StartIGTLServer();
 
-	//we set what tracker we use here 
-	UseTrackerAurora(3);
+	this->connect(&d->trackDataTimer, SIGNAL(timeout()),  d->TrackerThread, SLOT(TrackAndSendData()));
 }
 
 
@@ -121,11 +107,10 @@ stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 	
-	StopTracking();
+	d->TrackerThread->StopTracking();
+
 	StopIGTServer();	
 
-	d->Tracker->DetachAllTools();
-	d->Tracker->Close();
 }
 
 void stkFiducialMarkerRegistrationWidget::StartIGTLServer()
@@ -182,35 +167,6 @@ void stkFiducialMarkerRegistrationWidget::importDataAndEvents()
 	d->IGTLServerNode->ImportDataFromCircularBuffer();
 }
 
-
-void stkFiducialMarkerRegistrationWidget::UseTrackerAurora(int comPort)
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-	d->TrackerType = TRACKER_TYPE_AURORA;
-	stkAuroraTracker* tracker = new stkAuroraTracker;
-	tracker->setComPortNum(comPort);
-	d->Tracker = tracker;
-
-	this->connect(&d->trackDataTimer, SIGNAL(timeout()),  d->Tracker, SLOT(TrackAndSendData()));
-}
-
-void stkFiducialMarkerRegistrationWidget::UseTrackerPolaris(int comPort)
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-	d->TrackerType = TRACKER_TYPE_POLARIS;
-	stkPolarisTracker* tracker = new stkPolarisTracker;
-	tracker->setComPortNum(comPort);
-	d->Tracker = tracker;
-
-	this->connect(&d->trackDataTimer, SIGNAL(timeout()),  d->Tracker, SLOT(TrackAndSendData()));
-}
-
-void stkFiducialMarkerRegistrationWidget::UseTrackerAscension()
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-	d->TrackerType = TRACKER_TYPE_ASCENSION;
-
-}
 
 void stkFiducialMarkerRegistrationWidget::on_AddFiducialMarkerToolButton_clicked()
 {
@@ -524,9 +480,14 @@ void stkFiducialMarkerRegistrationWidget::on_StartTrackingToolButton_clicked()
 	Q_D(stkFiducialMarkerRegistrationWidget);
 
 	if(d->StartTrackingToolButton->isChecked())
-		this->StartTracking();
+	{
+		d->TrackerThread->StartTracking();
+		d->trackDataTimer.start(50);
+	}
 	else
-		this->StopTracking();
+	{
+		d->TrackerThread->StopTracking();
+	}
 }
 
 void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
@@ -576,69 +537,14 @@ void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 stkTrackerTool* stkFiducialMarkerRegistrationWidget::GetTrackerTool(QString name)
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
-	return d->Tracker->GetTrackerTool(name);
+	return NULL;//d->Tracker->GetTrackerTool(name);
 }
 
-bool stkFiducialMarkerRegistrationWidget::StartTracking()
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-
-	if(d->TrackerType == TRACKER_TYPE_AURORA)
-	{
-		if(!d->Tracker->Open())
-			return false;
-
-		stkTrackerTool* CalibrationTool = d->Tracker->AttachTrackerTool("CalibrationTool", "0");
-		if(!CalibrationTool)
-			return false;
-
-		d->Tracker->AttachTrackerTool("UltrasoundTool", "1");
-		//d->Tracker->AttachTrackerTool("SurgeryTool", "2");
-
-		connect(CalibrationTool, SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
-	}
-
-
-	//Connect IGT Server
-	if( !d->Tracker->isServerConnected())
-	{
-		if(!d->Tracker->ConnectServer("localhost",18944))
-			return false;
-	}
-	//Start Tracking
-	if(!d->Tracker->isTracking())
-	{
-		d->Tracker->StartTracking();
-	}
-
-	emit TrackingStarted();
-
-	//start tracker timer
-	d->trackDataTimer.start(50);
-
-	return true;
-}
-
-void stkFiducialMarkerRegistrationWidget::StopTracking()
-{
-	Q_D(stkFiducialMarkerRegistrationWidget);
-
-	if(d->Tracker->isTracking())
-		d->Tracker->StopTracking();
-
-	emit TrackingStoped();
-}
 
 void stkFiducialMarkerRegistrationWidget::setCalibrationToolDataValid(bool valid)
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
 	d->CalibrationToolButton->setEnabled(valid);
-}
-
-
-void stkFiducialMarkerRegistrationWidgetPrivate::ComputeTransform()
-{
-
 }
 
 bool stkFiducialMarkerRegistrationWidgetPrivate::ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode)

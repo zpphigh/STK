@@ -26,23 +26,11 @@ public:
 	stkFiducialMarkerRegistrationWidget(QWidget *parent = 0);
 	~stkFiducialMarkerRegistrationWidget();
 
-	//The following three function is used to configure which Tracker to use and related parameters
-	void UseTrackerAurora(int comPort);
-	void UseTrackerPolaris(int comPort);
-	void UseTrackerAscension();
-
 	stkTrackerTool* GetTrackerTool(QString name);
 
 public slots:
-	bool StartTracking();
-	void StopTracking();
-
 	void StartIGTLServer();
 	void StopIGTServer();
-
-signals:
-	void TrackingStarted();
-	void TrackingStoped();
 
 protected slots:
 	void on_AddFiducialMarkerToolButton_clicked();

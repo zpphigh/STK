@@ -22,6 +22,24 @@ public:
 	stkTrackerThread(QObject *parent = 0);
 	~stkTrackerThread();
 
+	void UseTrackerAurora(int comPort);
+	void UseTrackerPolaris(int comPort);
+	void SetIGTServer(QString hostname, int port);
+	
+	bool StartTracking();
+	void StopTracking();
+
+signals:
+	void TrackingStarted();
+	void TrackingStoped();
+
+public slots:
+	
+	void TrackAndSendData();
+
+protected:
+	void run();
+
 protected:
 	QScopedPointer<stkTrackerThreadPrivate> d_ptr;
 
