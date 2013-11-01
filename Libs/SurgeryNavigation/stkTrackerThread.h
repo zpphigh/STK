@@ -13,6 +13,7 @@
 // Qt includes
 #include <QThread>
 
+class stkTrackerTool;
 class stkTrackerThreadPrivate;
 class STK_SURGERYNAVIGATION_EXPORT stkTrackerThread : public QThread
 {
@@ -25,6 +26,7 @@ public:
 	void UseTrackerAurora(int comPort);
 	void UseTrackerPolaris(int comPort);
 	void SetIGTServer(QString hostname, int port);
+	stkTrackerTool* GetTrackerTool(QString name);
 	
 	bool StartTracking();
 	void StopTracking();
@@ -36,8 +38,6 @@ signals:
 	void TrackingStoped();
 
 public slots:
-	
-	void TrackAndSendData();
 
 protected:
 	void run();

@@ -31,6 +31,7 @@ public:
 public slots:
 	void StartIGTLServer();
 	void StopIGTServer();
+	void TrackingStarted();
 
 protected slots:
 	void on_AddFiducialMarkerToolButton_clicked();
@@ -48,6 +49,9 @@ protected slots:
 	void updateFiducialMarkers();
 
 	void importDataAndEvents();
+
+
+
 
 private:
 	void observeMarkupsNode(vtkMRMLNode *markupsNode);

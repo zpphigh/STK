@@ -33,6 +33,7 @@
 #include "stkMRMLHelper.h"
 #include <vtkMatrix4x4.h>
 #include "stkTrackerThread.h"
+#include "stkTrackerTool.h"
 #include "stkIGTLToMRMLBase.h"
 #include "stkIGTLToMRMLPosition.h"
 #include "stkMRMLIGTLServerNode.h"
@@ -99,6 +100,9 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 	StartIGTLServer();
 
 	d->TrackerThread->start();
+
+	connect(d->TrackerThread,SIGNAL(TrackingStarted()),this,SLOT(TrackingStarted()));
+
 }
 
 
@@ -108,6 +112,17 @@ stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 
 	StopIGTServer();	
 }
+
+void stkFiducialMarkerRegistrationWidget::TrackingStarted()
+{
+	Q_D(stkFiducialMarkerRegistrationWidget);
+
+	stkTrackerTool* CalibrationTool = d->TrackerThread->GetTrackerTool("CalibrationTool");
+
+	if(CalibrationTool)
+		this->connect(CalibrationTool, SIGNAL(dataValidChanged(bool)),this,SLOT(setCalibrationToolDataValid(bool)));
+}
+
 
 void stkFiducialMarkerRegistrationWidget::StartIGTLServer()
 {
@@ -532,7 +547,7 @@ void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 stkTrackerTool* stkFiducialMarkerRegistrationWidget::GetTrackerTool(QString name)
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
-	return NULL;//d->Tracker->GetTrackerTool(name);
+	return d->TrackerThread->GetTrackerTool(name);
 }
 
 

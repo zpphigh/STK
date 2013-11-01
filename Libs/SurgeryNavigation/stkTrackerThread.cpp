@@ -45,6 +45,7 @@ stkTrackerThread::~stkTrackerThread()
 	d->Tracker->DetachAllTools();
 	d->Tracker->Close();
 }
+
 void stkTrackerThread::UseTrackerAurora(int comPort)
 {
 	Q_D(stkTrackerThread);
@@ -61,6 +62,12 @@ void stkTrackerThread::UseTrackerPolaris(int comPort)
 	stkPolarisTracker* tracker = new stkPolarisTracker;
 	tracker->setComPortNum(comPort);
 	d->Tracker = tracker;
+}
+
+stkTrackerTool* stkTrackerThread::GetTrackerTool(QString name)
+{
+	Q_D(stkTrackerThread);
+	return d->Tracker->GetTrackerTool(name);
 }
 
 void stkTrackerThread::SetIGTServer(QString hostname, int port)
@@ -131,14 +138,6 @@ void stkTrackerThread::run()
 
 	StopTracking();
 }
-
-void stkTrackerThread::TrackAndSendData()
-{
-	Q_D(stkTrackerThread);
-
-	d->Tracker->TrackAndSendData();
-}
-
 
 void stkTrackerThread::AbortTracking()
 {
