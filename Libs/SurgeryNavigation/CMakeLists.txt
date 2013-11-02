@@ -63,8 +63,6 @@ set(KIT_SRCS
 	stkIGTLToMRMLBase.cpp
 	stkIGTLToMRMLPosition.h
 	stkIGTLToMRMLPosition.cpp
-	stkIGTLToMRMLLinearTransform.h
-	stkIGTLToMRMLLinearTransform.cpp
 	stkIGTLToMRMLImage.h
 	stkIGTLToMRMLImage.cpp
 	stkMRMLIGTLServerNode.h
