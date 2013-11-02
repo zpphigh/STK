@@ -33,6 +33,8 @@ set(KIT_SRCS
   stkMRMLCrossPointNode.cpp
   stkMRMLHelper.h
   stkMRMLHelper.cpp
+  stkSlicerHelper.h
+  stkSlicerHelper.cpp
   stkMeasureWidget.h
   stkMeasureWidget.cpp
   stkProbeWidget.h
