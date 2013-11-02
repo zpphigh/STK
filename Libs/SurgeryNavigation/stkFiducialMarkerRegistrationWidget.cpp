@@ -41,14 +41,13 @@ typedef  std::vector<itk::Point<double, 3> > PointList;
 class stkFiducialMarkerRegistrationWidgetPrivate : public Ui_stkFiducialMarkerRegistrationWidget
 {
 public:
-	int NumFiducials;
-	int NumFiducialsCollected;
-	PointList FiducialMarkerPoints;
+	PointList FiducialPoints;
 	PointList ToolPoints;
+	std::vector<bool> ToolPointsCollected;
 
 	bool ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode);
 
-	vtkSmartPointer<vtkMRMLLinearTransformNode> IGTTransformNode;
+	vtkMRMLLinearTransformNode* IGTTransformNode;
 };
 
 
@@ -60,28 +59,29 @@ stkFiducialMarkerRegistrationWidget::stkFiducialMarkerRegistrationWidget(QWidget
 
 	
 	d->IGTTransformNode = NULL;
-
 	d->FiducialMarkerTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	d->FiducialMarkerTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows); 
 	d->FiducialMarkerTableWidget->setColumnWidth(0,30);
-	d->FiducialMarkerTableWidget->setColumnWidth(1,130);
-	d->FiducialMarkerTableWidget->setColumnWidth(2,130);
+	d->FiducialMarkerTableWidget->setColumnWidth(1,80);
+	d->FiducialMarkerTableWidget->setColumnWidth(2,80);
 
 	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
 	if (!scene)	return;
 
 	this->qvtkConnect(scene,vtkMRMLScene::NodeAddedEvent, this, SLOT(onMarkupNodeAdded())); 
 
-	d->IGTTransformNode = vtkSmartPointer<vtkMRMLLinearTransformNode>::New();	
+	d->IGTTransformNode = vtkMRMLLinearTransformNode::New();	
 	d->IGTTransformNode->SetName("IGTTransform");
 	d->IGTTransformNode->SetDescription("Tracker Transform");
 	scene->AddNode(d->IGTTransformNode);
+	d->IGTTransformNode->Delete();
 }
 
 
 stkFiducialMarkerRegistrationWidget::~stkFiducialMarkerRegistrationWidget()
 {
 	Q_D(stkFiducialMarkerRegistrationWidget);
+	d->IGTTransformNode = NULL;
 }
 
 void stkFiducialMarkerRegistrationWidget::on_AddFiducialMarkerToolButton_clicked()
@@ -352,17 +352,23 @@ void stkFiducialMarkerRegistrationWidget::updateFiducialMarkers()
 
 	d->FiducialMarkerTableWidget->clearContents();
 
-	d->NumFiducials = markupsNode->GetNumberOfMarkups();
-	if ( d->NumFiducials<= 0)
+	int NumberOfMarkups = markupsNode->GetNumberOfMarkups();
+	if ( NumberOfMarkups<= 0)
 		return;
 
-	d->NumFiducialsCollected = 0;
+	d->FiducialMarkerTableWidget->setRowCount(NumberOfMarkups);
+	if( d->FiducialPoints.size() != NumberOfMarkups)
+	{
+		d->FiducialPoints.resize(NumberOfMarkups);
+		d->ToolPoints.resize(NumberOfMarkups);
+		d->ToolPointsCollected.resize(NumberOfMarkups);
+		for (int i = 0 ; i < NumberOfMarkups; i++)
+		{
+			d->ToolPointsCollected[i] = false;
+		}
+	}
 
-	d->FiducialMarkerTableWidget->setRowCount(d->NumFiducials);
-	d->FiducialMarkerPoints.resize(d->NumFiducials);
-	d->ToolPoints.resize(d->NumFiducials);
-
-	for (int i = 0; i < d->NumFiducials; i++)
+	for (int i = 0; i < NumberOfMarkups; i++)
 	{		
 		double coordinate[3];
 		markupsNode->GetMarkupPoint(i, 0, coordinate);
@@ -374,14 +380,21 @@ void stkFiducialMarkerRegistrationWidget::updateFiducialMarkers()
 		point[0] = coordinate[0];
 		point[1] = coordinate[1];
 		point[2] = coordinate[2];
-		d->FiducialMarkerPoints[i]= point;		
+		d->FiducialPoints[i]= point;		
 
 		char str[50];
-		sprintf(str, "%.1f,%.1f,%.1f",coordinate[0],coordinate[1],coordinate[2]);
-
+		sprintf(str, "%.0f,%.0f,%.0f",point[0],point[1],point[2]);
 		d->FiducialMarkerTableWidget->setItem(i,1,new QTableWidgetItem(str));		
-		d->FiducialMarkerTableWidget->setItem(i,2,new QTableWidgetItem("NA"));		
-		d->FiducialMarkerTableWidget->setItem(i,3,new QTableWidgetItem("NA"));
+
+		if (d->ToolPointsCollected[i])
+		{
+			point = d->ToolPoints[i];
+			sprintf(str, "%.0f,%.0f,%.0f",point[0],point[1],point[2]);
+			d->FiducialMarkerTableWidget->setItem(i,2,new QTableWidgetItem(str));		
+		}
+		else{
+			d->FiducialMarkerTableWidget->setItem(i,2,new QTableWidgetItem("NA"));		
+		}
 
 	}
 	d->FiducialMarkerTableWidget->selectRow(0);
@@ -406,7 +419,7 @@ void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 		return;
 
 	char str[50];
-	sprintf(str, "%.1f,%.1f,%.1f",x,y,z);
+	sprintf(str, "%.0f,%.0f,%.0f",x,y,z);
 	d->FiducialMarkerTableWidget->setItem(row,2,new QTableWidgetItem(str));		
 
 	itk::Point<double, 3> point;
@@ -414,6 +427,7 @@ void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 	point[1] = y;
 	point[2] = z;
 	d->ToolPoints[row]= point;	
+	d->ToolPointsCollected[row] = true;
 
 	//automatic jump to the next row
 	if((row+1) < d->FiducialMarkerTableWidget->rowCount()){
@@ -423,8 +437,6 @@ void stkFiducialMarkerRegistrationWidget::on_CalibrationToolButton_clicked()
 		d->FiducialMarkerTableWidget->selectRow(0);
 	}	
 
-	d->NumFiducialsCollected++;
-	
 	d->ComputeRegistrationTransform(d->IGTTransformNode);
 
 	calibTransform->SetAndObserveTransformNodeID(d->IGTTransformNode->GetID());
@@ -438,12 +450,16 @@ void stkFiducialMarkerRegistrationWidget::setCalibrationToolDataValid(bool valid
 
 bool stkFiducialMarkerRegistrationWidgetPrivate::ComputeRegistrationTransform(vtkMRMLLinearTransformNode* tnode)
 {
-	if (NumFiducials < 4)
+	int NumberOfMarkups = FiducialPoints.size();
+	if (NumberOfMarkups < 4)
 		return false;
 
-	//如果采集的点不足也不可以计算
-	if( NumFiducialsCollected < NumFiducials )
-		return false;
+	//if there is some point not collected, return
+	for (int i = 0; i<NumberOfMarkups;i++)
+	{
+		if(!ToolPointsCollected[i])
+			return false;
+	}
 
 	//计算ITK Transform
 	typedef itk::Similarity3DTransform<double> SimilarityTransformType;
@@ -458,13 +474,13 @@ bool stkFiducialMarkerRegistrationWidgetPrivate::ComputeRegistrationTransform(vt
 	//这里需要临时将fixedPoints和movingPoints各点的坐标的xy值取反，z值不变，暂时没有弄清原因
 	PointList fixedPoints;
 	PointList movingPoints;
-	fixedPoints.resize(NumFiducials);
-	movingPoints.resize(NumFiducials);
-	for( int i = 0 ; i < NumFiducials; i++)
+	fixedPoints.resize(NumberOfMarkups);
+	movingPoints.resize(NumberOfMarkups);
+	for( int i = 0 ; i < NumberOfMarkups; i++)
 	{
-		fixedPoints[i][0] = -FiducialMarkerPoints[i][0];
-		fixedPoints[i][1] = -FiducialMarkerPoints[i][1];
-		fixedPoints[i][2] = FiducialMarkerPoints[i][2];
+		fixedPoints[i][0] = -FiducialPoints[i][0];
+		fixedPoints[i][1] = -FiducialPoints[i][1];
+		fixedPoints[i][2] = FiducialPoints[i][2];
 
 		movingPoints[i][0] = -ToolPoints[i][0];
 		movingPoints[i][1] = -ToolPoints[i][1];
