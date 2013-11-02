@@ -14,5 +14,6 @@
 class STK_SLICEREXT_EXPORT stkSlicerHelper
 {
 public:
-
+	static void SetupModules();
+	static void LoadModules();
 };
