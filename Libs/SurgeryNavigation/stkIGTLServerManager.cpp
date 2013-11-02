@@ -12,8 +12,8 @@ class stkIGTLServerManagerPrivate
 public:
 	stkMRMLIGTLServerNode*	IGTLServerNode;
 	stkMRMLIGTLServerNode*	IGTLImageServerNode;
-	vtkSmartPointer<stkIGTLToMRMLPosition> PositionConverter;
-	vtkSmartPointer<stkIGTLToMRMLImage> ImageConverter;
+	stkIGTLToMRMLPosition* PositionConverter;
+	stkIGTLToMRMLImage* ImageConverter;
 };
 
 
@@ -35,7 +35,8 @@ stkIGTLServerManager::stkIGTLServerManager(QObject *parent)
 stkIGTLServerManager::~stkIGTLServerManager()
 {
 	Q_D(stkIGTLServerManager);
-
+	StopIGTServer();
+	StopImageServer();
 }
 
 void stkIGTLServerManager::StartIGTLServer()
@@ -54,7 +55,7 @@ void stkIGTLServerManager::StartIGTLServer()
 		d->IGTLServerNode->SetName("IGTLServer");
 		d->IGTLServerNode->DisableModifiedEventOff();
 		d->IGTLServerNode->InvokePendingModifiedEvent();
-		d->PositionConverter = vtkSmartPointer<stkIGTLToMRMLPosition>::New();
+		d->PositionConverter = stkIGTLToMRMLPosition::New();
 		d->IGTLServerNode->RegisterMessageConverter(d->PositionConverter);
 	}
 
@@ -75,6 +76,10 @@ void stkIGTLServerManager::StopIGTServer()
 	if ( d->IGTLServerNode->GetState() != stkMRMLIGTLServerNode::STATE_OFF )
 	{
 		d->IGTLServerNode->Stop();
+
+		//d->IGTLServerNode->UnregisterMessageConverter(d->PositionConverter);
+		d->PositionConverter->Delete();
+		d->PositionConverter = NULL;
 	}
 }
 
@@ -96,7 +101,7 @@ void stkIGTLServerManager::StartImageServer()
 		d->IGTLImageServerNode->DisableModifiedEventOff();
 		d->IGTLImageServerNode->InvokePendingModifiedEvent();
 
-		d->ImageConverter = vtkSmartPointer<stkIGTLToMRMLImage>::New();
+		d->ImageConverter = stkIGTLToMRMLImage::New();
 		d->IGTLImageServerNode->RegisterMessageConverter(d->ImageConverter);
 	}
 
@@ -118,6 +123,10 @@ void stkIGTLServerManager::StopImageServer()
 	if ( d->IGTLImageServerNode->GetState() != stkMRMLIGTLServerNode::STATE_OFF )
 	{
 		d->IGTLImageServerNode->Stop();
+
+		//d->IGTLImageServerNode->UnregisterMessageConverter(d->ImageConverter);
+		d->ImageConverter->Delete();
+		d->ImageConverter = NULL;
 	}
 
 }

@@ -100,6 +100,7 @@ vtkMRMLNode* stkIGTLToMRMLImage::CreateNewNode(vtkMRMLScene* scene, const char* 
     displayNode->SetWindow(range[1] - range[0]);
     displayNode->SetLevel(0.5 * (range[1] + range[0]) );*/
 
+    vtkDebugMacro("Adding node..");
     scene->AddNode(displayNode);
 
 	vtkMRMLColorLogic* colorLogic = vtkMRMLColorLogic::SafeDownCast(qSlicerApplication::application()->moduleManager()->module("Colors")->logic());
@@ -141,8 +142,13 @@ int stkIGTLToMRMLImage::IGTLToMRML(igtl::MessageBase::Pointer buffer, vtkMRMLNod
 	if (node == NULL)
 		return 0;
 
+	stkIGTLToMRMLBase::IGTLToMRML(buffer, node);
+
 	if (strcmp(node->GetNodeTagName(), "Volume") != 0)
+	{
+		//std::cerr << "Invalid node!!!!" << std::endl;
 		return 0;
+	}
 
 	// Create a message buffer to receive image data
 	igtl::ImageMessage::Pointer imgMsg;
@@ -154,7 +160,10 @@ int stkIGTLToMRMLImage::IGTLToMRML(igtl::MessageBase::Pointer buffer, vtkMRMLNod
 	int c = imgMsg->Unpack(this->CheckCRC);
 
 	if ((c & igtl::MessageHeader::UNPACK_BODY) == 0) // if CRC check fails
+	{
+		// TODO: error handling
 		return 0;
+	}
 
 	// Retrive the image data
 	int   size[3];          // image dimension
@@ -163,9 +172,11 @@ int stkIGTLToMRMLImage::IGTLToMRML(igtl::MessageBase::Pointer buffer, vtkMRMLNod
 	int   svsize[3];        // sub-volume size
 	int   svoffset[3];      // sub-volume offset
 	int   scalarType;       // scalar type
+	int   endian;
 	igtl::Matrix4x4 matrix; // Image origin and orientation matrix
 
 	scalarType = imgMsg->GetScalarType();
+	endian = imgMsg->GetEndian();
 	imgMsg->GetDimensions(size);
 	imgMsg->GetSpacing(spacing);
 	imgMsg->GetOrigin(origin);
@@ -176,6 +187,7 @@ int stkIGTLToMRMLImage::IGTLToMRML(igtl::MessageBase::Pointer buffer, vtkMRMLNod
 
 	// check if the IGTL data fits to the current MRML node
 	vtkMRMLScalarVolumeNode* volumeNode = vtkMRMLScalarVolumeNode::SafeDownCast(node);
+	vtkImageData* newImageData = NULL;
 	vtkImageData* imageData = volumeNode->GetImageData();
 	int dsize[3];
 	double dorigin[3];
@@ -190,7 +202,7 @@ int stkIGTLToMRMLImage::IGTLToMRML(igtl::MessageBase::Pointer buffer, vtkMRMLNod
 		|| (origin[0] - dorigin[0])*(origin[0] - dorigin[0]) > 1  //原点变化
 		|| (spacing[0] - dspacing[0])*(spacing[0] - dspacing[0]) > 0.1 ) //间距变化
 	{
-		vtkImageData* newImageData = vtkImageData::New();
+		newImageData = vtkImageData::New();
 		newImageData->SetDimensions(size[0], size[1], size[2]);
 		newImageData->SetExtent(0, size[0]-1, 0, size[1]-1, 0, size[2]-1);
 		newImageData->SetOrigin(origin[0], origin[1], origin[2]);
@@ -198,17 +210,20 @@ int stkIGTLToMRMLImage::IGTLToMRML(igtl::MessageBase::Pointer buffer, vtkMRMLNod
 		newImageData->SetNumberOfScalarComponents(1);
 		newImageData->SetScalarTypeToUnsignedChar(); // UINT8
 		newImageData->AllocateScalars();
-		volumeNode->SetAndObserveImageData(newImageData);
-		//volumeNode->SetSpacing(spacing[0], spacing[1], spacing[2]); //由于vtkImageData中的Spacing和Origin不起作用，所以需要设置vtkMRMLScalarVolumeNode的
-		//volumeNode->SetOrigin(origin[0], origin[1], origin[2]);	 //由于vtkImageData中的Spacing和Origin不起作用，所以需要设置vtkMRMLScalarVolumeNode的
-		//imageData->Delete();
-		newImageData->Delete();
+		imageData = newImageData;
 	}
-	imageData = volumeNode->GetImageData();
+
 	memcpy(imageData->GetScalarPointer(),imgMsg->GetScalarPointer(), imgMsg->GetSubVolumeImageSize());
 
+
+	if (newImageData)
+	{
+		volumeNode->SetAndObserveImageData(newImageData);
+		newImageData->Delete();
+	}
+
+	imageData->Modified();
 	volumeNode->Modified();
-	volumeNode->GetImageData()->Modified();
 
 	return 1;
 }

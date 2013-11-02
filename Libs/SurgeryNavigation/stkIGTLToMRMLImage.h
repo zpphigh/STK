@@ -49,7 +49,9 @@ class STK_SURGERYNAVIGATION_EXPORT stkIGTLToMRMLImage : public stkIGTLToMRMLBase
 
  protected:
   igtl::ImageMessage::Pointer OutImageMessage;
+
   igtl::GetImageMessage::Pointer GetImageMessage;
+
 };
 
 
