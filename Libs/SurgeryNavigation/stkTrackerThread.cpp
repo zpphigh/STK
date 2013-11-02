@@ -22,6 +22,10 @@ public:
 	QString IGTLServerName;
 	int IGTLServerPort;
 	bool Abort;
+
+
+	bool startTracking();
+	void stopTracking();
 };
 
 
@@ -68,45 +72,36 @@ void stkTrackerThread::SetIGTServer(QString hostname, int port)
 	d->IGTLServerPort = port;
 }
 
-bool stkTrackerThread::startTracking()
+bool stkTrackerThreadPrivate::startTracking()
 {
-	Q_D(stkTrackerThread);
-
-
-	if(d->TrackerType == TRACKER_TYPE_AURORA)
+	if(TrackerType == TRACKER_TYPE_AURORA)
 	{
-		if(!d->Tracker->Open())
+		if(!Tracker->Open())
 			return false;
 
-		d->Tracker->AttachTrackerTool("CalibrationTool", "0");
-		d->Tracker->AttachTrackerTool("UltrasoundTool", "1");
+		Tracker->AttachTrackerTool("CalibrationTool", "0");
+		Tracker->AttachTrackerTool("UltrasoundTool", "1");
 	}
 
 	//Connect IGT Server
-	if( !d->Tracker->isServerConnected())
+	if( !Tracker->isServerConnected())
 	{
-		if(!d->Tracker->ConnectServer(d->IGTLServerName,d->IGTLServerPort))
+		if(!Tracker->ConnectServer(IGTLServerName,IGTLServerPort))
 			return false;
 	}
 	//Start Tracking
-	if(!d->Tracker->isTracking())
+	if(!Tracker->isTracking())
 	{
-		d->Tracker->StartTracking();
+		Tracker->StartTracking();
 	}
-
-	emit TrackingStarted();
 
 	return true;
 }
 
-void stkTrackerThread::stopTracking()
+void stkTrackerThreadPrivate::stopTracking()
 {
-	Q_D(stkTrackerThread);
-
-	if(d->Tracker->isTracking())
-		d->Tracker->StopTracking();
-	
-	emit TrackingStoped();
+	if(Tracker->isTracking())
+		Tracker->StopTracking();	
 }
 
 void stkTrackerThread::run()
@@ -114,7 +109,10 @@ void stkTrackerThread::run()
 	Q_D(stkTrackerThread);
 	d->Abort = false;
 
-	startTracking();
+	if(!d->startTracking())
+		return;
+
+	emit TrackingStarted();
 
 	while(!d->Abort){
 
@@ -122,7 +120,9 @@ void stkTrackerThread::run()
 		QThread::msleep(30);
 	}
 
-	stopTracking();
+	d->stopTracking();
+
+	emit TrackingStoped();
 }
 
 void stkTrackerThread::Abort()

@@ -151,6 +151,7 @@ bool stkAuroraTracker::Close()
 	if( d->initialized )
 	{
 		d->initialized = false;
+
 		d->Tracker->RequestStopTracking();
 		if( d->errorObserver->Error() )
 		{
@@ -270,7 +271,9 @@ bool stkAuroraTracker::DetachAllTools()
 	{
 		stkAuroraTrackerTool* tool = d->TrackerTools[name];
 		if(tool)
+		{
 			tool->DetachFromTracker();
+		}
 	}
 
 	d->TrackerTools.clear();

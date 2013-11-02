@@ -34,8 +34,7 @@ signals:
 
 protected:
 	void run();
-	bool startTracking();
-	void stopTracking();
+
 
 protected:
 	QScopedPointer<stkTrackerThreadPrivate> d_ptr;
