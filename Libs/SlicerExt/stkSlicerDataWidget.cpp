@@ -1,6 +1,10 @@
 #include "stkSlicerDataWidget.h"
 #include "ui_stkSlicerDataWidget.h"
 
+#include "qSlicerApplication.h"
+#include "qSlicerIOManager.h"
+#include "vtkMRMLScene.h"
+
 class stkSlicerDataWidgetPrivate : public Ui_stkSlicerDataWidget
 {
 public:
@@ -23,25 +27,23 @@ stkSlicerDataWidget::~stkSlicerDataWidget()
 }
 
 
-void stkSlicerDataWidget::on_LoadSlicerSceneButton_clicked()
+void stkSlicerDataWidget::on_FileAddVolumeButton_clicked()
 {
-	Q_D(stkSlicerDataWidget);
+	qSlicerApplication::application()->ioManager()->openAddVolumesDialog();
 }
 
 
 void stkSlicerDataWidget::on_SaveSlicerSceneButton_clicked()
 {
-	Q_D(stkSlicerDataWidget);
+	qSlicerApplication::application()->ioManager()->openSaveDataDialog();
 }
 
 void stkSlicerDataWidget::on_CloseSlicerSceneButton_clicked()
 {
-	Q_D(stkSlicerDataWidget);
-
+	qSlicerCoreApplication::application()->mrmlScene()->Clear(false);
 }
 
 void stkSlicerDataWidget::on_SlicerSettingsButton_clicked()
 {
-	Q_D(stkSlicerDataWidget);
-
+	qSlicerApplication::application()->settingsDialog()->exec();
 }

@@ -34,6 +34,7 @@ void stkSlicerLayoutWidget::on_SlicerLayoutConventionalViewButton_clicked()
 	if(layoutManager)
 	{
 		layoutManager->setLayout(vtkMRMLLayoutNode::SlicerLayoutConventionalView);
+		stkSlicerDisplayHelper::Set3DViewNodeAppearence();
 	}
 }
 
@@ -44,6 +45,7 @@ void stkSlicerLayoutWidget::on_SlicerLayoutConventionalWidescreenViewButton_clic
 	if(layoutManager)
 	{
 		layoutManager->setLayout(vtkMRMLLayoutNode::SlicerLayoutConventionalWidescreenView);
+		stkSlicerDisplayHelper::Set3DViewNodeAppearence();
 	}
 }
 
@@ -54,6 +56,7 @@ void stkSlicerLayoutWidget::on_SlicerLayoutFourUpViewButton_clicked()
 	if(layoutManager)
 	{
 		layoutManager->setLayout(vtkMRMLLayoutNode::SlicerLayoutFourUpView);
+		stkSlicerDisplayHelper::Set3DViewNodeAppearence();
 	}
 }
 
@@ -64,6 +67,7 @@ void stkSlicerLayoutWidget::on_SlicerLayoutOneUp3DViewButton_clicked()
 	if(layoutManager)
 	{
 		layoutManager->setLayout(vtkMRMLLayoutNode::SlicerLayoutOneUp3DView);
+		stkSlicerDisplayHelper::Set3DViewNodeAppearence();
 	}
 }
 

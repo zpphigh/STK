@@ -21,7 +21,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QToolButton" name="LoadSlicerSceneButton">
+    <widget class="QToolButton" name="FileAddVolumeButton">
      <property name="minimumSize">
       <size>
        <width>48</width>
@@ -39,7 +39,7 @@
      </property>
      <property name="icon">
       <iconset resource="Resources/stkSlicerExt.qrc">
-       <normaloff>:/Icons/LoadSlicerScene.png</normaloff>:/Icons/LoadSlicerScene.png</iconset>
+       <normaloff>:/Icons/FileAddVolume.png</normaloff>:/Icons/FileAddVolume.png</iconset>
      </property>
      <property name="iconSize">
       <size>

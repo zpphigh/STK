@@ -24,7 +24,7 @@ public:
 	~stkSlicerDataWidget();
 
 public slots:
-	void on_LoadSlicerSceneButton_clicked();
+	void on_FileAddVolumeButton_clicked();
 	void on_SaveSlicerSceneButton_clicked();
 	void on_CloseSlicerSceneButton_clicked();
 	void on_SlicerSettingsButton_clicked();

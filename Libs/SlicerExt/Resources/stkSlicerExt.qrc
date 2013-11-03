@@ -12,5 +12,6 @@
 		<file>Icons/LoadSlicerScene.png</file>
 		<file>Icons/SaveSlicerScene.png</file>
 		<file>Icons/SlicerSettings.png</file>
+		<file>Icons/FileAddVolume.png</file>		
     </qresource>
 </RCC>
