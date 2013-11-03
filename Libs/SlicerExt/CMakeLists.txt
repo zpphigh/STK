@@ -65,6 +65,7 @@ set(KIT_UI_FORMS
 
 # Resources
 set(KIT_resources
+	Resources/stkSlicerExt.qrc
 )
 
 # Includes
