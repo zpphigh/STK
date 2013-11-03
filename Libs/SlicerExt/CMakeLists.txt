@@ -51,16 +51,20 @@ set(KIT_SRCS
   stkMRMLProbeStorageNode.cpp
   stkSlicerLayoutWidget.h
   stkSlicerLayoutWidget.cpp
+  stkSlicerDataWidget.h
+  stkSlicerDataWidget.cpp
 )
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
   stkSlicerLayoutWidget.h
+  stkSlicerDataWidget.h
   )
 
 # UI files
 set(KIT_UI_FORMS
   stkSlicerLayoutWidget.ui
+  stkSlicerDataWidget.ui
 )
 
 # Resources
