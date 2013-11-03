@@ -300,7 +300,9 @@ stk_enable_option(RoboticSurgery "Enable RoboticSurgery support" OFF
 stk_enable_option(Hyperthermia "Enable Hyperthermia support" ON
                   STK_LIB_Hyperthermia)
 
-
+# The STK infrastructure for SurgeryNavigation support. 
+stk_enable_option(ImageProcessing "Enable ImageProcessing support" OFF
+                  STK_LIB_ImageProcessing)
 
 #-----------------------------------------------------------------------------
 # Special "BUILD ALL" options
@@ -366,6 +368,10 @@ stk_lib_option(SurgeryNavigation
 				CTK_ENABLE_SurgeryNavigation
 				)
 
+stk_lib_option(ImageProcessing
+               "Build the ImageProcessing library" ON
+			   CTK_ENABLE_ImageProcessing
+			   )
 
 
 # Save the set of enabled libs in a cache file
