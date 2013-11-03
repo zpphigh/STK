@@ -23,9 +23,10 @@ public:
 	stkSlicerDataWidget(QWidget *parent = 0);
 	~stkSlicerDataWidget();
 
-	void on_LoadSceneButton_clicked();
-	void on_SaveSceneButton_clicked();
-	void on_CloseSceneButton_clicked();
+public slots:
+	void on_LoadSlicerSceneButton_clicked();
+	void on_SaveSlicerSceneButton_clicked();
+	void on_CloseSlicerSceneButton_clicked();
 	void on_SlicerSettingsButton_clicked();
 
 protected:
