@@ -11,15 +11,15 @@
 // STK includes
 #include "stkSlicerExtExport.h"
 
-
-#include <QWidget>
+#include "qSlicerWidget.h"
 
 class stkSlicerLayoutWidgetPrivate;
-class STK_SLICEREXT_EXPORT stkSlicerLayoutWidget : public QWidget
+class STK_SLICEREXT_EXPORT stkSlicerLayoutWidget : public qSlicerWidget
 {
 	Q_OBJECT
 
 public:
+	typedef qSlicerWidget Superclass;
 	stkSlicerLayoutWidget(QWidget *parent = 0);
 	~stkSlicerLayoutWidget();
 

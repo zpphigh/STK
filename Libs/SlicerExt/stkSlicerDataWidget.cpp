@@ -11,7 +11,7 @@ public:
 
 
 stkSlicerDataWidget::stkSlicerDataWidget(QWidget *parent)
-	: QWidget(parent),d_ptr(new stkSlicerDataWidgetPrivate)
+	: Superclass(parent),d_ptr(new stkSlicerDataWidgetPrivate)
 {
 	Q_D(stkSlicerDataWidget);
 	d->setupUi(this);

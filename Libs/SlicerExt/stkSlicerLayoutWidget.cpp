@@ -17,7 +17,7 @@ public:
 
 
 stkSlicerLayoutWidget::stkSlicerLayoutWidget(QWidget *parent)
-	: QWidget(parent),d_ptr(new stkSlicerLayoutWidgetPrivate)
+	: Superclass(parent),d_ptr(new stkSlicerLayoutWidgetPrivate)
 {
 	Q_D(stkSlicerLayoutWidget);
 	d->setupUi(this);
