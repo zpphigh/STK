@@ -15,7 +15,7 @@
 #include <QWidget>
 
 class stkSlicerLayoutWidgetPrivate;
-class stkSlicerLayoutWidget : public QWidget
+class STK_SLICEREXT_EXPORT stkSlicerLayoutWidget : public QWidget
 {
 	Q_OBJECT
 

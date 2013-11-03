@@ -5,6 +5,7 @@ class stkSlicerLayoutWidgetPrivate : public Ui_stkSlicerLayoutWidget
 {
 public:
 
+
 };
 
 
