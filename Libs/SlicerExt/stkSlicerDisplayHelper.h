@@ -14,4 +14,5 @@ class STK_SLICEREXT_EXPORT stkSlicerDisplayHelper
 {
 public:
 	static void ResetFocalPoint();
+	static void Set3DViewNodeAppearence();
 };

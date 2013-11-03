@@ -5,6 +5,7 @@
 #include "qSlicerApplication.h"
 #include "qSlicerLayoutManager.h"
 #include "vtkMRMLLayoutNode.h"
+#include "stkSlicerDisplayHelper.h"
 
 
 class stkSlicerLayoutWidgetPrivate : public Ui_stkSlicerLayoutWidget
@@ -102,7 +103,8 @@ void stkSlicerLayoutWidget::on_SlicerLayoutDual3DViewButton_clicked()
 	qSlicerLayoutManager* layoutManager = qSlicerApplication::application()->layoutManager();
 	if(layoutManager)
 	{
-		layoutManager->setLayout(vtkMRMLLayoutNode::SlicerLayoutDual3DView);
+		layoutManager->setLayout(vtkMRMLLayoutNode::SlicerLayoutDual3DView);		
+		stkSlicerDisplayHelper::Set3DViewNodeAppearence();
 	}
 }
 
