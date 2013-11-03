@@ -23,6 +23,11 @@ public:
 	stkSlicerDataWidget(QWidget *parent = 0);
 	~stkSlicerDataWidget();
 
+	void on_LoadSceneButton_clicked();
+	void on_SaveSceneButton_clicked();
+	void on_CloseSceneButton_clicked();
+	void on_SlicerSettingsButton_clicked();
+
 protected:
 	QScopedPointer<stkSlicerDataWidgetPrivate> d_ptr;
 

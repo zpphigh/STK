@@ -21,3 +21,25 @@ stkSlicerDataWidget::~stkSlicerDataWidget()
 {
 
 }
+
+
+void stkSlicerDataWidget::on_LoadSceneButton_clicked()
+{
+
+}
+
+
+void stkSlicerDataWidget::on_SaveSceneButton_clicked()
+{
+
+}
+
+void stkSlicerDataWidget::on_CloseSceneButton_clicked()
+{
+
+}
+
+void stkSlicerDataWidget::on_SlicerSettingsButton_clicked()
+{
+
+}
