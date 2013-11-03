@@ -9,7 +9,7 @@
 
 using namespace std;
 
-typedef std::map<unsigned long, vtkSmartPointer<vtkMeasureWidget>> MeasureWidgetContainer;
+typedef std::map<unsigned long, vtkSmartPointer<vtkMeasureWidget> > MeasureWidgetContainer;
 typedef MeasureWidgetContainer::iterator MeasureWidgetIterator;
 
 vtkMeasureWidget::vtkMeasureWidget(void)
