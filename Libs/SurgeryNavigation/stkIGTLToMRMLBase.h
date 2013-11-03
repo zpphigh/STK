@@ -69,8 +69,8 @@ class STK_SURGERYNAVIGATION_EXPORT stkIGTLToMRMLBase : public vtkObject
   // Description:
   // Functions to convert OpenIGTLink message to MRML node.
   // If mrmlNode is QueryNode, the function will generate query node. (event is not used.)
-  virtual int          IGTLToMRML(igtl::MessageBase::Pointer vtkNotUsed(buffer),
-                                  vtkMRMLNode* vtkNotUsed(node)) { return 0; };
+  virtual int          IGTLToMRML(igtl::MessageBase::Pointer buffer,
+                                  vtkMRMLNode* node);
 
   // Description:
   // Functions to generate an OpenIGTLink message
@@ -78,6 +78,9 @@ class STK_SURGERYNAVIGATION_EXPORT stkIGTLToMRMLBase : public vtkObject
   virtual int          MRMLToIGTL(unsigned long vtkNotUsed(event), vtkMRMLNode* vtkNotUsed(mrmlNode),
                                   int* vtkNotUsed(size), void** vtkNotUsed(igtlMsg)){ return 0; };
 
+  // Check query que (called periodically by timer)
+  // (implemeted only if ncessary)
+  virtual int CheckQueryQue(double vtkNotUsed(ctime)) { return true; }
 
   vtkGetMacro( CheckCRC, int );
   vtkSetMacro( CheckCRC, int );

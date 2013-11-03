@@ -17,10 +17,6 @@ project(STKSurgeryNavigation)
 include(${IGSTK_USE_FILE})
 include(${Slicer_USE_FILE})
 
-
-# CMake modules
-set(CMAKE_MODULE_PATH ${STKSurgeryNavigation_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
-
 #
 # See CTK/CMake/ctkMacroBuildLib.cmake for details
 #
@@ -33,8 +29,8 @@ set(KIT_SRCS
 	stkTracker.cpp
 	stkTrackerThread.h
 	stkTrackerThread.cpp
-	stkIGTLServerThread.h
-	stkIGTLServerThread.cpp
+	stkIGTLServerManager.h
+	stkIGTLServerManager.cpp
 	stkTrackerTool.h
 	stkTrackerTool.cpp
 	stkTrackingErrorObserver.h
@@ -63,8 +59,6 @@ set(KIT_SRCS
 	stkIGTLToMRMLBase.cpp
 	stkIGTLToMRMLPosition.h
 	stkIGTLToMRMLPosition.cpp
-	stkIGTLToMRMLLinearTransform.h
-	stkIGTLToMRMLLinearTransform.cpp
 	stkIGTLToMRMLImage.h
 	stkIGTLToMRMLImage.cpp
 	stkMRMLIGTLServerNode.h
@@ -80,7 +74,7 @@ set(KIT_SRCS
 set(KIT_MOC_SRCS
 	stkTracker.h
 	stkTrackerThread.h
-	stkIGTLServerThread.h
+	stkIGTLServerManager.h
 	stkTrackerTool.h
 	stkAuroraTracker.h
 	stkAuroraTrackerTool.h

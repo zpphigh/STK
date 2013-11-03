@@ -23,12 +23,9 @@ public:
 	stkUltrasoundImageFusionWidget(QWidget *parent = 0);
 	~stkUltrasoundImageFusionWidget();
 
-	void StartIGTLImageServer();
-	void StopIGTLImageServer();
-	
+
 public slots:
 	void setUltrasoundToolDataValid(bool valid);
-	void importDataAndEvents();
 	void UpdateSliceByLocator();
 	bool StartTrackSlice();
 	void StopTrackSlice();

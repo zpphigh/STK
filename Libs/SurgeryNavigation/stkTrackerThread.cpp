@@ -21,7 +21,11 @@ public:
 
 	QString IGTLServerName;
 	int IGTLServerPort;
-	bool AbortTracking;
+	bool Abort;
+
+
+	bool startTracking();
+	void stopTracking();
 };
 
 
@@ -33,7 +37,7 @@ stkTrackerThread::stkTrackerThread(QObject *parent)
 	d->Tracker = NULL;
 	d->IGTLServerName = QString("");
 	d->IGTLServerPort = 18944;
-	d->AbortTracking = true;
+	d->Abort = true;
 }
 
 stkTrackerThread::~stkTrackerThread()
@@ -46,20 +50,11 @@ stkTrackerThread::~stkTrackerThread()
 	d->Tracker->Close();
 }
 
-void stkTrackerThread::UseTrackerAurora(int comPort)
+void stkTrackerThread::InitAuroraTracker(int comPort)
 {
 	Q_D(stkTrackerThread);
 	d->TrackerType = TRACKER_TYPE_AURORA;
 	stkAuroraTracker* tracker = new stkAuroraTracker;
-	tracker->setComPortNum(comPort);
-	d->Tracker = tracker;
-}
-
-void stkTrackerThread::UseTrackerPolaris(int comPort)
-{
-	Q_D(stkTrackerThread);
-	d->TrackerType = TRACKER_TYPE_POLARIS;
-	stkPolarisTracker* tracker = new stkPolarisTracker;
 	tracker->setComPortNum(comPort);
 	d->Tracker = tracker;
 }
@@ -77,65 +72,61 @@ void stkTrackerThread::SetIGTServer(QString hostname, int port)
 	d->IGTLServerPort = port;
 }
 
-bool stkTrackerThread::StartTracking()
+bool stkTrackerThreadPrivate::startTracking()
 {
-	Q_D(stkTrackerThread);
-
-
-	if(d->TrackerType == TRACKER_TYPE_AURORA)
+	if(TrackerType == TRACKER_TYPE_AURORA)
 	{
-		if(!d->Tracker->Open())
+		if(!Tracker->Open())
 			return false;
 
-		d->Tracker->AttachTrackerTool("CalibrationTool", "0");
-		d->Tracker->AttachTrackerTool("UltrasoundTool", "1");
+		Tracker->AttachTrackerTool("CalibrationTool", "0");
+		Tracker->AttachTrackerTool("UltrasoundTool", "1");
 	}
 
 	//Connect IGT Server
-	if( !d->Tracker->isServerConnected())
+	if( !Tracker->isServerConnected())
 	{
-		if(!d->Tracker->ConnectServer(d->IGTLServerName,d->IGTLServerPort))
+		if(!Tracker->ConnectServer(IGTLServerName,IGTLServerPort))
 			return false;
 	}
 	//Start Tracking
-	if(!d->Tracker->isTracking())
+	if(!Tracker->isTracking())
 	{
-		d->Tracker->StartTracking();
+		Tracker->StartTracking();
 	}
-
-	emit TrackingStarted();
 
 	return true;
 }
 
-void stkTrackerThread::StopTracking()
+void stkTrackerThreadPrivate::stopTracking()
 {
-	Q_D(stkTrackerThread);
-
-	if(d->Tracker->isTracking())
-		d->Tracker->StopTracking();
-	
-	emit TrackingStoped();
+	if(Tracker->isTracking())
+		Tracker->StopTracking();	
 }
 
 void stkTrackerThread::run()
 {
 	Q_D(stkTrackerThread);
-	d->AbortTracking = false;
+	d->Abort = false;
 
-	StartTracking();
+	if(!d->startTracking())
+		return;
 
-	while(!d->AbortTracking){
+	emit TrackingStarted();
+
+	while(!d->Abort){
 
 		d->Tracker->TrackAndSendData();
 		QThread::msleep(30);
 	}
 
-	StopTracking();
+	d->stopTracking();
+
+	emit TrackingStoped();
 }
 
-void stkTrackerThread::AbortTracking()
+void stkTrackerThread::Abort()
 {
 	Q_D(stkTrackerThread);
-	d->AbortTracking = true;
+	d->Abort = true;
 }

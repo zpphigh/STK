@@ -26,10 +26,6 @@ public:
 	stkFiducialMarkerRegistrationWidget(QWidget *parent = 0);
 	~stkFiducialMarkerRegistrationWidget();
 
-public slots:
-	void StartIGTLServer();
-	void StopIGTServer();
-
 protected slots:
 	void on_AddFiducialMarkerToolButton_clicked();
 	void on_DeleteFiducialMarkerToolButton_clicked();
@@ -43,7 +39,6 @@ protected slots:
 	void onActiveMarkupsNodeMarkupRemovedEvent();
 	void onActiveMarkupsNodeDisplayModifiedEvent();
 	void updateFiducialMarkers();
-	void importDataAndEvents();
 
 private:
 	void observeMarkupsNode(vtkMRMLNode *markupsNode);

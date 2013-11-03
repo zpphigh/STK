@@ -4,7 +4,6 @@
 #include <QTimer>
 
 #include "stkMRMLHelper.h"
-#include "stkMRMLIGTLServerNode.h"
 #include "stkIGTLToMRMLImage.h"
 
 #include "vtkMRMLScene.h"
@@ -44,10 +43,6 @@ public:
 	int   rtImageShift[3]; // 0 for X, 1 for Y, 2 for Z
 	double   rtImageRotate[3]; // 0 for X, 1 for Y, 2 for Z
 
-
-	stkMRMLIGTLServerNode* IGTLImageServerNode;
-	vtkSmartPointer<stkIGTLToMRMLImage> ImageConverter;
-	QTimer importDataAndEventsTimer;
 };
 
 stkUltrasoundImageFusionWidgetPrivate::stkUltrasoundImageFusionWidgetPrivate()
@@ -163,19 +158,11 @@ void stkUltrasoundImageFusionWidgetPrivate::UpdateSliceNode(int sliceNodeNumber,
 }
 
 
-
-
-
-
-
 stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 	: Superclass(parent),d_ptr(new stkUltrasoundImageFusionWidgetPrivate)
 {
 	Q_D(stkUltrasoundImageFusionWidget);
 	d->setupUi(this);
-
-	d->IGTLImageServerNode = NULL;
-	d->ImageConverter = NULL;
 
 	d->XShiftSlider->setValue(d->rtImageShift[0]);
 	d->YShiftSlider->setValue(d->rtImageShift[1]);
@@ -200,18 +187,12 @@ stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 	connect(d->ZRotateSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageRotateZ(int))); 
 	connect(d->ImageFusionSlider, SIGNAL(valueChanged(int)), this, SLOT(SetImageFusionOpacity(int))); 
 
-
 	d->CheckSliceNode();
-	StartIGTLImageServer();
-
-	//start timer
-	this->connect(&d->importDataAndEventsTimer, SIGNAL(timeout()),  this, SLOT(importDataAndEvents()));
-	d->importDataAndEventsTimer.start(5);
 }
 
 stkUltrasoundImageFusionWidget::~stkUltrasoundImageFusionWidget()
 {
-	StopIGTLImageServer();
+	
 }
 
 
@@ -256,63 +237,6 @@ void stkUltrasoundImageFusionWidget::SetRTImageRotateZ(int rotate)
 	d->rtImageRotate[2] = rotate/10.0;
 	d->ZRotateLabel->setText(QString("%1").arg(d->rtImageRotate[2]));
 }
-
-
-void stkUltrasoundImageFusionWidget::StartIGTLImageServer()
-{
-	Q_D(stkUltrasoundImageFusionWidget);
-
-	vtkMRMLScene* scene = stkMRMLHelper::mrmlScene();
-	if (!scene)	return;
-
-	if(!d->IGTLImageServerNode)
-	{
-		vtkMRMLNode * node = qMRMLNodeFactory::createNode(scene, "stkMRMLIGTLServerNode");
-		d->IGTLImageServerNode = stkMRMLIGTLServerNode::SafeDownCast(node);
-		d->IGTLImageServerNode->DisableModifiedEventOn();
-		d->IGTLImageServerNode->SetServerPort(18945);//RTImageServerÊ¹ÓÃ18945¶Ë¿Ú
-		d->IGTLImageServerNode->SetName("IGTLImageServer");
-		d->IGTLImageServerNode->DisableModifiedEventOff();
-		d->IGTLImageServerNode->InvokePendingModifiedEvent();
-
-		d->ImageConverter = vtkSmartPointer<stkIGTLToMRMLImage>::New();
-		d->IGTLImageServerNode->RegisterMessageConverter(d->ImageConverter);
-	}
-
-	if( d->IGTLImageServerNode && d->IGTLImageServerNode->GetState() == stkMRMLIGTLServerNode::STATE_OFF )
-	{
-		d->IGTLImageServerNode->Start();
-		d->IGTLImageServerNode->Modified();
-	}	
-}
-
-
-void stkUltrasoundImageFusionWidget::StopIGTLImageServer()
-{
-	Q_D(stkUltrasoundImageFusionWidget);
-
-	if(!d->IGTLImageServerNode)
-		return;
-
-	if ( d->IGTLImageServerNode->GetState() != stkMRMLIGTLServerNode::STATE_OFF )
-	{
-		d->IGTLImageServerNode->Stop();
-	}
-
-}
-
-
-void stkUltrasoundImageFusionWidget::importDataAndEvents()
-{
-	Q_D(stkUltrasoundImageFusionWidget);
-
-	if(!d->IGTLImageServerNode)
-		return;
-
-	d->IGTLImageServerNode->ImportEventsFromEventBuffer();
-	d->IGTLImageServerNode->ImportDataFromCircularBuffer();
-}
-
 
 void stkUltrasoundImageFusionWidget::SetImageFusionOpacity(int opacity)
 {

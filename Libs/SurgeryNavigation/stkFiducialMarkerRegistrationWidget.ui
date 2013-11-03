@@ -181,12 +181,12 @@
      </column>
      <column>
       <property name="text">
-       <string>Image Point</string>
+       <string>Image</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Device Point</string>
+       <string>Device</string>
       </property>
      </column>
     </widget>

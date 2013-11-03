@@ -85,6 +85,8 @@ vtkIntArray* stkIGTLToMRMLPosition::GetNodeEvents()
 //---------------------------------------------------------------------------
 int stkIGTLToMRMLPosition::IGTLToMRML(igtl::MessageBase::Pointer buffer, vtkMRMLNode* node)
 {
+  stkIGTLToMRMLBase::IGTLToMRML(buffer, node);
+
   // Create a message buffer to receive transform data
   igtl::PositionMessage::Pointer positionMsg;
   positionMsg = igtl::PositionMessage::New();

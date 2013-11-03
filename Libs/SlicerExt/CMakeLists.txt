@@ -33,6 +33,8 @@ set(KIT_SRCS
   stkMRMLCrossPointNode.cpp
   stkMRMLHelper.h
   stkMRMLHelper.cpp
+  stkSlicerHelper.h
+  stkSlicerHelper.cpp
   stkMeasureWidget.h
   stkMeasureWidget.cpp
   stkProbeWidget.h
@@ -47,18 +49,23 @@ set(KIT_SRCS
   stkMRMLProbeNode.cpp
   stkMRMLProbeStorageNode.h
   stkMRMLProbeStorageNode.cpp
+  stkSlicerLayoutWidget.h
+  stkSlicerLayoutWidget.cpp
 )
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
+  stkSlicerLayoutWidget.h
   )
 
 # UI files
 set(KIT_UI_FORMS
+  stkSlicerLayoutWidget.ui
 )
 
 # Resources
 set(KIT_resources
+	Resources/stkSlicerExt.qrc
 )
 
 # Includes
