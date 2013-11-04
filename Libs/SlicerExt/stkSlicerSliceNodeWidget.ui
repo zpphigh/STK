@@ -26,18 +26,18 @@
       <widget class="QCheckBox" name="AxialSliceVisibileCheckBox">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>30</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>60</width>
+         <width>30</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string>Axial</string>
+        <string>A</string>
        </property>
       </widget>
      </item>
@@ -52,18 +52,18 @@
       <widget class="QCheckBox" name="SagittalSliceVisibileCheckBox">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>30</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>60</width>
+         <width>30</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string>Sagit</string>
+        <string>S</string>
        </property>
       </widget>
      </item>
@@ -78,18 +78,18 @@
       <widget class="QCheckBox" name="CoronalSliceVisibileCheckBox">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>30</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>60</width>
+         <width>30</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string>Coronal</string>
+        <string>C</string>
        </property>
       </widget>
      </item>
