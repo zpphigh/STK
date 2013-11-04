@@ -70,7 +70,7 @@
         <attribute name="title">
          <string>Basic</string>
         </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
           <widget class="QGroupBox" name="DataGroupBox">
            <property name="title">
@@ -99,7 +99,7 @@
          <item>
           <widget class="QGroupBox" name="LayoutGroupBox">
            <property name="title">
-            <string>Layout</string>
+            <string>Window Layout</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="spacing">
@@ -122,9 +122,27 @@
           </widget>
          </item>
          <item>
+          <widget class="QGroupBox" name="SliceNodeGroupBox">
+           <property name="title">
+            <string>Slice Display</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="stkSlicerSliceNodeWidget" name="SliceNodeWidget" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
           <widget class="QGroupBox" name="VolumeRenderingGroupBox">
            <property name="title">
-            <string>Rendering</string>
+            <string>Volume Rendering</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <property name="spacing">
@@ -142,7 +160,7 @@
          <item>
           <widget class="QGroupBox" name="VolumeDisplayGroupBox">
            <property name="title">
-            <string>Display</string>
+            <string>Volume Display</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <property name="spacing">
@@ -213,7 +231,13 @@
   <customwidget>
    <class>stkSlicerVolumeRenderingWidget</class>
    <extends>QWidget</extends>
-   <header location="global">stkSlicerVolumeRenderingWidget.h</header>
+   <header>stkSlicerVolumeRenderingWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>stkSlicerSliceNodeWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">stkSlicerSliceNodeWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
