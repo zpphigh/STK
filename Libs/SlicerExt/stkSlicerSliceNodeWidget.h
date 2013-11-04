@@ -12,7 +12,7 @@
 
 class vtkMRMLNode;
 class stkSlicerSliceNodeWidgetPrivate;
-class stkSlicerSliceNodeWidget : public qSlicerWidget
+class STK_SLICEREXT_EXPORT stkSlicerSliceNodeWidget : public qSlicerWidget
 {
 	Q_OBJECT
 

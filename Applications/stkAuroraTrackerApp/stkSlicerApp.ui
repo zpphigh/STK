@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1101</width>
-    <height>958</height>
+    <width>982</width>
+    <height>725</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,13 +65,19 @@
         <enum>QTabWidget::Triangular</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="basicTab">
         <attribute name="title">
          <string>Basic</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_6">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="margin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QGroupBox" name="DataGroupBox">
            <property name="title">
@@ -202,6 +208,86 @@
         <attribute name="title">
          <string>Navigation</string>
         </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_9">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Registration</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="stkFiducialMarkerRegistrationWidget" name="FiducialMarkerRegistrationWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
+            <string>Image Fusion</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>50</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="stkUltrasoundImageFusionWidget" name="UltrasoundImageFusionWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>813</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </widget>
       </widget>
      </item>
@@ -238,7 +324,19 @@
   <customwidget>
    <class>stkSlicerSliceNodeWidget</class>
    <extends>QWidget</extends>
-   <header location="global">stkSlicerSliceNodeWidget.h</header>
+   <header>stkSlicerSliceNodeWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>stkFiducialMarkerRegistrationWidget</class>
+   <extends>QWidget</extends>
+   <header>stkFiducialMarkerRegistrationWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>stkUltrasoundImageFusionWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">stkUltrasoundImageFusionWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

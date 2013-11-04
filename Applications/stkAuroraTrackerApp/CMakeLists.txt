@@ -12,16 +12,20 @@ include(${Slicer_USE_FILE})
 
 # Source files
 set(KIT_SRCS
+  stkSlicerApp.h
+  stkSlicerApp.cpp
   stkAuroraTrackerAppMain.cpp
 )
 
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
+  stkSlicerApp.h
 )
 
 # UI files
 set(KIT_UI_FORMS
+  stkSlicerApp.ui
 )
 
 

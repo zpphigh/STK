@@ -53,8 +53,6 @@ set(KIT_SRCS
   stkSlicerLayoutWidget.cpp
   stkSlicerDataWidget.h
   stkSlicerDataWidget.cpp
-  stkSlicerApp.h
-  stkSlicerApp.cpp
   stkSlicerVolumeRenderingWidget.h
   stkSlicerVolumeRenderingWidget.cpp
   stkSlicerSliceNodeWidget.h
@@ -66,7 +64,6 @@ set(KIT_MOC_SRCS
   stkSlicerLayoutWidget.h
   stkSlicerDataWidget.h
   stkSlicerVolumeRenderingWidget.h
-  stkSlicerApp.h
   stkSlicerSliceNodeWidget.h
   )
 
@@ -74,7 +71,6 @@ set(KIT_MOC_SRCS
 set(KIT_UI_FORMS
   stkSlicerLayoutWidget.ui
   stkSlicerDataWidget.ui
-  stkSlicerApp.ui
   stkSlicerVolumeRenderingWidget.ui
   stkSlicerSliceNodeWidget.ui
 )

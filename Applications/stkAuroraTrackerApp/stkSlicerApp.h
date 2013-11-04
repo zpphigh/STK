@@ -8,16 +8,13 @@
 
 #pragma once
 
-// STK includes
-#include "stkSlicerExtExport.h"
-
 #include "stkSlicerLayoutWidget.h"
 #include "vtkMRMLScene.h"
 
 #include <QMainWindow>
 
 class stkSlicerAppPrivate;
-class STK_SLICEREXT_EXPORT stkSlicerApp : public QMainWindow
+class stkSlicerApp : public QMainWindow
 {
 	Q_OBJECT
 

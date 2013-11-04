@@ -187,7 +187,6 @@ stkUltrasoundImageFusionWidget::stkUltrasoundImageFusionWidget(QWidget *parent)
 	connect(d->ZRotateSlider, SIGNAL(valueChanged(int)), this, SLOT(SetRTImageRotateZ(int))); 
 	connect(d->ImageFusionSlider, SIGNAL(valueChanged(int)), this, SLOT(SetImageFusionOpacity(int))); 
 
-	d->CheckSliceNode();
 }
 
 stkUltrasoundImageFusionWidget::~stkUltrasoundImageFusionWidget()
@@ -324,6 +323,8 @@ bool stkUltrasoundImageFusionWidget::StartTrackSlice()
 	if(!scene)
 		return false;
 	
+	d->CheckSliceNode();
+
 	if( !d->sliceNode[0]) 
 		return false;
 
