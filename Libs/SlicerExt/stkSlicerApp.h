@@ -12,6 +12,7 @@
 #include "stkSlicerExtExport.h"
 
 #include "stkSlicerLayoutWidget.h"
+#include "vtkMRMLScene.h"
 
 #include <QMainWindow>
 
@@ -26,6 +27,7 @@ public:
 	~stkSlicerApp();
 
 protected slots:
+	void VolumeDataAdded();
 
 protected:
 	QScopedPointer<stkSlicerAppPrivate> d_ptr;

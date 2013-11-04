@@ -14,23 +14,28 @@
    <string>stkSlicerApp</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="spacing">
-     <number>0</number>
+   <widget class="QWidget" name="slicerWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>856</width>
+      <height>958</height>
+     </rect>
     </property>
-    <property name="margin">
-     <number>0</number>
-    </property>
-    <item>
-     <widget class="QWidget" name="slicerWidget" native="true"/>
-    </item>
-   </layout>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
     <size>
-     <width>200</width>
+     <width>240</width>
      <height>500</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>240</width>
+     <height>524287</height>
     </size>
    </property>
    <property name="features">
@@ -65,13 +70,7 @@
         <attribute name="title">
          <string>Basic</string>
         </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
           <widget class="QGroupBox" name="DataGroupBox">
            <property name="title">
@@ -85,7 +84,14 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="stkSlicerDataWidget" name="SlicerDataWidget" native="true"/>
+             <widget class="stkSlicerDataWidget" name="SlicerDataWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -103,7 +109,60 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="stkSlicerLayoutWidget" name="SlicerLayoutWidget" native="true"/>
+             <widget class="stkSlicerLayoutWidget" name="SlicerLayoutWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Display</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="qMRMLNodeComboBox" name="ActiveVolumeNodeSelector" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="nodeTypes" stdset="0">
+               <stringlist>
+                <string>vtkMRMLVolumeNode</string>
+               </stringlist>
+              </property>
+              <property name="addEnabled" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="renameEnabled" stdset="0">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="qSlicerVolumeDisplayWidget" name="VolumeDisplayWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -145,7 +204,19 @@
   <customwidget>
    <class>stkSlicerDataWidget</class>
    <extends>QWidget</extends>
-   <header location="global">stkSlicerDataWidget.h</header>
+   <header>stkSlicerDataWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>qSlicerVolumeDisplayWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">qSlicerVolumeDisplayWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>qMRMLNodeComboBox</class>
+   <extends>QWidget</extends>
+   <header>qMRMLNodeComboBox.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

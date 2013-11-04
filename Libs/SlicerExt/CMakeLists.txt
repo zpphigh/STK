@@ -102,6 +102,7 @@ set(KIT_target_libraries
   qSlicerBaseQTApp
   SlicerBaseLogic
   vtkSlicerVolumesModuleLogic
+  qSlicerVolumesModuleWidgets
   vtkSlicerVolumeRenderingModuleLogic
   vtkSlicerVolumeRenderingModuleMRML
   vtkSlicerAnnotationsModuleLogic

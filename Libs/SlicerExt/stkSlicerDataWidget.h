@@ -29,6 +29,9 @@ public slots:
 	void on_CloseSlicerSceneButton_clicked();
 	void on_SlicerSettingsButton_clicked();
 
+signals:
+	void VolumeDataAdded();
+
 protected:
 	QScopedPointer<stkSlicerDataWidgetPrivate> d_ptr;
 

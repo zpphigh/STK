@@ -39,7 +39,14 @@ stkSlicerApp::stkSlicerApp(QWidget *parent)
 {
 	Q_D(stkSlicerApp);
 	d->setupUi(this);
-		
+
+
+	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
+	d->ActiveVolumeNodeSelector->setMRMLScene(scene);
+	
+	QObject::connect(d->ActiveVolumeNodeSelector, SIGNAL(currentNodeChanged(vtkMRMLNode*)), d->VolumeDisplayWidget, SLOT(setMRMLVolumeNode(vtkMRMLNode*)));
+	connect(d->SlicerDataWidget,SIGNAL(VolumeDataAdded()),this,SLOT(VolumeDataAdded()));
+
 	this->setAttribute(Qt::WA_DeleteOnClose);
 }
 
@@ -88,6 +95,13 @@ void stkSlicerAppPrivate::setupUi(QMainWindow * mainWindow)
 
 	//3d View Appearence setting
 	stkSlicerDisplayHelper::Set3DViewNodeAppearence();
+
+	
 }
 
 
+void stkSlicerApp::VolumeDataAdded()
+{
+	Q_D(stkSlicerApp);
+
+}

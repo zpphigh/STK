@@ -30,6 +30,7 @@ stkSlicerDataWidget::~stkSlicerDataWidget()
 void stkSlicerDataWidget::on_FileAddVolumeButton_clicked()
 {
 	qSlicerApplication::application()->ioManager()->openAddVolumesDialog();
+	emit VolumeDataAdded();
 }
 
 
