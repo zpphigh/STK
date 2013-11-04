@@ -10,6 +10,8 @@
 #include "vtkMRMLViewNode.h"
 #include "vtkMRMLScene.h"
 #include "stkSlicerDisplayHelper.h"
+#include "vtkMRMLScalarVolumeNode.h"
+#include "stkMRMLHelper.h"
 
 
 class stkSlicerAppPrivate : public Ui_stkSlicerApp
@@ -40,11 +42,6 @@ stkSlicerApp::stkSlicerApp(QWidget *parent)
 	Q_D(stkSlicerApp);
 	d->setupUi(this);
 
-
-	vtkMRMLScene* scene = qSlicerApplication::application()->mrmlScene();
-	d->ActiveVolumeNodeSelector->setMRMLScene(scene);
-	
-	QObject::connect(d->ActiveVolumeNodeSelector, SIGNAL(currentNodeChanged(vtkMRMLNode*)), d->VolumeDisplayWidget, SLOT(setMRMLVolumeNode(vtkMRMLNode*)));
 	connect(d->SlicerDataWidget,SIGNAL(VolumeDataAdded()),this,SLOT(VolumeDataAdded()));
 
 	this->setAttribute(Qt::WA_DeleteOnClose);
@@ -95,7 +92,6 @@ void stkSlicerAppPrivate::setupUi(QMainWindow * mainWindow)
 
 	//3d View Appearence setting
 	stkSlicerDisplayHelper::Set3DViewNodeAppearence();
-
 	
 }
 
@@ -104,4 +100,9 @@ void stkSlicerApp::VolumeDataAdded()
 {
 	Q_D(stkSlicerApp);
 
+	vtkMRMLScalarVolumeNode* node = vtkMRMLScalarVolumeNode::SafeDownCast(qSlicerApplication::application()->mrmlScene()->GetNthNodeByClass(0,"vtkMRMLScalarVolumeNode"));
+	if(!node)
+		return;
+
+	d->VolumeDisplayWidget->setMRMLVolumeNode(node);
 }
