@@ -34,6 +34,12 @@ public slots:
 	void onCurrentMRMLDisplayNodeChanged( vtkMRMLVolumeRenderingDisplayNode* displayNode);
 	void updateFromMRMLDisplayNode();
 
+	void on_resetFocalPointPushButton_clicked();
+	void setVR3DVisibile(bool visible);
+	void applyPreset( vtkMRMLNode* node );
+	void onCropToggled(bool);
+	void onROICropDisplayCheckBoxToggled(bool);
+
 protected:
 	QScopedPointer<stkSlicerVolumeRenderingWidgetPrivate> d_ptr;
 

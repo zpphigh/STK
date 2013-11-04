@@ -10,6 +10,7 @@
 #include "stkSlicerVolumeNodeDisplayHelper.h"
 #include "stkSlicerDisplayHelper.h"
 #include "vtkMRMLVolumePropertyNode.h"
+#include "vtkMRMLAnnotationROINode.h"
 
 class stkSlicerVolumeRenderingWidgetPrivate : public Ui_stkSlicerVolumeRenderingWidget
 {
@@ -146,4 +147,63 @@ void stkSlicerVolumeRenderingWidget::onCurrentMRMLVolumePropertyNodeChanged( vtk
 		return;
 
 	d->VolumeRenderingDisplayNode->SetAndObserveVolumePropertyNodeID(volumePropertyNode ? volumePropertyNode->GetID() : 0);
+}
+
+
+void stkSlicerVolumeRenderingWidget::on_resetFocalPointPushButton_clicked()
+{
+	stkSlicerDisplayHelper::ResetFocalPoint();
+}
+
+
+// --------------------------------------------------------------------------
+void stkSlicerVolumeRenderingWidget::setVR3DVisibile(bool visible)
+{
+	Q_D(stkSlicerVolumeRenderingWidget);
+	if (!d->VolumeRenderingDisplayNode)
+		return;
+
+	d->VolumeRenderingDisplayNode->SetVisibility(visible);
+}
+
+
+void stkSlicerVolumeRenderingWidget::applyPreset( vtkMRMLNode* node )
+{
+	Q_D(stkSlicerVolumeRenderingWidget);
+
+	if(!d->VolumeRenderingDisplayNode)
+		return;
+
+	vtkMRMLVolumePropertyNode* presetNode = vtkMRMLVolumePropertyNode::SafeDownCast(node);
+	vtkMRMLVolumePropertyNode *volumePropertyNode = d->VolumeRenderingDisplayNode->GetVolumePropertyNode();
+
+	if (!presetNode || !volumePropertyNode)
+		return;
+
+	volumePropertyNode->Copy(presetNode);
+	d->VolumeRenderingDisplayNode->Modified();
+}
+
+
+void stkSlicerVolumeRenderingWidget::onCropToggled( bool crop)
+{
+	Q_D(stkSlicerVolumeRenderingWidget);
+	if (!d->VolumeRenderingDisplayNode)
+		return;
+
+	d->VolumeRenderingDisplayNode->SetCroppingEnabled(crop);
+}
+
+void stkSlicerVolumeRenderingWidget::onROICropDisplayCheckBoxToggled( bool toggle )
+{
+	Q_D(stkSlicerVolumeRenderingWidget);
+	// When the display box is visible, it should probably activate the
+	// cropping (to follow the "what you see is what you get" pattern).
+	if (toggle)
+		d->ROICropCheckBox->setChecked(true);
+
+	if (!d->VolumeRenderingDisplayNode)
+		return;
+
+	d->VolumeRenderingDisplayNode->GetROINode()->SetDisplayVisibility(toggle);
 }
