@@ -14,16 +14,17 @@
    <string>stkSlicerApp</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="slicerWidget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>856</width>
-      <height>958</height>
-     </rect>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>0</number>
     </property>
-   </widget>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QWidget" name="slicerWidget" native="true"/>
+    </item>
+   </layout>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
