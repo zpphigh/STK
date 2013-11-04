@@ -92,6 +92,9 @@ void stkSlicerAppPrivate::setupUi(QMainWindow * mainWindow)
 
 	//3d View Appearence setting
 	stkSlicerDisplayHelper::Set3DViewNodeAppearence();
+
+
+	FiducialMarkerRegistrationWidget->setContentsMargins(0, 0, 0, 0);
 	
 }
 

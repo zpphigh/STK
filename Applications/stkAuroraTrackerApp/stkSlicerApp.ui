@@ -65,7 +65,7 @@
         <enum>QTabWidget::Triangular</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="basicTab">
         <attribute name="title">
@@ -245,7 +245,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="FiducialMarkerRegistrationGroupBox">
            <property name="title">
             <string>Registration</string>
            </property>
@@ -273,7 +273,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_2">
+          <widget class="QGroupBox" name="UltrasoundImageFusionGroupBox">
            <property name="autoFillBackground">
             <bool>true</bool>
            </property>
