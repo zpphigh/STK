@@ -70,7 +70,7 @@
         <attribute name="title">
          <string>Basic</string>
         </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
           <widget class="QGroupBox" name="DataGroupBox">
            <property name="title">
@@ -122,7 +122,19 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="VolumeRenderingGroupBox">
+           <property name="title">
+            <string>Rendering</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="stkSlicerVolumeRenderingWidget" name="VolumeRenderingWidget" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="VolumeDisplayGroupBox">
            <property name="title">
             <string>Display</string>
            </property>
@@ -190,6 +202,12 @@
    <class>stkSlicerDataWidget</class>
    <extends>QWidget</extends>
    <header>stkSlicerDataWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>stkSlicerVolumeRenderingWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">stkSlicerVolumeRenderingWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
