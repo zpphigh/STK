@@ -37,6 +37,20 @@ foreach(_dep ${${PROJECT_NAME}_DEPENDENCIES})
 endforeach()
 
 
+
+# Includes
+set(KIT_INCLUDE_DIRECTORIES
+	${MRMLCore_INCLUDE_DIRS}
+	${Slicer_Libs_INCLUDE_DIRS}
+    ${Slicer_Base_INCLUDE_DIRS}
+    ${Slicer_ModuleLogic_INCLUDE_DIRS}
+    ${Slicer_ModuleMRML_INCLUDE_DIRS} 
+	${Slicer_ModuleWidgets_INCLUDE_DIRS} 
+    ${KIT_INCLUDE_DIRECTORIES}
+)
+
+include_directories(${KIT_INCLUDE_DIRECTORIES})
+
 # Target libraries - See CMake/stkMacroGetTargetLibraries.cmake
 # The following macro will read the target libraries from the file 'target_libraries.cmake'
 stkFunctionGetTargetLibraries(KIT_target_libraries)
