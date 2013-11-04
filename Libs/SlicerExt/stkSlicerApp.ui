@@ -127,6 +127,12 @@
             <string>Rendering</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="stkSlicerVolumeRenderingWidget" name="VolumeRenderingWidget" native="true"/>
             </item>

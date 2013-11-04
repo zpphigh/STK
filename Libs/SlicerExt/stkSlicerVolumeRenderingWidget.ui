@@ -1,23 +1,109 @@
-<UI version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>stkSlicerVolumeRenderingWidget</class>
- <widget class="QWidget" name="stkSlicerVolumeRenderingWidget" >
-  <property name="objectName" >
-   <string notr="true">stkSlicerVolumeRenderingWidget</string>
-  </property>
-  <property name="geometry" >
+ <widget class="QWidget" name="stkSlicerVolumeRenderingWidget">
+  <property name="geometry">
    <rect>
-	<x>0</x>
-	<y>0</y>
-	<width>400</width>
-	<height>300</height>
+    <x>0</x>
+    <y>0</y>
+    <width>247</width>
+    <height>67</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>stkSlicerVolumeRenderingWidget</string>
-  </property>  
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QCheckBox" name="Visibility3DCheckBox">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>3D</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qSlicerPresetComboBox" name="PresetsNodeComboBox" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="ctkCheckBox" name="ROICropDisplayCheckBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Crop</string>
+       </property>
+       <property name="indicatorIcon" stdset="0">
+        <iconset>
+         <normaloff>:/Icons/VisibleOn.png</normaloff>
+         <normalon>:/Icons/VisibleOff.png</normalon>:/Icons/VisibleOn.png</iconset>
+       </property>
+       <property name="indicatorIconSize" stdset="0">
+        <size>
+         <width>21</width>
+         <height>21</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="ROICropCheckBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Crop Box</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="resetFocalPointPushButton">
+       <property name="text">
+        <string>Center</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>qSlicerPresetComboBox</class>
+   <extends>QWidget</extends>
+   <header location="global">qslicerpresetcombobox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ctkCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>ctkCheckBox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
-</UI>
+</ui>

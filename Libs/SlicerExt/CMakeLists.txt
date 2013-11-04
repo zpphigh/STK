@@ -112,6 +112,7 @@ set(KIT_target_libraries
   vtkSlicerAnnotationsModuleLogic
   vtkSlicerAnnotationsModuleMRML
   vtkSlicerAnnotationsModuleMRMLDisplayableManager
+  qSlicerVolumeRenderingModuleWidgets
   ${KIT_target_libraries}
 )
 

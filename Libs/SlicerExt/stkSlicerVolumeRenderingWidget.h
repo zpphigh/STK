@@ -13,7 +13,7 @@
 
 #include "qSlicerWidget.h"
 
-
+class vtkMRMLNode;
 class stkSlicerVolumeRenderingWidgetPrivate;
 class STK_SLICEREXT_EXPORT stkSlicerVolumeRenderingWidget : public qSlicerWidget
 {
@@ -23,6 +23,10 @@ public:
 	typedef qSlicerWidget Superclass;
 	stkSlicerVolumeRenderingWidget(QWidget *parent = 0);
 	~stkSlicerVolumeRenderingWidget();
+
+public slots:
+	/// Set the MRML node of interest
+	void setMRMLVolumeNode(vtkMRMLNode* node);
 
 protected:
 	QScopedPointer<stkSlicerVolumeRenderingWidgetPrivate> d_ptr;
