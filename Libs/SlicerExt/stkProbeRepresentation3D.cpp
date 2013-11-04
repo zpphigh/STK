@@ -1315,7 +1315,7 @@ void vtkProbeRepresentation3D::SetTextInputString(std::string text)
 	{
 		input[i] = text[i];
 	}
-	sprintf(TextString, this->TextAnnotationFormat, input);
+	sprintf_s(TextString, this->TextAnnotationFormat, input);
 	BuildRepresentation();
 }
 

@@ -58,7 +58,7 @@
 #include <vtkPolyDataMapper.h>
 #include <vtkHandleWidget.h>
 #include <QVector3D>
-#include <qquaternion.h>
+#include <QQuaternion>
 
 // std includes
 #include <string>
@@ -306,70 +306,8 @@ void vtkMRMLProbeDisplayableManager::OnWidgetCreated(vtkAbstractWidget * widget,
     return;
     }
 
-  // widget thinks the interaction ended, now we can place the points from MRML
-  double worldCoordinates1[4]={0,0,0,1};
-  double worldCoordinates2[4]={0,0,0,1};
-  double normal[3] = {0, 0, 0};
-  ProbeNode->GetHeader(worldCoordinates1);
-  ProbeNode->GetNormal(normal);
-  worldCoordinates2[0] = worldCoordinates1[0] + ProbeNode->GetLength() * normal[0];
-  worldCoordinates2[1] = worldCoordinates1[1] + ProbeNode->GetLength() * normal[1];
-  worldCoordinates2[2] = worldCoordinates1[2] + ProbeNode->GetLength() * normal[2];
-
-  if (this->GetSliceNode())
-    {
-		std::string layoutName( this->GetSliceNode()->GetLayoutName()?this->GetSliceNode()->GetLayoutName():"" );
-
-		if (layoutName == "Red")
-		{
-			worldCoordinates2[2] = worldCoordinates1[2];
-		}
-		else if (layoutName == "Yellow")
-		{
-			worldCoordinates2[0] = worldCoordinates1[0];
-		}
-		else if (layoutName == "Green")
-		{
-			worldCoordinates2[1] = worldCoordinates1[1];
-		}
-
-    double displayCoordinates1[4]={0,0,0,1};
-    double displayCoordinates2[4]={0,0,0,1};
-
-    this->GetWorldToDisplayCoordinates(worldCoordinates1,displayCoordinates1);
-    this->GetWorldToDisplayCoordinates(worldCoordinates2,displayCoordinates2);
-
-    vtkProbeRepresentation3D::SafeDownCast(ProbeWidget->GetRepresentation())->SetPoint1DisplayPosition(displayCoordinates1);
-    vtkProbeRepresentation3D::SafeDownCast(ProbeWidget->GetRepresentation())->SetPoint2DisplayPosition(displayCoordinates2);
-
-	double color[3] = {0,0,0};
-	ProbeNode->GetColor(color);
-
-	vtkProbeRepresentation3D::SafeDownCast(ProbeWidget->GetRepresentation())->SetProbeColor(color[0], color[1], color[2]);
-
-    }
-  else
-  {  
-
-    vtkProbeRepresentation3D::SafeDownCast(ProbeWidget->GetRepresentation())->SetPoint1WorldPosition(worldCoordinates1);
-    vtkProbeRepresentation3D::SafeDownCast(ProbeWidget->GetRepresentation())->SetPoint2WorldPosition(worldCoordinates2);
-
-	double color[3] = {0, 0, 0};
-	ProbeNode->GetColor(color);
-
-	vtkProbeRepresentation3D::SafeDownCast(ProbeWidget->GetRepresentation())->SetProbeColor(color[0], color[1], color[2]);
-
-	vtkHandleWidget* h = this->Helper->GetSeed(0);
-	if (h)
-	{
-		this->Helper->RemoveSeeds();
-	}
-
-  }  
-
-  // 如果widget->off()可以关闭widget的交互……
   bool widgetState = ProbeNode->GetFocalLocked();
-  ProbeWidget->SetEnabled(widgetState);  // 如果probe的FocalLocked为true，说明probe为navigation probe，不响应鼠标交互事件
+  ProbeWidget->SetEnabled(~widgetState);  // 如果probe的FocalLocked为true，说明probe为navigation probe，不响应鼠标交互事件
 
   // add observer for end interaction
   vtkProbeWidgetCallback *myCallback = vtkProbeWidgetCallback::New();
@@ -560,26 +498,29 @@ void vtkMRMLProbeDisplayableManager::PropagateWidgetToMRML(vtkAbstractWidget * w
 	double tempDisplayCoordinates[4] = {0, 0, 0, 1};
 	this->GetWorldToDisplayCoordinates(header, tempDisplayCoordinates);
 
+	tempDisplayCoordinates[0] = displayCoordinates1[0];
+	tempDisplayCoordinates[1] = displayCoordinates1[1];
+
+	this->GetDisplayToWorldCoordinates(tempDisplayCoordinates, worldCoordinates1);
+
 	// 获取由rep获取的probe在2D窗口投影面上的world坐标信息
 	double worldCoordinatesBuffer1[4] = {0, 0, 0, 1};
 	double worldCoordinatesBuffer2[4] = {0, 0, 0, 1};
 	this->GetDisplayToWorldCoordinates(displayCoordinates1, worldCoordinatesBuffer1);
 	this->GetDisplayToWorldCoordinates(displayCoordinates2, worldCoordinatesBuffer2);
 
-	tempDisplayCoordinates[0] = displayCoordinates1[0];
-	tempDisplayCoordinates[1] = displayCoordinates1[1];
-
-	this->GetDisplayToWorldCoordinates(tempDisplayCoordinates, worldCoordinates1);
 
 	// probe中保存的交互前的位置信息，投影到2D窗口所在的平面
 	double worldCoordinatesProject1[4] = {0, 0, 0, 1};
 	double worldCoordinatesProject2[4] = {0, 0, 0, 1};
 
 	vtkMatrix4x4* sliceToRAS = this->GetSliceNode()->GetSliceToRAS();
-	double planeNormal[3] = {0, 0, 0};
-	planeNormal[0] = sliceToRAS->GetElement(0, 2);
-	planeNormal[1] = sliceToRAS->GetElement(1, 2);
-	planeNormal[2] = sliceToRAS->GetElement(2, 2);
+
+	QVector3D planeNormal;
+	planeNormal.setX(sliceToRAS->GetElement(0, 2));
+	planeNormal.setY(sliceToRAS->GetElement(1, 2));
+	planeNormal.setZ(sliceToRAS->GetElement(2, 2));
+	planeNormal.normalize();
 
 	this->plane->SetNormal(sliceToRAS->GetElement(0, 2),
 						   sliceToRAS->GetElement(1, 2),
@@ -591,8 +532,8 @@ void vtkMRMLProbeDisplayableManager::PropagateWidgetToMRML(vtkAbstractWidget * w
 	plane->GeneralizedProjectPoint(endPoint, worldCoordinatesProject2);
 
 	// probe中保存的交互前位置投影在2D平面上的方向
-	double probeLength2D = sqrt(vtkMath::Distance2BetweenPoints(worldCoordinatesProject1, worldCoordinatesProject2));
 	double probeDirection2D[3] = {0, 0, 0};
+	double probeLength2D = sqrt(vtkMath::Distance2BetweenPoints(worldCoordinatesProject1, worldCoordinatesProject2));
 	probeDirection2D[0] = (worldCoordinatesProject1[0] - worldCoordinatesProject2[0])/probeLength2D;
 	probeDirection2D[1] = (worldCoordinatesProject1[1] - worldCoordinatesProject2[1])/probeLength2D;
 	probeDirection2D[2] = (worldCoordinatesProject1[2] - worldCoordinatesProject2[2])/probeLength2D;
@@ -600,7 +541,7 @@ void vtkMRMLProbeDisplayableManager::PropagateWidgetToMRML(vtkAbstractWidget * w
 	int state = rep->GetInteractionState();
 	if (state == vtkProbeRepresentation3D::TranslatingP1)  // P1点有位移;
 	{
-		// 计算拖动针头时，针头handle沿着投影方向在2D平面上移动到的位置
+		// 针头handle沿着投影方向在2D平面上移动
 		double t, closestP[4]={0, 0, 0, 1};
 		vtkLine::DistanceToLine(worldCoordinatesBuffer1, worldCoordinatesProject1, worldCoordinatesProject2, t, closestP);
 
@@ -613,32 +554,44 @@ void vtkMRMLProbeDisplayableManager::PropagateWidgetToMRML(vtkAbstractWidget * w
 		worldCoordinates1[1] = closestP[1] + header[1] - worldCoordinatesProject1[1];
 		worldCoordinates1[2] = closestP[2] + header[2] - worldCoordinatesProject1[2];
 	}
-	else if (state == vtkProbeRepresentation3D::TranslatingP2/*distance1 < 1 &&  distance2 > 1*/)// p1点不动，p2点有位移;
+	else if (state == vtkProbeRepresentation3D::TranslatingP2)// p1点不动，p2点有位移;
 	{
 		// 计算probe在2D窗口投影的新方向，worldCoordinatesBuffers坐标组成的向量
-		double newDirection2D[3] = {0, 0, 0};
+        double newDirection2D[3] = {0, 0, 0};
 		double tempLength = sqrt(vtkMath::Distance2BetweenPoints(worldCoordinatesBuffer1, worldCoordinatesBuffer2));
 		newDirection2D[0] = (worldCoordinatesBuffer1[0] - worldCoordinatesBuffer2[0])/tempLength;
 		newDirection2D[1] = (worldCoordinatesBuffer1[1] - worldCoordinatesBuffer2[1])/tempLength;
 		newDirection2D[2] = (worldCoordinatesBuffer1[2] - worldCoordinatesBuffer2[2])/tempLength;
 
 		// 计算probe在2D窗口投影交互前后的方向向量之间夹角theta
-		double dot = vtkMath::Dot(newDirection2D,probeDirection2D);
+		double dot = vtkMath::Dot(newDirection2D, probeDirection2D);
 		double theta = vtkMath::DegreesFromRadians(acos(dot));
+		theta = -theta;
 
-		// 计算2D窗口法向向量
-		QVector3D planeNorm;
-		planeNorm.setX(planeNormal[0]);
-		planeNorm.setY(planeNormal[1]);
-		planeNorm.setZ(planeNormal[2]);
-		planeNorm.normalize();
+		// 利用旋转后的probe与原probe方向叉乘结果，判断probe是逆时针或者顺时针转动
+		double cross[3] = {0, 0, 0};
+		vtkMath::Cross(probeDirection2D, newDirection2D, cross); // 两方向向量的叉乘结果
+		QVector3D croProduct;
+		croProduct.setX(cross[0]);
+		croProduct.setY(cross[1]);
+		croProduct.setZ(cross[2]);
+		croProduct.normalize();  // 单位化
+
+		QVector3D sub;
+		sub = croProduct - planeNormal;
+
+		double l = sub.length();  // 两向量相减，求结果向量的长度，如果两向量相等，差的模接近于零
+		if (l < 0.03)
+		{
+			theta = -theta;  // 如果叉乘向量与平面法向量相反，旋转角度取负，反之旋转角度为正
+		}
 
 		// 由quartenion计算绕着窗口平面法向向量旋转角度theta之后，原probe的方向
-		QQuaternion rotate = QQuaternion::fromAxisAndAngle(planeNorm,theta);
+		QQuaternion rotate = QQuaternion::fromAxisAndAngle(planeNormal,theta);
 
 		QVector3D newNormal = rotate.rotatedVector(v0);
 		ProbeNode->GetOrientation()->setVector(newNormal);
-
+		
 		probeDirection[0] = newNormal.x();
 		probeDirection[1] = newNormal.y();
 		probeDirection[2] = newNormal.z();
@@ -685,7 +638,7 @@ void vtkMRMLProbeDisplayableManager::PropagateWidgetToMRML(vtkAbstractWidget * w
 
 	if (state == vtkProbeRepresentation3D::TranslatingP1)
 	{
-		// 拖动针尖，针会进动，需要更新针尖的值，但是方向不变;
+		// 拖动针尖进动，更新针尖的值，但是方向不变;
 		// 求出现在的worldCoordinates1在Probe所在的直线上的投影，并将投影点设为P2的新位置;
 
 		double t, closestP[4]={0, 0, 0, 1};
@@ -698,10 +651,6 @@ void vtkMRMLProbeDisplayableManager::PropagateWidgetToMRML(vtkAbstractWidget * w
 		worldCoordinates1[0] = closestP[0];
 		worldCoordinates1[1] = closestP[1];
 		worldCoordinates1[2] = closestP[2];
-
-		worldCoordinates2[0] = closestP[0] + ProbeNode->GetLength() * (probeDirection[0]);
-		worldCoordinates2[1] = closestP[1] + ProbeNode->GetLength() * (probeDirection[1]);
-		worldCoordinates2[2] = closestP[2] + ProbeNode->GetLength() * (probeDirection[2]);
 	}
 	else if (state == vtkProbeRepresentation3D::TranslatingP2)  // p2点的位置有移动;
 	{
