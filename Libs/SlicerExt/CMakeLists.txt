@@ -57,6 +57,8 @@ set(KIT_SRCS
   stkSlicerApp.cpp
   stkSlicerVolumeRenderingWidget.h
   stkSlicerVolumeRenderingWidget.cpp
+  stkSlicerSliceNodeWidget.h
+  stkSlicerSliceNodeWidget.cpp
 )
 
 # Headers that should run through moc
@@ -65,6 +67,7 @@ set(KIT_MOC_SRCS
   stkSlicerDataWidget.h
   stkSlicerVolumeRenderingWidget.h
   stkSlicerApp.h
+  stkSlicerSliceNodeWidget.h
   )
 
 # UI files
@@ -73,6 +76,7 @@ set(KIT_UI_FORMS
   stkSlicerDataWidget.ui
   stkSlicerApp.ui
   stkSlicerVolumeRenderingWidget.ui
+  stkSlicerSliceNodeWidget.ui
 )
 
 # Resources
