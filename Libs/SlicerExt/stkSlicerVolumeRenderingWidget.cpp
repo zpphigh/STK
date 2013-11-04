@@ -115,10 +115,13 @@ void stkSlicerVolumeRenderingWidget::setMRMLVolumeNode(vtkMRMLNode* node)
 
 void stkSlicerVolumeRenderingWidget::setVolumeRenderingVisibile(bool visible)
 {
-
+	Q_D(stkSlicerVolumeRenderingWidget);
+	if (!d->VolumeRenderingDisplayNode)
+	{
+		return;
+	}
+	d->VolumeRenderingDisplayNode->SetVisibility(visible);
 }
-
-
 
 void stkSlicerVolumeRenderingWidget::onCurrentMRMLDisplayNodeChanged( vtkMRMLVolumeRenderingDisplayNode* displayNode)
 {
