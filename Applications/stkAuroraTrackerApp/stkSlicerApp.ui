@@ -65,7 +65,7 @@
         <enum>QTabWidget::Triangular</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="basicTab">
         <attribute name="title">
@@ -95,8 +95,11 @@
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>0</height>
+                <height>40</height>
                </size>
+              </property>
+              <property name="autoFillBackground">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -120,8 +123,11 @@
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>0</height>
+                <height>40</height>
                </size>
+              </property>
+              <property name="autoFillBackground">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -141,7 +147,17 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="stkSlicerSliceNodeWidget" name="SliceNodeWidget" native="true"/>
+             <widget class="stkSlicerSliceNodeWidget" name="SliceNodeWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="autoFillBackground">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -159,7 +175,17 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="stkSlicerVolumeRenderingWidget" name="VolumeRenderingWidget" native="true"/>
+             <widget class="stkSlicerVolumeRenderingWidget" name="VolumeRenderingWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="autoFillBackground">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -181,8 +207,11 @@
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>0</height>
+                <height>40</height>
                </size>
+              </property>
+              <property name="autoFillBackground">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -232,8 +261,11 @@
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>30</height>
+                <height>40</height>
                </size>
+              </property>
+              <property name="autoFillBackground">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -242,6 +274,9 @@
          </item>
          <item>
           <widget class="QGroupBox" name="groupBox_2">
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
            <property name="title">
             <string>Image Fusion</string>
            </property>
@@ -249,16 +284,7 @@
             <property name="spacing">
              <number>0</number>
             </property>
-            <property name="leftMargin">
-             <number>50</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
+            <property name="margin">
              <number>0</number>
             </property>
             <item>
@@ -266,7 +292,7 @@
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>30</height>
+                <height>40</height>
                </size>
               </property>
              </widget>
