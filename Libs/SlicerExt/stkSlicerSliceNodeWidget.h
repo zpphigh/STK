@@ -21,6 +21,15 @@ public:
 	stkSlicerSliceNodeWidget(QWidget *parent = 0);
 	~stkSlicerSliceNodeWidget();
 
+public slots:
+	void setMRMLVolumeNode(vtkMRMLNode* node);
+	void setAxialSliceOffsetValue(double );
+	void setSagittalSliceOffsetValue(double);
+	void setCoronalSliceOffsetValue(double);
+	void setSliceAxialVisible(bool);
+	void setSliceSagittalVisible(bool);
+	void setSliceCoronalVisible(bool);
+
 protected:
 	QScopedPointer<stkSlicerSliceNodeWidgetPrivate> d_ptr;
 

@@ -104,6 +104,7 @@ void stkSlicerApp::VolumeDataAdded()
 	if(!node)
 		return;
 
+	d->SliceNodeWidget->setMRMLVolumeNode(node);
 	d->VolumeDisplayWidget->setMRMLVolumeNode(node);
 	d->VolumeRenderingWidget->setMRMLVolumeNode(node);
 }
