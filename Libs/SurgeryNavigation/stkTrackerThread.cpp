@@ -121,8 +121,6 @@ void stkTrackerThread::run()
 	}
 
 	d->stopTracking();
-
-	emit TrackingStoped();
 }
 
 void stkTrackerThread::Abort()
