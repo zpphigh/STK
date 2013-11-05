@@ -52,8 +52,8 @@ void stkSlicerDisplayHelper::Set3DViewNodeAppearence()
 			continue;
 		}
 
-		viewNode->SetBackgroundColor(0, 0.2, 0.4);
-		viewNode->SetBackgroundColor2(0.1, 0.2, 0.4);
+		viewNode->SetBackgroundColor(0.2, 0.2, 0.2);
+		viewNode->SetBackgroundColor2(0.1, 0.1, 0.1);
 		viewNode->SetAxisLabelsVisible(0);
 		viewNode->SetBoxVisible(0);
 	}
