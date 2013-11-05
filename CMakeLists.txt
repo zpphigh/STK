@@ -370,7 +370,7 @@ stk_lib_option(SurgeryNavigation
 				)
 
 stk_lib_option(ImageProcessing
-               "Build the ImageProcessing library" ON
+               "Build the ImageProcessing library" OFF
 			   CTK_ENABLE_ImageProcessing
 			   )
 
@@ -402,7 +402,7 @@ stk_app_option(stkRobotUR5Simulator
                STK_BUILD_EXAMPLES AND CTK_ENABLE_RoboticSurgery)
 
 stk_app_option(stkAuroraTrackerApp
-               "Build the NDI Aurora Tracker application" ON
+               "Build the NDI Aurora Tracker application" OFF
                STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
 
 stk_app_option(stkSlicerLauncherApp
@@ -410,7 +410,7 @@ stk_app_option(stkSlicerLauncherApp
                STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
 
 stk_app_option(stkPolarisTrackerApp
-               "Build the NDI Polaris Tracker application" ON
+               "Build the NDI Polaris Tracker application" OFF
                STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
 
 
