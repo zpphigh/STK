@@ -1,4 +1,4 @@
-project(stkAuroraTrackerApp)
+project(stkSlicerLauncherApp)
 
 #
 # 3rd party dependencies
@@ -12,16 +12,20 @@ include(${Slicer_USE_FILE})
 
 # Source files
 set(KIT_SRCS
-  stkAuroraTrackerAppMain.cpp
+  stkSlicerApp.h
+  stkSlicerApp.cpp
+  stkSlicerLauncherAppMain.cpp
 )
 
 
 # Headers that should run through moc
 set(KIT_MOC_SRCS
+  stkSlicerApp.h
 )
 
 # UI files
 set(KIT_UI_FORMS
+  stkSlicerApp.ui
 )
 
 

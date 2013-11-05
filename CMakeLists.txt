@@ -405,6 +405,10 @@ stk_app_option(stkAuroraTrackerApp
                "Build the NDI Aurora Tracker application" ON
                STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
 
+stk_app_option(stkSlicerLauncherApp
+               "Build the Slicer Launcher application" ON
+               STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
+
 stk_app_option(stkPolarisTrackerApp
                "Build the NDI Polaris Tracker application" ON
                STK_BUILD_EXAMPLES AND CTK_ENABLE_SurgeryNavigation)
