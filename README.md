@@ -17,6 +17,12 @@ Toolkit Dependency
 5. CTK
 6. 3DSlicer
 
+Build STK
+------------
+1. Build 3DSlcier 4.3.0+ and set the Slicer_DIR to Slicer-build directory
+2. Build IGSTK 4.3.0+ and set the IGSTK_DIR to IGSTK-build directory
+3. Build STK
+
 
 Planned Features
 ------------

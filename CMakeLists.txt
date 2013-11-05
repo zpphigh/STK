@@ -44,9 +44,10 @@ project(STK)
 
 
 #We may try to find a previous build slicer to skip some external project builds
-find_package(Slicer)
+find_package(Slicer REQUIRED)
 set(Slicer_SKIP_SlicerEnableExtensionTesting TRUE)
 
+find_package(IGSTK REQUIRED)
 #-----------------------------------------------------------------------------
 # Library mode: SHARED (default) or STATIC
 #
