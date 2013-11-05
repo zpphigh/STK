@@ -229,7 +229,6 @@
           </spacer>
          </item>
         </layout>
-        <zorder>slicerWidget</zorder>
         <zorder>SliceNodeGroupBox</zorder>
         <zorder>VolumeRenderingGroupBox</zorder>
         <zorder>LayoutGroupBox</zorder>
@@ -286,7 +285,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="stkTumorContourSketchWidget" name="widget" native="true">
+             <widget class="stkRoutePlanningWidget" name="widget" native="true">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -355,6 +354,12 @@
    <class>stkTumorContourSketchWidget</class>
    <extends>QWidget</extends>
    <header>stkTumorContourSketchWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>stkRoutePlanningWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">stkRoutePlanningWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

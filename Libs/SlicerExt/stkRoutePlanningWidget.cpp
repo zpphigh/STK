@@ -32,7 +32,7 @@ class stkRoutePlanningWidgetPrivate: public Ui_stkRoutePlanningWidget
 public:
 
 };
-
+ 
 
 //-----------------------------------------------------------------------------
 // stkRoutePlanningWidget methods
@@ -52,21 +52,21 @@ stkRoutePlanningWidget::stkRoutePlanningWidget(QWidget* _parent)
   d->probeTable->setWindowTitle("Probe");
   d->probeTable->setColumnCount(4);
   QStringList header; 
-  header.append(QString::fromLocal8Bit("编号"));
-  header.append(QString::fromLocal8Bit("针头"));
-  header.append(QString::fromLocal8Bit("针尾"));
   header.append(QString::fromLocal8Bit("ID"));
+  header.append(QString::fromLocal8Bit("P"));
+  header.append(QString::fromLocal8Bit("R"));
+  //header.append(QString::fromLocal8Bit("ID"));
 
   d->probeTable->setHorizontalHeaderLabels(header); 
-  d->probeTable->setColumnWidth(0,50);
-  d->probeTable->setColumnWidth(1,100);
-  d->probeTable->setColumnWidth(2,150);
+  d->probeTable->setColumnWidth(0,30);
+  d->probeTable->setColumnWidth(1,85);
+  d->probeTable->setColumnWidth(2,85);
 
   d->probeTable->hideColumn(3); // 第五列保存node的ID，程序界面不显示;
 
-  d->probeTable->setEditTriggers(QAbstractItemView::NoEditTriggers);//不能编辑
-  d->probeTable->setSelectionBehavior(QAbstractItemView::SelectRows);//行选
-  d->probeTable->setSelectionMode(QAbstractItemView.SingleSelection);//只能选中单行
+  d->probeTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  d->probeTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+  d->probeTable->setSelectionMode(QAbstractItemView::SingleSelection);
 
   this->connect(d->probeTable, SIGNAL(clicked(const QModelIndex&)), this, SLOT(onProbeTableRowSelected(const QModelIndex&)));
 
