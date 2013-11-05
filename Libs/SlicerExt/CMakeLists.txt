@@ -59,6 +59,8 @@ set(KIT_SRCS
   stkSlicerSliceNodeWidget.cpp
   stkRoutePlanningWidget.h
   stkRoutePlanningWidget.cpp
+  stkTumorContourSketchWidget.h
+  stkTumorContourSketchWidget.cpp
 )
 
 # Headers that should run through moc
@@ -68,6 +70,7 @@ set(KIT_MOC_SRCS
   stkSlicerVolumeRenderingWidget.h
   stkSlicerSliceNodeWidget.h
   stkRoutePlanningWidget.h
+  stkTumorContourSketchWidget.h
   )
 
 # UI files
@@ -77,6 +80,7 @@ set(KIT_UI_FORMS
   stkSlicerVolumeRenderingWidget.ui
   stkSlicerSliceNodeWidget.ui
   stkRoutePlanningWidget.ui
+  stkTumorContourSketchWidget.ui
 )
 
 # Resources
