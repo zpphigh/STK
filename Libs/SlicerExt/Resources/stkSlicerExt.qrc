@@ -2,16 +2,19 @@
     <qresource prefix="/">
         <file>Icons/SlicerLayoutConventionalView.png</file>
         <file>Icons/SlicerLayoutConventionalWidescreenView.png</file>
-		<file>Icons/SlicerLayoutFourUpView.png</file>
-		<file>Icons/SlicerLayoutOneUp3DView.png</file>
+        <file>Icons/SlicerLayoutFourUpView.png</file>
+        <file>Icons/SlicerLayoutOneUp3DView.png</file>
         <file>Icons/SlicerLayoutOneUpRedSliceView.png</file>
         <file>Icons/SlicerLayoutOneUpYellowSliceView.png</file>
         <file>Icons/SlicerLayoutOneUpGreenSliceView.png</file>
         <file>Icons/SlicerLayoutDual3DView.png</file>
-		<file>Icons/CloseSlicerScene.png</file>
-		<file>Icons/LoadSlicerScene.png</file>
-		<file>Icons/SaveSlicerScene.png</file>
-		<file>Icons/SlicerSettings.png</file>
-		<file>Icons/FileAddVolume.png</file>		
+        <file>Icons/CloseSlicerScene.png</file>
+        <file>Icons/LoadSlicerScene.png</file>
+        <file>Icons/SaveSlicerScene.png</file>
+        <file>Icons/SlicerSettings.png</file>
+        <file>Icons/FileAddVolume.png</file>
+        <file>Icons/add.png</file>
+        <file>Icons/clear.png</file>
+        <file>Icons/delete.png</file>
     </qresource>
 </RCC>
