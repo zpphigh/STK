@@ -20,7 +20,7 @@ Toolkit Dependency
 Build STK
 ------------
 1. Build 3DSlcier 4.3.0+ and set the Slicer_DIR to Slicer-build directory
-2. Build IGSTK 4.3.0+ and set the IGSTK_DIR to IGSTK-build directory
+2. Build IGSTK 5.2.0+ and set the IGSTK_DIR to IGSTK-build directory
 3. Build STK
 
 
